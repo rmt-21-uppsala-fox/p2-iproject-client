@@ -1,2 +1,2 @@
 # p2-iproject-client
-Individual Project - Client
+Individual Project - Client Ode Afdal
