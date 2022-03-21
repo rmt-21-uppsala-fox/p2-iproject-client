@@ -31,13 +31,12 @@
 
         <div class="row mb-3">
             <div class="col-6">
-                <button type="button" class="btn btn-outline-success btn-sm"><i class="fa-solid fa-face-grin-beam fa-xl"></i> Face Payment</button>              
+                <button type="button" class="btn btn-outline-success btn-sm"><i class="fa-solid fa-face-grin-beam fa-xl"></i> Face Payment</button>
             </div>
             <div class="col-6">
                 <button type="button" class="btn btn-outline-primary btn-sm">Xendit Pay</button>
             </div>
         </div>
-
     </div>
 
 </div>
