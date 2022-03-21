@@ -50,8 +50,8 @@
                 </div>
             </div>
         </div> -->
-
-        <video @play="start" id="videoInput" width="350" height="250" muted controls></video>
+        <div id="canvas"></div>
+        <video id="videoInput" width="350" height="250" muted controls></video>
         <div>
             <b-button v-b-modal.modal-1>Launch demo modal</b-button>
 
@@ -67,6 +67,7 @@
 import CheckoutCard from '../components/CheckoutCard.vue'
 import CheckoutItems from '../components/CheckoutItems.vue'
 
+import * as faceapi from 'face-api.js';
 export default {
     name: 'CheckoutView',
     components: {
@@ -74,25 +75,90 @@ export default {
         CheckoutItems,
     },
     methods: {
-        start() {
-            this.$el.querySelector('.modal').showModal()
-        }
+        // start() {
+        //     console.log(this.$el.querySelector('video'));
+        // }
     },
-    // mounted() {
-    //     let video = this.$el.querySelector('video')
+    async mounted() {
+        try {
+            const video = this.$el.querySelector('video')
+            await faceapi.nets.faceRecognitionNet.loadFromUri('/assets/models')
+            await faceapi.nets.faceLandmark68Net.loadFromUri('/assets/models')
+            await faceapi.nets.ssdMobilenetv1.loadFromUri('/assets/models')
 
-    //     const options = {
-    //         video: true
-    //     }
+            console.log(faceapi.nets);
+            console.log(video);
+            document.body.append('Models Loaded')
 
-    //     navigator.mediaDevices.getUserMedia(options)
-    //         .then(function (stream) {
-    //             video.srcObject = stream
-    //         })
-    //         .catch((err) => {
-    //             console.log(err);
-    //         })
-    // }
+            const options = {
+                video: true
+            }
+
+            const stream = await navigator.mediaDevices.getUserMedia(options)
+            video.srcObject = stream
+
+            console.log(stream);
+
+            const labels = ['Captain America', 'Tony Stark', 'Thor', 'Tommy']
+            const labeledDescriptors = await Promise.all(labels.map(async (label) => {
+                const descriptions = []
+                for (let i = 1; i <= 2; i++) {
+                    const img = await faceapi.fetchImage(`/assets/labeled_images/${label}/${i}.jpg`)
+
+                    const detections = await faceapi.detectSingleFace(img).withFaceLandmarks().withFaceDescriptor()
+                    descriptions.push(detections.descriptor)
+                }
+                return new faceapi.LabeledFaceDescriptors(label, descriptions)
+            }))
+            console.log(labeledDescriptors);
+
+            document.body.append(' Green Light')
+
+            const faceMatcher = new faceapi.FaceMatcher(labeledDescriptors, 0.6)
+
+            video.addEventListener('play', () => {
+                const canvas = faceapi.createCanvasFromMedia(video)
+
+                // video.append(canvas)
+
+                // console.log(document.body);
+                document.body.append(canvas)
+
+                const displaySize = {
+                    width: video.width,
+                    height: video.height
+                }
+
+                faceapi.matchDimensions(canvas, displaySize)
+
+                let interval = setInterval(async () => {
+                    const detections = await faceapi.detectAllFaces(video).withFaceLandmarks().withFaceDescriptors()
+
+                    const resizedDetections = faceapi.resizeResults(detections, displaySize)
+                    canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height)
+
+                    const results = resizedDetections.map((d) => {
+                        return faceMatcher.findBestMatch(d.descriptor)
+                    })
+                    console.log(results[0].label)
+                    results.forEach((result, i) => {
+                        const box = resizedDetections[i].detection.box
+                        const drawBox = new faceapi.draw.DrawBox(box, {
+                            label: result.toString()
+                        })
+                        drawBox.draw(canvas)
+                    })
+
+                }, 100)
+
+                setTimeout(() => {
+                    clearInterval(interval)
+                }, 5000);
+            })
+        } catch (error) {
+            console.log(error);
+        }
+    }
 }
 </script>
 
