@@ -37,6 +37,27 @@
                 <button type="button" class="btn btn-outline-primary btn-sm">Xendit Pay</button>
             </div>
         </div>
+
+    </div>
+    <div>
+        <!-- <button @click="openModal" class="btn btn-primary">Open modal</button>
+
+        <div class="modal modal-lg">
+            <div class="modal-content">
+                <div class="modal-body">
+                    'Hellweowowoe'
+                    <video id="videoInput" width="760" height="550" muted controls></video>
+                </div>
+            </div>
+        </div> -->
+
+        <video @play="start" id="videoInput" width="350" height="250" muted controls></video>
+        <div>
+            <b-button v-b-modal.modal-1>Launch demo modal</b-button>
+
+            <b-modal id="modal-1" title="BootstrapVue">
+            </b-modal>
+        </div>
     </div>
 
 </div>
@@ -45,12 +66,33 @@
 <script>
 import CheckoutCard from '../components/CheckoutCard.vue'
 import CheckoutItems from '../components/CheckoutItems.vue'
+
 export default {
     name: 'CheckoutView',
     components: {
         CheckoutCard,
-        CheckoutItems
-    }
+        CheckoutItems,
+    },
+    methods: {
+        start() {
+            this.$el.querySelector('.modal').showModal()
+        }
+    },
+    // mounted() {
+    //     let video = this.$el.querySelector('video')
+
+    //     const options = {
+    //         video: true
+    //     }
+
+    //     navigator.mediaDevices.getUserMedia(options)
+    //         .then(function (stream) {
+    //             video.srcObject = stream
+    //         })
+    //         .catch((err) => {
+    //             console.log(err);
+    //         })
+    // }
 }
 </script>
 
