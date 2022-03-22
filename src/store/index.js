@@ -119,21 +119,21 @@ export default new Vuex.Store({
     },
     loginHandler(context, payload) {
       return local({
-        url: "/customer/login",
+        url: "/login",
         method: "POST",
         data: payload,
       });
     },
     registerHandler(context, payload) {
       return local({
-        url: "/customer/register",
+        url: "/register",
         method: "POST",
         data: payload,
       });
     },
     googleOAuth(context, googleUser) {
       return local({
-        url: "/customer/authGoogle",
+        url: "/authGoogle",
         method: "POST",
         data: {
           idToken: googleUser.getAuthResponse().id_token,
