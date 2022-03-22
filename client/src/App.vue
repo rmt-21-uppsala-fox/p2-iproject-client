@@ -1,6 +1,6 @@
 <template>
   <div class="h-screen">
-    <navbar></navbar>
+    <navbar v-if="pageName !== 'Login' && pageName !== 'Register' "></navbar>
 
     <router-view></router-view>
   </div>
@@ -8,6 +8,7 @@
 
 <script>
 //import HelloWorld from "./components/HelloWorld.vue";
+
 import Navbar from "./components/Navbar.vue";
 export default {
   name: "App",
@@ -15,6 +16,11 @@ export default {
     //HelloWorld,
     Navbar,
   },
+  computed: {
+      pageName() {
+        return this.$route.name
+      }
+  }
 };
 </script>
 
