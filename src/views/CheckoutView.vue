@@ -5,55 +5,39 @@
     </div>
     <div class="col-4 border border-secondary rounded grid w-25">
         <h3>Checkout</h3>
+        <br>
         <CheckoutItems v-for="productPackage in cart" :key="productPackage.id" :productPackage=productPackage></CheckoutItems>
-
-        <div class="row mt-3">
-            <div class="col-6 pe-5">
-                <p class="text-nowrap">Total Discount</p>
-            </div>
-            <div class="col-6 ps-5">
-                <p>Rp. -15.000</p>
-            </div>
-        </div>
-
-        <hr style="width: 107%">
 
         <div class="row">
             <div class="col-6 pe-5">
                 <p class="font-weight-bold text-nowrap">This Month's Total </p>
             </div>
             <div class="col-6 ps-5">
-                <p>Rp. 145.000</p>
+                <p v-if="cartTotalAmount === 0">Rp. 0</p>
+                <p v-else>Rp. {{cartTotalAmount}}</p>
             </div>
         </div>
 
         <div class="row mb-3">
             <div class="col-6 text-nowrap">
-                <button type="button" class="btn btn-outline-success btn-sm"><i class="fa-solid fa-face-grin-beam fa-xl"></i> Face Payment</button>
+                <button v-b-modal.modal-2 type="button" @click="faceRecognition" class="btn btn-outline-success btn-sm"><i class="fa-solid fa-face-grin-beam fa-xl"></i> Face Payment</button>
             </div>
             <div class="col-6">
-                <button type="button" @click="doXenditPay()" class="btn btn-outline-primary btn-sm">Xendit Pay</button>
+                <b-button v-b-modal.modal-1 type="button" @click="doXenditPay" class="btn btn-outline-primary btn-sm">Xendit Pay</b-button>
             </div>
         </div>
 
     </div>
     <div>
-        <!-- <button @click="openModal" class="btn btn-primary">Open modal</button>
-
-        <div class="modal modal-lg">
-            <div class="modal-content">
-                <div class="modal-body">
-                    'Hellweowowoe'
-                    <video id="videoInput" width="760" height="550" muted controls></video>
-                </div>
-            </div>
-        </div> -->
         <div id="canvas"></div>
-        <video id="videoInput" width="350" height="250" muted controls></video>
         <div>
-            <b-button v-b-modal.modal-1>Launch demo modal</b-button>
 
-            <b-modal id="modal-1" title="BootstrapVue">
+            <b-modal id="modal-1" title="XenditPay" size="xl" hide-footer="true" hide-header="true">
+                <iframe :src="invoiceUrl" height="600" width="1100"></iframe>
+            </b-modal>
+
+            <video id="videoInput" width="1100" height="600" muted controls></video>
+            <b-modal id="modal-2" title="FacePay" size="xl" hide-footer="true" hide-header="true">
             </b-modal>
         </div>
     </div>
@@ -65,108 +49,122 @@
 import CheckoutCard from '../components/CheckoutCard.vue'
 import CheckoutItems from '../components/CheckoutItems.vue'
 
-// import * as faceapi from 'face-api.js';
+import * as faceapi from 'face-api.js';
 export default {
     name: 'CheckoutView',
     components: {
         CheckoutCard,
         CheckoutItems,
     },
-    data(){
+    data() {
         return {
-            checkoutItems: this.$store.state.cart[0]
+            invoiceUrl: '',
+            labeledDescriptors: null
         }
     },
     methods: {
-        doXenditPay() {
-            this.$store.dispatch('doXenditPay', this.checkoutItems)
+        async doXenditPay() {
+            const invoiceUrl = await this.$store.dispatch('doXenditPay')
+            this.invoiceUrl = invoiceUrl
+        },
+        async faceRecognition() {
+            try {
+                const video = this.$el.querySelector('video')
+
+                console.log(video);
+
+                const options = {
+                    video: true
+                }
+
+                const stream = await navigator.mediaDevices.getUserMedia(options)
+                video.srcObject = stream
+
+                console.log(stream);
+
+                console.log(this.labeledDescriptors);
+
+                const faceMatcher = new faceapi.FaceMatcher(this.labeledDescriptors, 0.6)
+
+                video.addEventListener('play', () => {
+                    const canvas = faceapi.createCanvasFromMedia(video)
+
+                    // video.append(canvas)
+
+                    document.body.append(canvas)
+
+                    const displaySize = {
+                        width: video.width,
+                        height: video.height
+                    }
+
+                    faceapi.matchDimensions(canvas, displaySize)
+
+                    let interval = setInterval(async () => {
+                        const detections = await faceapi.detectAllFaces(video).withFaceLandmarks().withFaceDescriptors()
+
+                        const resizedDetections = faceapi.resizeResults(detections, displaySize)
+                        canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height)
+
+                        const results = resizedDetections.map((d) => {
+                            return faceMatcher.findBestMatch(d.descriptor)
+                        })
+                        console.log(results[0].label)
+                        results.forEach((result, i) => {
+                            const box = resizedDetections[i].detection.box
+                            const drawBox = new faceapi.draw.DrawBox(box, {
+                                label: result.toString()
+                            })
+                            drawBox.draw(canvas)
+                        })
+
+                    }, 100)
+
+                    setTimeout(() => {
+                        clearInterval(interval)
+                    }, 5000);
+                })
+            } catch (error) {
+                console.log(error);
+            }
         }
     },
     computed: {
         cart() {
             return this.$store.state.cart
+        },
+        cartTotalAmount() {
+            let totalAmount = 0
+            this.$store.state.cart.forEach((item) => {
+                totalAmount += item.price
+            })
+
+            return totalAmount
+        }
+    },
+    async created() {
+        if (this.labeledDescriptors === null) {
+            await faceapi.nets.faceRecognitionNet.loadFromUri('/assets/models')
+            await faceapi.nets.faceLandmark68Net.loadFromUri('/assets/models')
+            await faceapi.nets.ssdMobilenetv1.loadFromUri('/assets/models')
+            document.body.append('Models Loaded')
+            console.log(faceapi.nets);
+
+            const labels = ['Captain America', 'Tony Stark', 'Thor', 'Tommy']
+            this.labeledDescriptors = await Promise.all(labels.map(async (label) => {
+                const descriptions = []
+                for (let i = 1; i <= 2; i++) {
+                    const img = await faceapi.fetchImage(`/assets/labeled_images/${label}/${i}.jpg`)
+
+                    const detections = await faceapi.detectSingleFace(img).withFaceLandmarks().withFaceDescriptor()
+                    descriptions.push(detections.descriptor)
+                }
+                return new faceapi.LabeledFaceDescriptors(label, descriptions)
+            }))
+
+            document.body.append(' Green Light')
         }
     }
-    // async mounted() {
-    //     try {
-    //         const video = this.$el.querySelector('video')
-    //         await faceapi.nets.faceRecognitionNet.loadFromUri('/assets/models')
-    //         await faceapi.nets.faceLandmark68Net.loadFromUri('/assets/models')
-    //         await faceapi.nets.ssdMobilenetv1.loadFromUri('/assets/models')
-
-    //         console.log(faceapi.nets);
-    //         console.log(video);
-    //         document.body.append('Models Loaded')
-
-    //         const options = {
-    //             video: true
-    //         }
-
-    //         const stream = await navigator.mediaDevices.getUserMedia(options)
-    //         video.srcObject = stream
-
-    //         console.log(stream);
-
-    //         const labels = ['Captain America', 'Tony Stark', 'Thor', 'Tommy']
-    //         const labeledDescriptors = await Promise.all(labels.map(async (label) => {
-    //             const descriptions = []
-    //             for (let i = 1; i <= 2; i++) {
-    //                 const img = await faceapi.fetchImage(`/assets/labeled_images/${label}/${i}.jpg`)
-
-    //                 const detections = await faceapi.detectSingleFace(img).withFaceLandmarks().withFaceDescriptor()
-    //                 descriptions.push(detections.descriptor)
-    //             }
-    //             return new faceapi.LabeledFaceDescriptors(label, descriptions)
-    //         }))
-    //         console.log(labeledDescriptors);
-
-    //         document.body.append(' Green Light')
-
-    //         const faceMatcher = new faceapi.FaceMatcher(labeledDescriptors, 0.6)
-
-    //         video.addEventListener('play', () => {
-    //             const canvas = faceapi.createCanvasFromMedia(video)
-
-    //             // video.append(canvas)
-
-    //             // console.log(document.body);
-    //             document.body.append(canvas)
-
-    //             const displaySize = {
-    //                 width: video.width,
-    //                 height: video.height
-    //             }
-
-    //             faceapi.matchDimensions(canvas, displaySize)
-
-    //             let interval = setInterval(async () => {
-    //                 const detections = await faceapi.detectAllFaces(video).withFaceLandmarks().withFaceDescriptors()
-
-    //                 const resizedDetections = faceapi.resizeResults(detections, displaySize)
-    //                 canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height)
-
-    //                 const results = resizedDetections.map((d) => {
-    //                     return faceMatcher.findBestMatch(d.descriptor)
-    //                 })
-    //                 console.log(results[0].label)
-    //                 results.forEach((result, i) => {
-    //                     const box = resizedDetections[i].detection.box
-    //                     const drawBox = new faceapi.draw.DrawBox(box, {
-    //                         label: result.toString()
-    //                     })
-    //                     drawBox.draw(canvas)
-    //                 })
-
-    //             }, 100)
-
-    //             setTimeout(() => {
-    //                 clearInterval(interval)
-    //             }, 5000);
-    //         })
-    //     } catch (error) {
-    //         console.log(error);
-    //     }
-    // }
 }
 </script>
 
