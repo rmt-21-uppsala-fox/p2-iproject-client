@@ -1,21 +1,20 @@
 <template>
 <div class="home">
-    <div class="row justify-content-center">
-        <form>
-            <div class="input-group mb-3">
-                <input type="text" class="form-control" placeholder="Recipient's username" aria-label="Recipient's username" aria-describedby="basic-addon2">
-                <div class="input-group-append">
-                    <button class="btn btn-outline-secondary" type="button">Search</button>
-                </div>
+    <form>
+        <div class="input-group my-5 w-50 mx-auto">
+            <input type="text" class="form-control" placeholder="Search Products">
+            <div class="input-group-append">
+                <button class="btn btn-outline-secondary" type="button">Search</button>
             </div>
-        </form>
-    </div>
+        </div>
+    </form>
     <div class="justify-content-center">
-        <h4>BEST-SELLING HOUSEHOLD ESSENTIAL</h4>
-        <h1>Featured Products</h1>
+        <span class="pre-title">BEST-SELLING HOUSEHOLD ESSENTIAL</span>
+        <br>
+        <span class="main-title">Featured Products</span>
     </div>
 
-    <div class="row justify-content-center">
+    <div class="row justify-content-center my-5">
         <ProductCard></ProductCard>
         <ProductCard></ProductCard>
         <ProductCard></ProductCard>

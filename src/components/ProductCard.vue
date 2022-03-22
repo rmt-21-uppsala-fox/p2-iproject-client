@@ -1,6 +1,6 @@
 <template>
-<div class="card mx-3 text-left" style="width: 235px">
-    <img class="card-img-top" src="https://dummyimage.com/105x120/70baff/000000">
+<div class="card mx-3 text-left" style="width: 235px; padding:0">
+    <img class="card-img-top" src="https://dummyimage.com/110x120/70baff/000000">
     <div class="card-body">
         <h5 class="card-title">Card title</h5>
         <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
