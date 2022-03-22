@@ -1,5 +1,7 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
+import local from '@/api/axios';
+import swal from 'sweetalert';
 
 Vue.use(Vuex);
 
@@ -22,7 +24,7 @@ export default new Vuex.Store({
                 const { data } = await local.get(query);
                 commit('setAllNovels', data);
             } catch (error) {
-                // swal('Error!', error.response.data.msg, 'error');
+                swal('Error!', error.response.data.msg, 'error');
             }
         },
     },
