@@ -221,6 +221,15 @@
 
 <script>
 export default {
+  name: "Home",
+  created() {
+    this.getTop5Movies()
+  },
+  methods: {
+    async getTop5Movies() {
+      await this.$store.dispatch("getTop5Movies")
+    }
+  }
 
 }
 </script>

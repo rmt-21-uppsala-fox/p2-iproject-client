@@ -90,7 +90,8 @@ export default new Vuex.Store({
     },
     async logout(context) {
        context.commit("SET_LOGOUT")
-    }
+    },
+    
   },
   modules: {},
 });
