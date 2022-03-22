@@ -13,16 +13,16 @@
         <CheckoutItems></CheckoutItems>
         <CheckoutItems></CheckoutItems>
 
-        <div class="row">
+        <div class="row mt-3">
             <div class="col-6 pe-5">
                 <p class="text-nowrap">Total Discount</p>
             </div>
             <div class="col-6 ps-5">
-                <small >Rp. -15.000</small>
+                <p>Rp. -15.000</p>
             </div>
         </div>
 
-        <hr>
+        <hr style="width: 107%">
 
         <div class="row">
             <div class="col-6 pe-5">
