@@ -12,6 +12,8 @@
             </div>
             <div class="col-5">
                 <i role="button" @click="addToCart(productPackage)" class="fa-solid fa-cart-plus fa-3x mt-2"></i>
+            
+            
             </div>
         </div>
     </div>

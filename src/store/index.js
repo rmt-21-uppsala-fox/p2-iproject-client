@@ -9,7 +9,11 @@ export default new Vuex.Store({
     packages: [],
     cart: []
   },
-  getters: {},
+  getters: {
+    getCart(state){
+      return state.cart
+    }
+  },
   mutations: {
     setPackages(state, payload) {
       state.packages = payload
@@ -45,12 +49,11 @@ export default new Vuex.Store({
         console.log(error)
       }
     },
-    async doXenditPay(context, payload) {
+    async doXenditPay({getters}) {
       try {
-        console.log(payload.price);
         let data = {
           "external_id": "invoice-1",
-          "amount": payload.price,
+          "amount": 0,
           "customer": {
             "given_names": "Tommy",
             "email": "tomthedeveloper11@gmail.com",
@@ -60,25 +63,28 @@ export default new Vuex.Store({
               "country": "Indonesia"
             }
           },
-          "customer_notification_preference": {
-            "invoice_created": [],
-            "invoice_paid": []
-          },
-          "items": [{
-            "name": payload.name,
-            "quantity": 1,
-            "price": payload.price,
-            "category": "Toiletries"
-          }],
+          "items": [],
           "description": "Invoice Demo #123",
         }
+        const cartItems = getters.getCart
 
+        cartItems.forEach((item) => {
+          data.amount += item.price
+          data.items.push({
+            "name": item.name,
+            "quantity": 1,
+            "price": item.price,
+            "description": item.description
+          })
+        });
+       
         const response = await axios.post('http://localhost:3000/xenditPay', data, {
           headers: {
             'access_token': localStorage.access_token
           }
         })
-        console.log(response);
+
+        return response.data
       } catch (error) {
         console.log(error)
       }

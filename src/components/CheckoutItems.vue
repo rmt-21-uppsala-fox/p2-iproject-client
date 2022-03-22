@@ -1,13 +1,13 @@
 <template>
-<div class="row grid">
-    <div class="col-8 text-left py-3">
+<div class="row grid w-100">
+    <div class="col-8 text-left pb-3">
         <p v-text="productPackage.name"></p>
         <small v-text="productPackage.description"></small>
     </div>
-    <div class="col-4">
+    <div class="col-4 text-nowrap">
         <p>Rp. {{productPackage.price}}</p>
     </div>
-    <hr style="width: 94%">
+    <hr style="width: 94%; height:1px">
 </div>
 </template>
 

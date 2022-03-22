@@ -1,5 +1,5 @@
 <template>
-<div class="row border border-secondary rounded my-2 grid" style="width: 900px">
+<div class="row border border-secondary rounded my-4 grid" style="width: 900px">
     <div class="col-1">
         <div class="form-check">
             <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">

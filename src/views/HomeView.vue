@@ -16,7 +16,6 @@
 
     <div class="row justify-content-center my-5">
         <ProductCard v-for="productPackage in packages" :key="productPackage.id" :productPackage="productPackage"></ProductCard>
-      
     </div>
 </div>
 </template>
