@@ -9,7 +9,24 @@
         <div>
           <div class="relative h-62 w-full mb-3">
             <div class="absolute flex flex-col top-0 right-0 p-3">
+              <!-- <button
+                class="transition ease-in duration-300 bg-gray-800 hover:text-purple-500 shadow hover:shadow-md text-gray-500 rounded-full w-8 h-8 text-center p-1"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="h-6 w-6"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z"
+                    clip-rule="evenodd"
+                  />
+                </svg>
+              </button> -->
               <button
+                @click="addToWishlist(game.id)"
                 class="transition ease-in duration-300 bg-gray-800 hover:text-purple-500 shadow hover:shadow-md text-gray-500 rounded-full w-8 h-8 text-center p-1"
               >
                 <svg
@@ -102,5 +119,15 @@
 <script>
 export default {
   props: [`games`],
+  methods: {
+    async addToWishlist(data) {
+      try {
+        // console.log(data);
+        this.$store.dispatch("getDataGame", data);
+      } catch (err) {
+        console.log(err);
+      }
+    },
+  },
 };
 </script>

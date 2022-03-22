@@ -62,6 +62,13 @@ export default new Vuex.Store({
         console.log(err);
       }
     },
+    // async getDataGame(context, payload){
+    //   try {
+
+    //   } catch (err) {
+    //     console.log(err)
+    //   }
+    // }
   },
   modules: {},
 });
