@@ -121,7 +121,7 @@ export default {
           this.userInput
         );
         this.$store.commit("SET_ISLOGIN", true);
-        localStorage.access_token = data.accessToken;
+        localStorage.access_token = data.access_token;
         this.$router.push("/");
         Swal.fire("Register success.", "", "success");
       } catch (error) {
@@ -136,7 +136,7 @@ export default {
       try {
         const { data } = await this.$store.dispatch("googleOAuth", googleUser);
         this.$store.commit("SET_ISLOGIN", true);
-        localStorage.access_token = data.accessToken;
+        localStorage.access_token = data.access_token;
         this.$router.push("/");
         Swal.fire("Login success.", "", "success");
       } catch (error) {
