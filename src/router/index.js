@@ -10,6 +10,11 @@ const routes = [
         name: 'home',
         component: HomeView,
     },
+    {
+        path: '/novel/:title',
+        name: 'NovelChapterView',
+        component: () => import('../views/NovelChapterView.vue'),
+    },
 ];
 
 const router = new VueRouter({
