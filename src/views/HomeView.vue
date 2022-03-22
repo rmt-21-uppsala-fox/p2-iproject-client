@@ -165,5 +165,50 @@ export default {
     components: {
         AllNovel,
     },
+    data() {
+        return {
+            search: '',
+            filter: '',
+        };
+    },
+    methods: {
+        filterBy(params) {
+            this.filter = params;
+        },
+        searchBy(params) {
+            console.log(params.target.value);
+            this.search = params.target.value;
+        },
+
+        clear() {
+            this.search = '';
+            this.filter = '';
+        },
+    },
+    watch: {
+        filter: function (val) {
+            this.$store.dispatch('getAllNovels', {
+                filter: val,
+                search: this.search,
+            });
+        },
+        search: function (val) {
+            this.$store.dispatch('getAllNovels', {
+                filter: this.filter,
+                search: val,
+            });
+        },
+    },
+    computed: {
+        novels() {
+            return this.$store.state.allNovel;
+        },
+        activePage() {
+            return `border-b-2 border-blue-600`;
+        },
+    },
+    created() {
+        this.$store.dispatch('getAllNovels');
+    },
 };
 </script>

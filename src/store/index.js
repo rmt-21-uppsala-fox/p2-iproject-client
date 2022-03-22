@@ -17,6 +17,7 @@ export default new Vuex.Store({
     },
     actions: {
         getAllNovels: async ({ commit }, params) => {
+            console.log(`masuk`);
             try {
                 let query = `/novel`;
                 if (params?.filter) query += `/${params.filter}`;
