@@ -36,13 +36,5 @@ export default {
     FilterComponent,
     ContentCard,
   },
-  computed: {
-    getAllGames() {
-      return this.$store.state.allGames;
-    },
-  },
-  created: function () {
-    this.$store.dispatch(`PopularGamesAYearAgo`);
-  },
 };
 </script>

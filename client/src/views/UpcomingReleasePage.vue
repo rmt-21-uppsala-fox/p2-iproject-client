@@ -38,11 +38,11 @@ export default {
   },
   computed: {
     getAllGames() {
-      return this.$store.state.allGames;
+      return this.$store.state.UpcomingGames;
     },
   },
   created: function () {
-    this.$store.dispatch(`PopularGamesAYearAgo`);
+    this.$store.dispatch(`UpcomingGames`);
   },
 };
 </script>
