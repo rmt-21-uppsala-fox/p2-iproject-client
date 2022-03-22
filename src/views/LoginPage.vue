@@ -9,12 +9,12 @@
           <div class="card-body text-light">
             <form @submit.prevent="loginData" class="form" id="form-login">
               <div class="mb-4">
-                <label for="username" class="form-label">Username</label>
+                <label for="username" class="form-label">Email</label>
                 <input
-                  type="text"
+                  type="email"
                   class="form-control"
-                  id="username-login"
-                  v-model="username"
+                  id="email-login"
+                  v-model="email"
                 />
               </div>
               <div class="mb-4">
@@ -60,35 +60,14 @@ export default {
     };
   },
   methods: {
-    async login() {
-      try {
-        const response = await axios({
-          method: "POST",
-          url: "http://localhost:3000/login",
-          data: { email, password },
-        });
-        localStorage.setItem("access_token", response.data.access_token);
-        localStorage.setItem("email");
-      } catch (err) {
-        console.log(err);
-        next(err);
-      }
-    },
-    async register() {
-      try {
-        const response = await axios({
-          method: "POST",
-          url: "http://localhost:3000/login",
-          data: { email, password },
-        });
-      } catch (err) {
-        console.log(err);
-        next(err);
-      }
+    loginData() {
+      this.$store.dispatch("login", {
+        email: this.email,
+        password: this.password,
+      });
     },
   },
 };
 </script>
 
-<style>
-</style>
+<style></style>
