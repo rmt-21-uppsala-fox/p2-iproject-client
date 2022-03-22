@@ -6,25 +6,26 @@
         </div>
     </div>
     <div class="col-2 p-2">
-        <img class="card-img-top" src="https://dummyimage.com/180x120/70baff/000000">
+        <img class="card-img-top" :src="productPackage.imgUrl">
     </div>
     <div class="col-6 text-left ">
-        <p>Lorem ipsum dolor sit amet.</p>
-        <small>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis non fermentum nisi. Sed nec scelerisque.</small>
+        <p v-text="productPackage.name"></p>
+        <small v-text="productPackage.description"></small>
     </div>
     <div class="col-2 text-left">
         <h6>Every: 40 Days</h6>
-        <small>Rp. 24.999</small>
+        <small>Rp. {{productPackage.price}}</small>
     </div>
     <div class="col-1">
-        <span style="color: red"><i class="fa-solid fa-trash-can"></i></span>
+        <span role="button" style="color: red"><i class="fa-solid fa-trash-can"></i></span>
     </div>
 </div>
 </template>
 
 <script>
 export default {
-    name: 'CheckoutCard'
+    name: 'CheckoutCard',
+    props: ['productPackage']
 }
 </script>
 

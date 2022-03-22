@@ -1,11 +1,11 @@
 <template>
 <div class="row grid">
     <div class="col-8 text-left py-3">
-        <p>Lorem ipsum dolor sit amet.</p>
-        <small>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis non fermentum nisi. Sed nec scelerisque.</small>
+        <p v-text="productPackage.name"></p>
+        <small v-text="productPackage.description"></small>
     </div>
     <div class="col-4">
-        <p>Rp. 24.999</p>
+        <p>Rp. {{productPackage.price}}</p>
     </div>
     <hr style="width: 94%">
 </div>
@@ -13,7 +13,8 @@
 
 <script>
 export default {
-    name: 'CheckoutItems'
+    name: 'CheckoutItems',
+    props: ['productPackage']
 }
 </script>
 

@@ -15,11 +15,8 @@
     </div>
 
     <div class="row justify-content-center my-5">
-        <ProductCard></ProductCard>
-        <ProductCard></ProductCard>
-        <ProductCard></ProductCard>
-        <ProductCard></ProductCard>
-        <ProductCard></ProductCard>
+        <ProductCard v-for="productPackage in packages" :key="productPackage.id" :productPackage="productPackage"></ProductCard>
+      
     </div>
 </div>
 </template>
@@ -30,6 +27,14 @@ export default {
     name: 'HomeView',
     components: {
         ProductCard
+    },
+    computed: {
+        packages() {
+            return this.$store.state.packages
+        }
+    },
+    mounted(){
+        this.$store.dispatch('fetchPackages')
     }
 }
 </script>

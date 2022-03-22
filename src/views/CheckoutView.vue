@@ -1,17 +1,11 @@
 <template>
-<div class="row pt-3">
-    <div class="col-8 grid">
-        <CheckoutCard></CheckoutCard>
-        <CheckoutCard></CheckoutCard>
-        <CheckoutCard></CheckoutCard>
-        <CheckoutCard></CheckoutCard>
-
+<div class="row pt-3 ml-5">
+    <div class="col-8">
+        <CheckoutCard v-for="productPackage in cart" :key="productPackage.id" :productPackage=productPackage></CheckoutCard>
     </div>
     <div class="col-4 border border-secondary rounded grid w-25">
         <h3>Checkout</h3>
-        <CheckoutItems></CheckoutItems>
-        <CheckoutItems></CheckoutItems>
-        <CheckoutItems></CheckoutItems>
+        <CheckoutItems v-for="productPackage in cart" :key="productPackage.id" :productPackage=productPackage></CheckoutItems>
 
         <div class="row mt-3">
             <div class="col-6 pe-5">
@@ -29,7 +23,7 @@
                 <p class="font-weight-bold text-nowrap">This Month's Total </p>
             </div>
             <div class="col-6 ps-5">
-                <p>Rp. 80.996</p>
+                <p>Rp. 145.000</p>
             </div>
         </div>
 
@@ -38,7 +32,7 @@
                 <button type="button" class="btn btn-outline-success btn-sm"><i class="fa-solid fa-face-grin-beam fa-xl"></i> Face Payment</button>
             </div>
             <div class="col-6">
-                <button type="button" class="btn btn-outline-primary btn-sm">Xendit Pay</button>
+                <button type="button" @click="doXenditPay()" class="btn btn-outline-primary btn-sm">Xendit Pay</button>
             </div>
         </div>
 
@@ -78,11 +72,21 @@ export default {
         CheckoutCard,
         CheckoutItems,
     },
-    methods: {
-        // start() {
-        //     console.log(this.$el.querySelector('video'));
-        // }
+    data(){
+        return {
+            checkoutItems: this.$store.state.cart[0]
+        }
     },
+    methods: {
+        doXenditPay() {
+            this.$store.dispatch('doXenditPay', this.checkoutItems)
+        }
+    },
+    computed: {
+        cart() {
+            return this.$store.state.cart
+        }
+    }
     // async mounted() {
     //     try {
     //         const video = this.$el.querySelector('video')
