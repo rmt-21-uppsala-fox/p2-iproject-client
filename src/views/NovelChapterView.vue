@@ -2,7 +2,7 @@
     <div>
         <article class="post">
             <div class="post__container mx-auto bg-gray-700 mt-20">
-                <span class="post__category">Happy Reading</span>
+                <span id="top" class="post__category">Happy Reading</span>
                 <div class="post__content">
                     <header>
                         <time class="post__time">Jan 27 2022</time>
@@ -15,8 +15,10 @@
                     </p>
                 </div>
                 <div class="post__link">
-                    <a @click.prevent="prevPage">prev chapter</a>
-                    <a class="ml-2" @click.prevent="nextPage">next chapter</a>
+                    <a @click.prevent="prevPage" href="#top">prev chapter</a>
+                    <a class="ml-2" @click.prevent="nextPage" href="#top"
+                        >next chapter</a
+                    >
                 </div>
             </div>
         </article>
@@ -26,6 +28,7 @@
 
 <script>
 import FooterComponent from '@/components/Footer.vue';
+
 export default {
     name: 'NovelChapterView',
     components: {
@@ -38,6 +41,8 @@ export default {
     },
     computed: {
         novel() {
+            document.documentElement.scrollIntoView({ behavior: 'smooth' });
+
             return this.$store.state.novelToRead;
         },
     },
