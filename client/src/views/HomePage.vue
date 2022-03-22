@@ -15,7 +15,7 @@
       <filter-component></filter-component>
       <!-- End Filter -->
       <!-- Content -->
-      <content-card></content-card>
+      <content-card v-bind:games="getAllGames"></content-card>
       <!-- End Content -->
     </main>
     <!-- End Body -->
@@ -35,6 +35,14 @@ export default {
     HeaderComponent,
     FilterComponent,
     ContentCard,
+  },
+  computed: {
+    getAllGames() {
+      return this.$store.state.allGames;
+    },
+  },
+  created: function () {
+    this.$store.dispatch(`PopularGamesAYearAgo`);
   },
 };
 </script>

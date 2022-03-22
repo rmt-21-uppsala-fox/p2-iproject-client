@@ -4,9 +4,38 @@ import Vuex from "vuex";
 Vue.use(Vuex);
 
 export default new Vuex.Store({
-  state: {},
+  state: {
+    allGames: [],
+  },
   getters: {},
-  mutations: {},
-  actions: {},
+  mutations: {
+    GAMES_A_YEAR_AGO(state, payload) {
+      state.allGames = payload.data.results;
+    },
+  },
+  actions: {
+    async PopularGamesAYearAgo(context) {
+      try {
+        const dateNow = new Date().toISOString().slice(0, 10);
+        const date = new Date();
+        date.setDate(date.getDate() - 0);
+        date.setFullYear(date.getFullYear() - 1);
+        const aYearBefore = date.toISOString().slice(0, 10);
+        console.log(`${aYearBefore},${dateNow}`);
+        const data = await axios({
+          method: `get`,
+          url: `https://api.rawg.io/api/games`,
+          params: {
+            key: `7b6f7730d9af4cfebf2a880376bda74c`,
+            dates: `${aYearBefore},${dateNow}`,
+            ordering: `-added`,
+          },
+        });
+        context.commit(`GAMES_A_YEAR_AGO`, data);
+      } catch (err) {
+        console.log(err);
+      }
+    },
+  },
   modules: {},
 });
