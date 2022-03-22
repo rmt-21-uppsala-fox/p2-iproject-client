@@ -1,7 +1,10 @@
 <template>
   <div class="bg-gray-300" style="font-family: Roboto">
     <div class="w-full h-screen flex items-center justify-center">
-      <form class="w-full md:w-1/3 bg-white rounded-lg">
+      <form
+        @submit.prevent="formLogin"
+        class="w-full md:w-1/3 bg-white rounded-lg"
+      >
         <div class="flex font-bold justify-center mt-6">
           <img
             class="h-20 w-20"
@@ -16,8 +19,9 @@
                 class="ml-3 fill-current text-gray-400 text-xs z-10 fa fa-user"
               ></i>
               <input
-                type="text"
-                placeholder="Username"
+                v-model="email"
+                type="email"
+                placeholder="input your email here.."
                 class="
                   -mx-6
                   px-8
@@ -38,8 +42,9 @@
                 class="ml-3 fill-current text-gray-400 text-xs z-10 fa fa-lock"
               ></i>
               <input
-                type="text"
-                placeholder="Password"
+                v-model="password"
+                type="password"
+                placeholder="input your password here.."
                 class="
                   -mx-6
                   px-8
@@ -65,7 +70,22 @@
               focus:outline-none
             "
           >
-            Button
+            Login
+          </button>
+          <div class="py-2">not register yet?</div>
+          <button
+            @click="registerPage"
+            type="button"
+            class="
+              w-full
+              py-2
+              rounded-full
+              bg-green-600
+              text-gray-100
+              focus:outline-none
+            "
+          >
+            Register
           </button>
         </div>
       </form>
@@ -76,6 +96,36 @@
 <script>
 export default {
   name: "Login",
+  data() {
+    return {
+      email: "",
+      password: "",
+    };
+  },
+  computed: {
+    flagLogin() {
+      return this.$store.state.flagLogin;
+    },
+  },
+
+  methods: {
+    async formLogin() {
+      await this.$store.dispatch("login", {
+        email: this.email,
+        password: this.password,
+      });
+
+      if (this.flagLogin) {
+        this.$router.push({ name: "Home" });
+      } else {
+        console.log("tidak jalan");
+      }
+    },
+
+    registerPage() {
+      this.$router.push({ name: "Register" });
+    },
+  },
 };
 </script>
 

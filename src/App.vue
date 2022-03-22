@@ -2,9 +2,11 @@
   <div id="app">
     <div id="nav">
       <Navbar></Navbar>
+      <router-view />
     </div>
-    <router-view />
-    <HFooter></HFooter>
+    <div>
+      <HFooter class="container"></HFooter>
+    </div>
   </div>
 </template>
 
@@ -19,9 +21,11 @@ export default {
     Navbar,
     HFooter,
   },
+  created() {
+    this.$store.dispatch("checkLogin");
+  },
 };
 </script>
-
 
 <style>
 #app {
@@ -38,6 +42,9 @@ export default {
 }
 
 #nav a.router-link-exact-active {
-  color: #42b983;
+  color: white;
+  background-color: #42b983;
+  padding: 10px;
+  border-radius: 5px;
 }
 </style>
