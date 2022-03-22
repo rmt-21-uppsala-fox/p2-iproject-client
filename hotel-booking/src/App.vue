@@ -1,10 +1,12 @@
 <template>
   <div id="app">
     <nav>
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
+      <router-link to="/">Home</router-link> | <router-link to="/about">About</router-link> |
+      <router-link to="/maps">Maps</router-link> |
+      <router-link to="/markermaps">Marker Maps</router-link> |
+      <!-- <router-link to="/markermapsbyhotel">Marker Maps By Hotel</router-link> -->
     </nav>
-    <router-view/>
+    <router-view />
   </div>
 </template>
 

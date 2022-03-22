@@ -1,29 +1,52 @@
-import Vue from 'vue'
-import VueRouter from 'vue-router'
-import HomeView from '../views/HomeView.vue'
+import Vue from "vue";
+import VueRouter from "vue-router";
+// import HomeView from "../views/HomeView.vue";
+import HomePage from "../views/HomePage.vue";
+import GoogleMapsPage from "../views/GoogleMapsPage.vue";
+import MarkerGoogleMapsPage from "../views/MarkerGoogleMapsPage.vue";
+import SingleMarkerGoogleMaps from "../views/SingleMarkerGoogleMaps.vue";
 
-Vue.use(VueRouter)
+Vue.use(VueRouter);
 
 const routes = [
   {
-    path: '/',
-    name: 'home',
-    component: HomeView
+    path: "/",
+    redirect: "/home",
   },
   {
-    path: '/about',
-    name: 'about',
+    path: "/home",
+    name: "HomePage",
+    component: HomePage,
+  },
+  {
+    path: "/maps",
+    name: "GoogleMapsPage",
+    component: GoogleMapsPage,
+  },
+  {
+    path: "/markermaps",
+    name: "MarkerGoogleMapsPage",
+    component: MarkerGoogleMapsPage,
+  },
+  {
+    path: "/markermaps/:id",
+    name: "SingleMarkerGoogleMaps",
+    component: SingleMarkerGoogleMaps,
+  },
+  {
+    path: "/about",
+    name: "about",
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/AboutView.vue')
-  }
-]
+    component: () => import(/* webpackChunkName: "about" */ "../views/AboutView.vue"),
+  },
+];
 
 const router = new VueRouter({
-  mode: 'history',
+  mode: "history",
   base: process.env.BASE_URL,
-  routes
-})
+  routes,
+});
 
-export default router
+export default router;
