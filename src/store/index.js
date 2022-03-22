@@ -17,11 +17,11 @@ export default new Vuex.Store({
     },
     actions: {
         getAllNovels: async ({ commit }, params) => {
-            console.log(`masuk`);
+            console.log(`masuk`, params);
             try {
                 let query = `/novel`;
-                if (params?.filter) query += `/${params.filter}`;
-                if (params?.search) query += `?order=${params.search}`;
+                if (params?.genre) query += `/${params.genre}`;
+                if (params?.order) query += `?order=${params.order}`;
                 const { data } = await local.get(query);
                 commit('setAllNovels', data);
             } catch (error) {

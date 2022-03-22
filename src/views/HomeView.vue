@@ -16,16 +16,16 @@
                 </div>
             </a>
 
-            <!-- tabs filter -->
+            <!-- tabs genre -->
             <div
                 class="border-b w-4/6 mx-auto border-gray-200 dark:border-gray-700 mb-20 mt-20"
             >
                 <ul class="flex flex-wrap -mb-px place-content-center">
                     <li class="mr-2">
                         <a
-                            @click.prevent="filterBy('adventure')"
+                            @click.prevent="genreBy('adventure')"
                             :class="`inline-block py-4 px-4 text-sm hover:cursor-pointer font-medium text-center text-blue-600 rounded-t-lg ${
-                                filter === 'adventure' ? activePage : ''
+                                genre === 'adventure' ? activePage : ''
                             }`"
                             aria-current="page"
                             >Adventure</a
@@ -34,9 +34,9 @@
 
                     <li class="mr-2">
                         <a
-                            @click.prevent="filterBy('romance')"
+                            @click.prevent="genreBy('romance')"
                             :class="`inline-block py-4 px-4 text-sm hover:cursor-pointer font-medium text-center text-blue-600 rounded-t-lg ${
-                                filter === 'romance' ? activePage : ''
+                                genre === 'romance' ? activePage : ''
                             }`"
                             aria-current="page"
                             >Romance</a
@@ -45,9 +45,9 @@
 
                     <li class="mr-2">
                         <a
-                            @click.prevent="filterBy('martial-arts')"
+                            @click.prevent="genreBy('martial-arts')"
                             :class="`inline-block py-4 px-4 text-sm hover:cursor-pointer font-medium text-center text-blue-600 rounded-t-lg ${
-                                filter === 'martial-arts' ? activePage : ''
+                                genre === 'martial-arts' ? activePage : ''
                             }`"
                             aria-current="page"
                             >Martial Arts</a
@@ -56,9 +56,9 @@
 
                     <li class="mr-2">
                         <a
-                            @click.prevent="filterBy('fantasy')"
+                            @click.prevent="genreBy('fantasy')"
                             :class="`inline-block py-4 px-4 text-sm hover:cursor-pointer font-medium text-center text-blue-600 rounded-t-lg ${
-                                filter === 'fantasy' ? activePage : ''
+                                genre === 'fantasy' ? activePage : ''
                             }`"
                             aria-current="page"
                             >Fantasy</a
@@ -67,9 +67,9 @@
 
                     <li class="mr-2">
                         <a
-                            @click.prevent="filterBy('comedy')"
+                            @click.prevent="genreBy('comedy')"
                             :class="`inline-block py-4 px-4 text-sm hover:cursor-pointer font-medium text-center text-blue-600 rounded-t-lg ${
-                                filter === 'comedy' ? activePage : ''
+                                genre === 'comedy' ? activePage : ''
                             }`"
                             aria-current="page"
                             >Comedy</a
@@ -78,9 +78,9 @@
 
                     <li class="mr-2">
                         <a
-                            @click.prevent="filterBy('drama')"
+                            @click.prevent="genreBy('drama')"
                             :class="`inline-block py-4 px-4 text-sm hover:cursor-pointer font-medium text-center text-blue-600 rounded-t-lg ${
-                                filter === 'drama' ? activePage : ''
+                                genre === 'drama' ? activePage : ''
                             }`"
                             aria-current="page"
                             >Drama</a
@@ -89,9 +89,9 @@
 
                     <li class="mr-2">
                         <a
-                            @click.prevent="filterBy('xuanhuan')"
+                            @click.prevent="genreBy('xuanhuan')"
                             :class="`inline-block py-4 px-4 text-sm hover:cursor-pointer font-medium text-center text-blue-600 rounded-t-lg ${
-                                filter === 'xuanhuan' ? activePage : ''
+                                genre === 'xuanhuan' ? activePage : ''
                             }`"
                             aria-current="page"
                             >Xuanhuan</a
@@ -100,9 +100,9 @@
 
                     <li class="mr-2">
                         <a
-                            @click.prevent="filterBy('supernatural')"
+                            @click.prevent="genreBy('supernatural')"
                             :class="`inline-block py-4 px-4 text-sm hover:cursor-pointer font-medium text-center text-blue-600 rounded-t-lg ${
-                                filter === 'supernatural' ? activePage : ''
+                                genre === 'supernatural' ? activePage : ''
                             }`"
                             aria-current="page"
                             >Supernatural</a
@@ -111,9 +111,9 @@
 
                     <li class="mr-2">
                         <a
-                            @click.prevent="filterBy('sci-fi')"
+                            @click.prevent="genreBy('sci-fi')"
                             :class="`inline-block py-4 px-4 text-sm hover:cursor-pointer font-medium text-center text-blue-600 rounded-t-lg ${
-                                filter === 'sci-fi' ? activePage : ''
+                                genre === 'sci-fi' ? activePage : ''
                             }`"
                             aria-current="page"
                             >Sci-fi</a
@@ -123,7 +123,7 @@
                     <select
                         name="cars"
                         id="cars"
-                        @change="searchBy($event)"
+                        @change="orderBy($event)"
                         class="` text-sm hover:cursor-pointer font-medium text-center text-blue-600 bg-white rounded-lg`"
                     >
                         <option value="latest">Latest</option>
@@ -167,35 +167,35 @@ export default {
     },
     data() {
         return {
-            search: '',
-            filter: '',
+            order: '',
+            genre: '',
         };
     },
     methods: {
-        filterBy(params) {
-            this.filter = params;
+        genreBy(params) {
+            this.genre = params;
         },
-        searchBy(params) {
+        orderBy(params) {
             console.log(params.target.value);
-            this.search = params.target.value;
+            this.order = params.target.value;
         },
 
         clear() {
-            this.search = '';
-            this.filter = '';
+            this.order = '';
+            this.genre = '';
         },
     },
     watch: {
-        filter: function (val) {
+        genre: function (val) {
             this.$store.dispatch('getAllNovels', {
-                filter: val,
-                search: this.search,
+                genre: val,
+                order: this.order,
             });
         },
-        search: function (val) {
+        order: function (val) {
             this.$store.dispatch('getAllNovels', {
-                filter: this.filter,
-                search: val,
+                genre: this.genre,
+                order: val,
             });
         },
     },
