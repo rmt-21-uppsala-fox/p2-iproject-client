@@ -15,7 +15,7 @@
             jika belum memiliki akun. Jika telah memiliki akun, silahkan login
             dengan menekan tombol berwarna biru di pojok kanan atas.
           </p>
-          <button class="btn glass">Register</button>
+          <button @click.prevent="toRegis" class="btn glass">Register</button>
         </div>
       </div>
     </div>
@@ -30,6 +30,11 @@ export default {
   computed: {
     page() {
       return this.$store.state.page;
+    },
+  },
+  methods: {
+    toRegis() {
+      this.$router.push({ name: "register" });
     },
   },
 };
