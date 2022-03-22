@@ -84,6 +84,7 @@
                 <span>Add Cart</span>
               </button>
               <button
+                @click="gameDetail(game.id)"
                 class="transition ease-in duration-300 bg-gray-700 hover:bg-gray-800 border hover:border-gray-500 border-gray-700 hover:text-white hover:shadow-lg text-gray-400 rounded-full w-9 h-9 text-center p-2"
               >
                 <svg
@@ -118,6 +119,16 @@
 <script>
 export default {
   props: [`games`],
-  methods: {},
+  methods: {
+    async gameDetail(data) {
+      try {
+        // console.log(data);
+        this.$store.dispatch("getDataGame", data);
+        this.$router.push(`game-detail`);
+      } catch (err) {
+        console.log(err);
+      }
+    },
+  },
 };
 </script>

@@ -7,6 +7,7 @@ export default new Vuex.Store({
   state: {
     allGames: [],
     UpcomingGames: [],
+    detailGame: [],
   },
   getters: {},
   mutations: {
@@ -16,6 +17,10 @@ export default new Vuex.Store({
     UPCOMING_GAMES(state, payload) {
       // console.log(payload);
       state.UpcomingGames = payload.data;
+    },
+    DETAIL_GAME(state, payload) {
+      // console.log(payload);
+      state.detailGame = payload;
     },
   },
   actions: {
@@ -39,6 +44,18 @@ export default new Vuex.Store({
         });
         // console.log(data);
         context.commit(`UPCOMING_GAMES`, data);
+      } catch (err) {
+        console.log(err);
+      }
+    },
+    async getDataGame(context, payload) {
+      try {
+        const data = await axios({
+          method: `get`,
+          url: `http://localhost:3000/games/${payload}`,
+        });
+        // console.log(data);
+        context.commit(`DETAIL_GAME`, data);
       } catch (err) {
         console.log(err);
       }
