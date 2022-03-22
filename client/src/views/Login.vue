@@ -4,7 +4,7 @@
       <div class="flex justify-center ">
         <form
           action=""
-          @submit.prevent="postLogin"
+          @submit.prevent="login"
           class="bg-black shadow-md border border-gray-200 rounded-xl px-8 pt-6 pb-8 mb-4 mt-4 w-1/3"
         >
           <div class="flex justify-center ">
@@ -25,6 +25,7 @@
             </div>
             <div class="md:w-2/3 md:flex-grow">
               <input
+              v-model="userData.email"
                 class="
                   w-full
                   h-10
@@ -48,6 +49,7 @@
             </div>
             <div class="md:w-2/3 md:flex-grow">
               <input
+              v-model="userData.password"
                 class="
                   w-full
                   h-10
@@ -90,7 +92,7 @@
             </div>
           </div>
 
-          <div>
+          <!-- <div>
             <GoogleLogin
               class="md:w-1/2 md:flex-grow"
               :params="params"
@@ -98,7 +100,7 @@
               :onSuccess="onSuccess"
               :onFailure="onFailure"
             ></GoogleLogin>
-          </div>
+          </div> -->
         </form>
       </div>
     </div>
@@ -107,6 +109,22 @@
 
 <script>
 export default {
+  name: "Login",
+  data() {
+    return {
+      userData: {
+        email: '',
+        password: ''
+      }
+    }
+  },
+
+  methods: {
+    async login() {
+      console.log(this.userData, "INI USERDATA")
+      await this.$store.dispatch("login", this.userData)
+    }
+  }
 
 }
 </script>
