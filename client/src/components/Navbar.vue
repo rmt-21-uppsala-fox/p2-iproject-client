@@ -144,13 +144,13 @@
                         >
                           <option value="">--Select Genre--</option>
 
-                          <!-- <option
-                  v-for="category in getCategories"
-                  v-bind:key="category.id"
-                  v-bind:value="category.id"
+                          <option
+                  v-for="genre in genres"
+                  v-bind:key="genre.id"
+                  v-bind:value="genre.id"
                 >
-                  {{ category.name }}
-                </option> -->
+                  {{ genre.name }}
+                </option>
                         </select>
                       </div>
                     </div>
@@ -189,7 +189,7 @@
               </li>
               <li class="nav-item p-2">
                 <a
-                  @click.prevent="logoutHandler"
+                  @click.prevent="logout"
                   class="
                     nav-link
                     font-bold
@@ -238,10 +238,10 @@
                       bg-red-700
                       rounded
                     "
-                    >username</span
+                    >{{localStorage.username}}</span
                   >
-                  <h2 class=""></h2>
-                  <h2 class="mr-2 font-bold text-white">emal@mail.com</h2>
+                  
+                  <h2 class="mr-2 text-xs font-bold text-white">{{localStorage.email}}</h2>
                 </div>
                 <img
                   src="https://picsum.photos/seed/picsum/200/300"
@@ -346,7 +346,30 @@
 
 <script>
 export default {
+  name: "Navbar",
 
+  created() {
+    this.getGenres()
+  },
+  methods: {
+   async logout() {
+     await this.$store.dispatch("logout").then(()=> {
+       this.$router.push('/login')
+     })
+    },
+    async getGenres() {
+      await this.$store.dispatch("getGenres")
+    }
+  },
+  computed: {
+    localStorage() {
+      return localStorage
+    },
+    genres() {
+      console.log(this.$store.state.genres, "INI GENRES")
+      return this.$store.state.genres
+    }
+  }
 }
 </script>
 

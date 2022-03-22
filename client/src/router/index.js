@@ -6,6 +6,7 @@ import VueRouter from "vue-router";
  import Login from '../views/Login.vue'
 import Home from '../views/Home.vue'
 
+
 Vue.use(VueRouter);
 
 const routes = [
@@ -54,17 +55,12 @@ const router = new VueRouter({
 
 router.beforeEach((to, from, next)=>{
   console.log(from, to,  "INI DARI ROUTER NAVGARD")
-  if(to.name == "Login" && localStorage.access_token) {
-    console.log("-----1")
-    next("/")
-  } else if (to.name == "Register" && localStorage.access_token){
-    console.log("-----2")
-    next("/")
-  }  else if (to.name == "Bookmarks" && !localStorage.access_token){
-    console.log("-----3")
-    next("/")
-  }  else {
-    console.log("-----4")
+  console.log(localStorage.access_token, "INI ACC TOKEN")
+  if(to.name !== "Login" && !localStorage.access_token) {
+    next('/login')
+  }else if(to.name == "Login" && localStorage.access_token) {
+    next('/')
+  } else {
     next()
   }
 
