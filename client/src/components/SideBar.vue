@@ -24,7 +24,7 @@
               d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"
             />
           </svg>
-          <span class="font-semibold">Home</span>
+          <span class="font-semibold" @click="GoToHome">Home</span>
         </li>
         <li
           class="flex space-x-2 mt-10 cursor-pointer hover:text-[#EC5252] duration-150"
@@ -43,7 +43,7 @@
               d="M16 4v12l-4-2-4 2V4M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
             />
           </svg>
-          <span class="font-semibold">All Courses</span>
+          <span class="font-semibold" @click="GoToUpcoming">All Courses</span>
         </li>
         <li
           class="flex space-x-2 mt-10 cursor-pointer hover:text-[#EC5252] duration-150"
@@ -118,6 +118,21 @@
 
 <script>
 export default {
-  
+  methods: {
+    async GoToUpcoming() {
+      try {
+        this.$router.push(`/discover`);
+      } catch (err) {
+        console.log(err);
+      }
+    },
+    async GoToHome() {
+      try {
+        this.$router.push(`/`);
+      } catch (err) {
+        console.log(err);
+      }
+    },
+  },
 };
 </script>
