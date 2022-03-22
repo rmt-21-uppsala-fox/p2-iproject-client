@@ -1,6 +1,5 @@
 <template>
   <div class="map-holder">
-    <!-- @click="getEndPosition()" -->
     <div id="map" class="w-full h-full"></div>
   </div>
 </template>
@@ -9,6 +8,7 @@
 import mapboxgl from "mapbox-gl";
 import MapboxDraw from "@mapbox/mapbox-gl-draw";
 import "@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw.css";
+
 export default {
   name: "MapDisplay",
   data() {
