@@ -20,7 +20,7 @@
 
         <div class="row mb-3">
             <div class="col-6 text-nowrap">
-                <button v-b-modal.modal-2 type="button"  @click="faceRecognition" class="btn btn-outline-success btn-sm"><i class="fa-solid fa-face-grin-beam fa-xl"></i> Face Payment</button>
+                <button v-b-modal.modal-2 type="button" @click="faceRecognition" class="btn btn-outline-success btn-sm"><i class="fa-solid fa-face-grin-beam fa-xl"></i> Face Payment</button>
             </div>
             <div class="col-6">
                 <b-button v-b-modal.modal-1 type="button" @click="doXenditPay" class="btn btn-outline-primary btn-sm">Xendit Pay</b-button>
@@ -58,7 +58,8 @@ export default {
     },
     data() {
         return {
-            invoiceUrl: ''
+            invoiceUrl: '',
+            labeledDescriptors: null
         }
     },
     methods: {
@@ -69,13 +70,8 @@ export default {
         async faceRecognition() {
             try {
                 const video = this.$el.querySelector('video')
-                await faceapi.nets.faceRecognitionNet.loadFromUri('/assets/models')
-                await faceapi.nets.faceLandmark68Net.loadFromUri('/assets/models')
-                await faceapi.nets.ssdMobilenetv1.loadFromUri('/assets/models')
 
-                console.log(faceapi.nets);
                 console.log(video);
-                document.body.append('Models Loaded')
 
                 const options = {
                     video: true
@@ -86,29 +82,15 @@ export default {
 
                 console.log(stream);
 
-                const labels = ['Captain America', 'Tony Stark', 'Thor', 'Tommy']
-                const labeledDescriptors = await Promise.all(labels.map(async (label) => {
-                    const descriptions = []
-                    for (let i = 1; i <= 2; i++) {
-                        const img = await faceapi.fetchImage(`/assets/labeled_images/${label}/${i}.jpg`)
+                console.log(this.labeledDescriptors);
 
-                        const detections = await faceapi.detectSingleFace(img).withFaceLandmarks().withFaceDescriptor()
-                        descriptions.push(detections.descriptor)
-                    }
-                    return new faceapi.LabeledFaceDescriptors(label, descriptions)
-                }))
-                console.log(labeledDescriptors);
-
-                document.body.append(' Green Light')
-
-                const faceMatcher = new faceapi.FaceMatcher(labeledDescriptors, 0.6)
+                const faceMatcher = new faceapi.FaceMatcher(this.labeledDescriptors, 0.6)
 
                 video.addEventListener('play', () => {
                     const canvas = faceapi.createCanvasFromMedia(video)
 
                     // video.append(canvas)
 
-                    // console.log(document.body);
                     document.body.append(canvas)
 
                     const displaySize = {
@@ -160,8 +142,28 @@ export default {
             return totalAmount
         }
     },
-    async mounted() {
+    async created() {
+        if (this.labeledDescriptors === null) {
+            await faceapi.nets.faceRecognitionNet.loadFromUri('/assets/models')
+            await faceapi.nets.faceLandmark68Net.loadFromUri('/assets/models')
+            await faceapi.nets.ssdMobilenetv1.loadFromUri('/assets/models')
+            document.body.append('Models Loaded')
+            console.log(faceapi.nets);
 
+            const labels = ['Captain America', 'Tony Stark', 'Thor', 'Tommy']
+            this.labeledDescriptors = await Promise.all(labels.map(async (label) => {
+                const descriptions = []
+                for (let i = 1; i <= 2; i++) {
+                    const img = await faceapi.fetchImage(`/assets/labeled_images/${label}/${i}.jpg`)
+
+                    const detections = await faceapi.detectSingleFace(img).withFaceLandmarks().withFaceDescriptor()
+                    descriptions.push(detections.descriptor)
+                }
+                return new faceapi.LabeledFaceDescriptors(label, descriptions)
+            }))
+
+            document.body.append(' Green Light')
+        }
     }
 }
 </script>
