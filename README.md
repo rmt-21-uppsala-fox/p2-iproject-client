@@ -1,4 +1,4 @@
-# p2-iproject-client
+# customer-web
 
 ## Project setup
 ```
