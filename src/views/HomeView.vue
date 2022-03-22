@@ -151,7 +151,7 @@
             </div>
             <!-- pagination -->
 
-            <footer-component></footer-component>
+            <footer-component class="mt-20"></footer-component>
         </div>
     </div>
 </template>
@@ -159,11 +159,13 @@
 <script>
 // @ is an alias to /src
 import AllNovel from '@/components/AllNovel.vue';
+import FooterComponent from '@/components/Footer.vue';
 
 export default {
     name: 'HomeView',
     components: {
         AllNovel,
+        FooterComponent,
     },
     data() {
         return {
