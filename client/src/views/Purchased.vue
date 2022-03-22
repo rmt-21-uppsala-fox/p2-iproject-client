@@ -1,12 +1,11 @@
 <template>
-  <!--Contents-->
   <div class="h-screen">
     
   <div class="mx-7 my-7 border border-2 rounded border-gray-800 my-8 ">
     
     <div class="bg-gray-600 bg-opacity-25 px-3 py-3 h-full">
      <div class="bg-black rounded border border-white py-3 w-1/3 mx-3">
-       <p class="mx-3 font-sans font-bold text-xl text-white"> Top 5 Movies this week</p>
+       <p class="mx-3 font-sans font-bold text-xl text-white"> Purchased Movies</p>
      </div>
 
        
@@ -25,24 +24,8 @@
 </template>
 
 <script>
-import MovieCard from '../components/MovieCard.vue'
 export default {
-  components: { MovieCard },
-  name: "Home",
-  created() {
-     //this.getTop5Movies()
-  },
-  methods: {
-    async getTop5Movies() {
-      await this.$store.dispatch("getTop5Movies")
-    }
-  },
-  computed: {
-    movies() {
-      return this.$store.state.movies
-    }
-  }
-
+    
 }
 </script>
 

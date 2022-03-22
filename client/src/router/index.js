@@ -1,6 +1,6 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-// import Bookmarks from "../views/Bookmarks.vue";
+ import Purchased from "../views/Purchased.vue";
  import Details from "../views/Details.vue"
 // import Register from '../views/Register.vue'
  import Login from '../views/Login.vue'
@@ -16,11 +16,11 @@ const routes = [
     name: "Home",
     component: Home,
   },
-  // {
-  //   path: "/purchased",
-  //   name: "Purchased",
-  //   component: Bookmarks,
-  // },
+  {
+    path: "/purchased",
+    name: "Purchased",
+    component: Purchased,
+  },
   {
     path: "/login",
     name: "Login",

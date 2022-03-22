@@ -16,7 +16,9 @@ export default new Vuex.Store({
     movies: [],
     purchasedMovies: [],
     genres: [],
-    movie: {}
+    movie: {},
+    price: {},
+    paymentToken: ''
   },
   mutations: {
     SET_MOVIES(state, movies) {
@@ -31,6 +33,9 @@ export default new Vuex.Store({
     SET_GENRES(state, genres) {
       state.genres = genres
     },
+    SET_PRICE(state, price) {
+      state.price = price
+    },
     SET_USER_DATA(state, payload) {
       state.userData = payload
       console.log(JSON.stringify(payload))
@@ -41,6 +46,9 @@ export default new Vuex.Store({
       localStorage.setItem("username", state.userData.username);
       
       console.log(state.userData, "INI STATE UserData")
+    },
+    SET_PAYMENT_TOKEN(state, token) {
+      state.paymentToken = token
     },
     SET_LOGOUT() {
       localStorage.clear()
@@ -66,6 +74,7 @@ export default new Vuex.Store({
         router.push('/')
         Swal.fire("Login Success")
       } catch (error) {
+        console.log(error)
         Swal.fire(error.response.data.message)
         
         console.log(error.response.data.message)
@@ -90,6 +99,107 @@ export default new Vuex.Store({
     },
     async logout(context) {
        context.commit("SET_LOGOUT")
+    },
+    async getTop5Movies(context) {
+      try {
+         
+        const response = await axios.get(`${LOCAL_URL}/movies`, {
+          headers: {
+            access_token: localStorage.access_token
+
+          }
+        })
+
+        
+        
+        
+        context.commit("SET_MOVIES", response.data.results)
+        
+        
+      } catch (error) {
+        Swal.fire(error.response.data.message)
+        
+        console.log(error.response.data.message)
+      }
+    },
+
+    async getMoviePrice(context, imdbId) {
+      try {
+         
+        const response = await axios.get(`${LOCAL_URL}/movies/price/${imdbId}`, {
+          headers: {
+            access_token: localStorage.access_token
+
+          }
+        })
+
+        
+        
+        
+        context.commit("SET_PRICE", response.data)
+        
+        
+      } catch (error) {
+        Swal.fire(error.response.data.message)
+        
+        console.log(error.response.data.message)
+      }
+    },
+
+    async getMovie(context, imdbId) {
+      try {
+         
+        const response = await axios.get(`${LOCAL_URL}/movies/${imdbId}`, {
+          headers: {
+            access_token: localStorage.access_token
+
+          }
+        })
+
+        
+        
+        
+        context.commit("SET_MOVIE", response.data)
+        
+        
+      } catch (error) {
+        Swal.fire(error.response.data.message)
+        
+        console.log(error.response.data.message)
+      }
+    },
+    async postPayToken(context, payload) {
+      try {
+        const body =  {
+          email: localStorage.email,
+          username: localStorage.username,
+          title: this.state.movie.title,
+          type: payload.type,
+          price: this.state.price[`${payload.type}`]
+
+        } 
+        console.log(body, payload.imdbId, "INI BODY PAYMENT")
+        const response = await axios.post(`${LOCAL_URL}/payment/${payload.imdbId}`, body, {
+          headers: {
+            access_token: localStorage.access_token
+          }
+        })
+
+        
+        
+        
+        console.log(response.data.token, "INI HASIL PAYMENT TOKEN")
+         context.commit("SET_PAYMENT_TOKEN", response.data.token)
+         console.log(this.state.paymentToken, "INI STATE PAYMENT TOKEN")
+        
+        // router.push('/')
+        // Swal.fire("Login Success")
+      } catch (error) {
+        console.log(error)
+        Swal.fire(error.response.data.message)
+        
+        console.log(error.response.data.message)
+      }
     },
     
   },

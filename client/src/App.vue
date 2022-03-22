@@ -28,6 +28,7 @@ export default {
 @import "../dist/output.css";
 @import url("https://cdn.jsdelivr.net/npm/tw-elements/dist/css/index.min.css");
 @import url("https://cdn.tailwindcss.com");
+@import url("https://app.sandbox.midtrans.com/snap/snap.js");
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
