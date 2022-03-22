@@ -1,32 +1,24 @@
 <template>
   <div id="app">
-    <nav>
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </nav>
-    <router-view/>
+    <NavBar />
+    <router-view />
+    <HFooter class="flex flex-col justify-center p-5"></HFooter>
   </div>
 </template>
-
+<script>
+import HFooter from "vue-hacktiv8-footer";
+import NavBar from "./components/NavBar.vue";
+export default {
+  components: {
+    HFooter,
+    NavBar,
+  },
+};
+</script>
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
-
-nav {
-  padding: 30px;
-}
-
-nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-nav a.router-link-exact-active {
-  color: #42b983;
+.social-links {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
 }
 </style>
