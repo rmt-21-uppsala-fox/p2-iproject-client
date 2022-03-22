@@ -7,11 +7,15 @@ Vue.use(Vuex);
 export default new Vuex.Store({
 	state: {
 		allManga: [],
+		mangaById: {},
 	},
 	getters: {},
 	mutations: {
 		ALL_MANGA(state, payload) {
 			state.allManga = payload;
+		},
+		MANGA_BY_ID(state, payload) {
+			state.mangaById = payload;
 		},
 	},
 	actions: {
@@ -24,23 +28,21 @@ export default new Vuex.Store({
 						Content_Type: "application/vnd.api+json",
 					},
 				});
-				console.log(response.data);
 				context.commit("ALL_MANGA", response.data.data);
 			} catch (err) {
 				console.log(err);
 			}
 		},
-		async getMangaById(context) {
+		async getMangaById(context, id) {
 			try {
 				const response = await axios({
 					method: "GET",
-					url: "https://kitsu.io/api/edge/manga",
+					url: `https://kitsu.io/api/edge/manga/${id}`,
 					headers: {
 						Content_Type: "application/vnd.api+json",
 					},
 				});
-				console.log(response.data);
-				context.commit("ALL_MANGA", response.data.data);
+				context.commit("MANGA_BY_ID", response.data.data);
 			} catch (err) {
 				console.log(err);
 			}

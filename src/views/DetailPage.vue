@@ -1,22 +1,22 @@
 <template>
 	<!-- detail -->
-	<section class="text-gray-700 body-font overflow-hidden bg-white">
+	<section class="text-gray-700 body-font overflow-hidden">
 		<div class="container px-5 py-24 mx-auto">
 			<div class="lg:w-4/5 mx-auto flex flex-wrap">
 				<img
 					alt="ecommerce"
 					class="lg:w-1/2 w-full object-cover object-center rounded border border-gray-200"
-					:src="foodById.imgUrl"
+					:src="mangaById.attributes.posterImage.original"
 				/>
 				<div class="lg:w-1/2 w-full lg:pl-10 lg:py-6 mt-6 lg:mt-0">
 					<router-link
-						class="text-sm title-font text-gray-500 tracking-widest"
+						class="text-sm title-font text-yellow-500 tracking-widest"
 						to="/"
 					>
-						Acid's Restaurant
+						back Home
 					</router-link>
 					<h1 class="text-gray-900 text-3xl title-font font-medium mb-1">
-						{{ foodById.name }}
+						{{ mangaById.attributes.titles.en_jp }}
 					</h1>
 					<div class="flex mb-4">
 						<span class="flex ml-3 pl-3 py-2 border-l-2 border-gray-200">
@@ -64,13 +64,13 @@
 							</a>
 						</span>
 					</div>
-					<p class="leading-relaxed">
-						{{ foodById.description }}
+					<p class="leading-relaxed text-white">
+						{{ mangaById.attributes.description }}
 					</p>
 					<div class="flex">
-						<span class="title-font font-medium text-2xl text-gray-900"
-							>Rp. {{ foodById.price }}</span
-						>
+						<span class="title-font font-medium text-2xl text-gray-900">
+							{{ mangaById.attributes.averageRating }}
+						</span>
 						<router-link
 							class="flex ml-auto text-white bg-sky-500 border-0 py-2 px-6 focus:outline-none hover:bg-red-600 rounded-2xl"
 							to="/"
@@ -88,6 +88,19 @@
 <script>
 	export default {
 		name: "DetailPage",
+		methods: {
+			getMangaById() {
+				this.$store.dispatch("getMangaById", this.$route.params.id);
+			},
+		},
+		computed: {
+			mangaById() {
+				return this.$store.state.mangaById;
+			},
+		},
+		created() {
+			this.getMangaById();
+		},
 	};
 </script>
 
