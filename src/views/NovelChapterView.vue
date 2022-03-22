@@ -64,11 +64,7 @@ export default {
             }
         },
     },
-    beforeUpdate() {
-        // this.$store.dispatch('getQrcode');
-        // getQrcode() {
-        // },
-    },
+    beforeUpdate() {},
 };
 </script>
 
