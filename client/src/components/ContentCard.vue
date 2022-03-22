@@ -26,7 +26,6 @@
                 </svg>
               </button> -->
               <button
-                @click="addToWishlist(game.id)"
                 class="transition ease-in duration-300 bg-gray-800 hover:text-purple-500 shadow hover:shadow-md text-gray-500 rounded-full w-8 h-8 text-center p-1"
               >
                 <svg
@@ -85,6 +84,7 @@
                 <span>Add Cart</span>
               </button>
               <button
+                @click="gameDetail(game.id)"
                 class="transition ease-in duration-300 bg-gray-700 hover:bg-gray-800 border hover:border-gray-500 border-gray-700 hover:text-white hover:shadow-lg text-gray-400 rounded-full w-9 h-9 text-center p-2"
               >
                 <svg
@@ -120,10 +120,11 @@
 export default {
   props: [`games`],
   methods: {
-    async addToWishlist(data) {
+    async gameDetail(data) {
       try {
         // console.log(data);
         this.$store.dispatch("getDataGame", data);
+        this.$router.push(`game-detail`);
       } catch (err) {
         console.log(err);
       }

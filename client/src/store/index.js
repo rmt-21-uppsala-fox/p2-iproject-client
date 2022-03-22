@@ -7,34 +7,30 @@ export default new Vuex.Store({
   state: {
     allGames: [],
     UpcomingGames: [],
+    detailGame: [],
   },
   getters: {},
   mutations: {
     GAMES_A_YEAR_AGO(state, payload) {
-      state.allGames = payload.data.results;
+      state.allGames = payload.data;
     },
     UPCOMING_GAMES(state, payload) {
-      state.UpcomingGames = payload.data.results;
+      // console.log(payload);
+      state.UpcomingGames = payload.data;
+    },
+    DETAIL_GAME(state, payload) {
+      // console.log(payload);
+      state.detailGame = payload;
     },
   },
   actions: {
     async PopularGamesAYearAgo(context) {
       try {
-        const dateNow = new Date().toISOString().slice(0, 10);
-        const date = new Date();
-        date.setDate(date.getDate() - 0);
-        date.setFullYear(date.getFullYear() - 1);
-        const aYearBefore = date.toISOString().slice(0, 10);
-        console.log(`${aYearBefore},${dateNow}`);
         const data = await axios({
           method: `get`,
-          url: `https://api.rawg.io/api/games`,
-          params: {
-            key: `7b6f7730d9af4cfebf2a880376bda74c`,
-            dates: `${aYearBefore},${dateNow}`,
-            ordering: `-added`,
-          },
+          url: `http://localhost:3000/games`,
         });
+        // console.log(data);
         context.commit(`GAMES_A_YEAR_AGO`, data);
       } catch (err) {
         console.log(err);
@@ -42,33 +38,28 @@ export default new Vuex.Store({
     },
     async UpcomingGames(context) {
       try {
-        const dateNow = new Date().toISOString().slice(0, 10);
-        const date = new Date();
-        date.setDate(date.getDate() + 7);
-        date.setFullYear(date.getFullYear() - 0);
-        const nextWeek = date.toISOString().slice(0, 10);
-        // console.log(test);
         const data = await axios({
           method: `get`,
-          url: `https://api.rawg.io/api/games`,
-          params: {
-            key: `7b6f7730d9af4cfebf2a880376bda74c`,
-            dates: `${dateNow},${nextWeek}`,
-            ordering: `-added`,
-          },
+          url: `http://localhost:3000/games/next-week`,
         });
+        // console.log(data);
         context.commit(`UPCOMING_GAMES`, data);
       } catch (err) {
         console.log(err);
       }
     },
-    // async getDataGame(context, payload){
-    //   try {
-
-    //   } catch (err) {
-    //     console.log(err)
-    //   }
-    // }
+    async getDataGame(context, payload) {
+      try {
+        const data = await axios({
+          method: `get`,
+          url: `http://localhost:3000/games/${payload}`,
+        });
+        // console.log(data);
+        context.commit(`DETAIL_GAME`, data);
+      } catch (err) {
+        console.log(err);
+      }
+    },
   },
   modules: {},
 });
