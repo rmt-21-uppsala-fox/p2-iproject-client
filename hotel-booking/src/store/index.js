@@ -35,7 +35,7 @@ export default new Vuex.Store({
       try {
         const response = await axios({
           method: "get",
-          url: "http://localhost:3000/hotels",
+          url: "https://hotel-ballroom-booking.herokuapp.com/hotels",
         });
         const data = response.data;
         context.commit("COMMIT_HOTELS", data);
@@ -47,7 +47,7 @@ export default new Vuex.Store({
       try {
         const response = await axios({
           method: "get",
-          url: "http://localhost:3000/hotels/markers",
+          url: "https://hotel-ballroom-booking.herokuapp.com/hotels/markers",
         });
         const data = response.data;
         context.commit("COMMIT_MARKERS", data);
@@ -60,7 +60,7 @@ export default new Vuex.Store({
         console.log(hotelId, "MASUK 43 index store");
         const response = await axios({
           method: "get",
-          url: `http://localhost:3000/hotels/markers/${hotelId}`,
+          url: `https://hotel-ballroom-booking.herokuapp.com/hotels/markers/${hotelId}`,
         });
         const data = response.data;
         console.log(data, "Masuk 49 INDEX STORE");
@@ -71,7 +71,7 @@ export default new Vuex.Store({
     },
     async doRegister(context, payload) {
       try {
-        const url = "http://localhost:3000/register";
+        const url = "https://hotel-ballroom-booking.herokuapp.com/register";
         const response = await axios({
           method: "post",
           url,
@@ -89,7 +89,7 @@ export default new Vuex.Store({
     },
     async doLogin(context, payload) {
       try {
-        const url = "http://localhost:3000/login";
+        const url = "https://hotel-ballroom-booking.herokuapp.com/login";
         const response = await axios({
           method: "post",
           url,
@@ -108,7 +108,7 @@ export default new Vuex.Store({
     async BookBallRoom(context, payload) {
       try {
         console.log(payload.name, "masuk 90");
-        const url = `http://localhost:3000/hotels/book/${payload.hotelId}`;
+        const url = `https://hotel-ballroom-booking.herokuapp.com/hotels/book/${payload.hotelId}`;
         const response = await axios({
           method: "post",
           url,
@@ -130,7 +130,7 @@ export default new Vuex.Store({
     },
     async getBookedBallroom(context) {
       try {
-        const url = "http://localhost:3000/hotels/book/";
+        const url = "https://hotel-ballroom-booking.herokuapp.com/hotels/book/";
         const response = await axios({
           method: "get",
           url,
@@ -148,7 +148,7 @@ export default new Vuex.Store({
     async payWithXendit(context, payload) {
       try {
         console.log(payload, "masuk 146");
-        const url = `http://localhost:3000/hotels/book/payment/${payload}`;
+        const url = `https://hotel-ballroom-booking.herokuapp.com/hotels/book/payment/${payload}`;
         const response = await axios({
           method: "post",
           url,
