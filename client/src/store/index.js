@@ -6,11 +6,12 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    chats:[],
+    chats:false,
     friends:[],
     roomId:false,
     posts:[],
-    UserId:false
+    UserId:1,
+    NameOfUser:'Rio'
   },
   mutations: {
     FETCH_CHATS(state,chats){
@@ -24,6 +25,9 @@ export default new Vuex.Store({
     },
     FETCH_POSTS(state,posts){
       state.posts = posts
+    },
+    FETCH_NAMEOFUSER(state,NameOfUser){
+      state.NameOfUser = NameOfUser
     }
   },
   actions: {
@@ -43,6 +47,16 @@ export default new Vuex.Store({
         swal(error.response.data.message)
       }
     },
+    socket_receiveChat(context,data){
+      context.commit('FETCH_CHATS',data[0])
+      context.commit('CHANGE_ROOMID',data[1])
+    },
+    async getAllMessage(context,ReceiverId){
+      await this._vm.$socket.client.emit('gettingAllMessage',context.state.UserId,ReceiverId,context.state.NameOfUser)
+    },
+    async sendingMessage(context,chat){
+      await this._vm.$socket.client.emit('sendMessage',context.state.roomId,context.state.UserId,chat)
+    }
     
   },
   modules: {
