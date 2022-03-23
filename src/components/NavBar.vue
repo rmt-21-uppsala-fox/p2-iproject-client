@@ -76,9 +76,9 @@
           >
             <li>
               <router-link
-                to="/mycart"
+                to="/transactions"
                 class="inline-block no-underline hover:text-black hover:underline py-2"
-              >Transaction</router-link>
+              >Transactions</router-link>
             </li>
             <li>
               <router-link
