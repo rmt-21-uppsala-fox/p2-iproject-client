@@ -12,9 +12,6 @@
             <li class="nav-item">
                 <router-link to="/login" class="nav-link ">LOGIN</router-link>
             </li>
-            <li class="nav-item">
-                <router-link to="/packages" class="nav-link">PACKAGES</router-link>
-            </li>
         </ul>
     </div>
     <div class="col-2">

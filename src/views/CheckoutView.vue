@@ -10,7 +10,7 @@
 
         <div class="row">
             <div class="col-6 pe-5">
-                <p class="font-weight-bold text-nowrap">This Month's Total </p>
+                <p class="font-weight-bold text-nowrap">This Month's Total</p>
             </div>
             <div class="col-6 ps-5">
                 <p v-if="cartTotalAmount === 0">Rp. 0</p>
@@ -29,16 +29,15 @@
 
     </div>
     <div>
-        <div id="canvas"></div>
         <div>
 
             <b-modal id="modal-1" title="XenditPay" size="xl" hide-footer="true" hide-header="true">
                 <iframe :src="invoiceUrl" height="600" width="1100"></iframe>
             </b-modal>
 
-            <video id="videoInput" width="1100" height="600" muted controls></video>
-            <b-modal id="modal-2" title="FacePay" size="xl" hide-footer="true" hide-header="true">
-            </b-modal>
+            <span id="canvas" style="position: absolute; z-index: 2; left: 37.5%; top: 20%"></span>
+            <video v-show="showWebCam" id="videoInput" style="position: absolute; z-index: 1 ; left: 37.5%; top: 20%" width="450" height="400" muted controls autoplay></video>
+
         </div>
     </div>
 
@@ -58,20 +57,20 @@ export default {
     },
     data() {
         return {
-            invoiceUrl: ''
+            invoiceUrl: '',
+            showWebCam: false,
         }
     },
     methods: {
         async doXenditPay() {
-            const invoiceUrl = await this.$store.dispatch('doXenditPay')
-            this.invoiceUrl = invoiceUrl
+            this.invoiceUrl = await this.$store.dispatch('doXenditPay')
         },
         async faceRecognition() {
             try {
+                this.showWebCam = true
                 const video = this.$el.querySelector('video')
+                const canvasElem = this.$el.querySelector('#canvas')
                 let detectedUserName = []
-
-                console.log(video);
 
                 const options = {
                     video: true
@@ -79,19 +78,14 @@ export default {
 
                 const stream = await navigator.mediaDevices.getUserMedia(options)
                 video.srcObject = stream
-
-                console.log(stream);
-
-                console.log(this.$store.state.labeledDescriptors);
+                const tracks = stream.getTracks();
 
                 const faceMatcher = new faceapi.FaceMatcher(this.$store.state.labeledDescriptors, 0.6)
 
                 video.addEventListener('play', () => {
                     const canvas = faceapi.createCanvasFromMedia(video)
 
-                    // video.append(canvas)
-
-                    document.body.append(canvas)
+                    canvasElem.append(canvas)
 
                     const displaySize = {
                         width: video.width,
@@ -122,7 +116,8 @@ export default {
 
                     setTimeout(() => {
                         clearInterval(interval)
-
+                        this.showWebCam = false
+                        tracks[0].stop;
                         if (detectedUserName.includes(localStorage.currentUserName)) {
                             this.$store.commit('setAbleToPay')
                         } else {
@@ -150,7 +145,3 @@ export default {
     }
 }
 </script>
-
-<style>
-
-</style>

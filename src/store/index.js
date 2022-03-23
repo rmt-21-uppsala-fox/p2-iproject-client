@@ -7,7 +7,7 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     currentUser: {},
-    currentUserImagesUrl: [],
+    currentUserImagesUrl: {},
     packages: [],
     cart: [],
     faceRecognitionLoaded: false,
@@ -24,7 +24,7 @@ export default new Vuex.Store({
       state.currentUser = payload
     },
     setCurrentUserImagesUrl(state, payload) {
-      state.currentUserImagesUrl.push(payload)
+      state.currentUserImagesUrl = payload
     },
     setPackages(state, payload) {
       state.packages = payload
@@ -84,9 +84,7 @@ export default new Vuex.Store({
           }
         })
 
-        response.data.forEach((image) => {
-          context.commit('setCurrentUserImagesUrl', image.imageUrl)
-        })
+          context.commit('setCurrentUserImagesUrl', response.data)
       } catch (error) {
         console.log(error)
       }
