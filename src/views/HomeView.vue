@@ -1,15 +1,8 @@
 <template>
   <div>
-
-    <!--====== HEADER PART START ======-->
-    <!--====== HEADER PART ENDS ======-->
-
-    <!--====== API LOGO PART START ======-->
-
-    <!--====== API LOGO PART ENDS ======-->
-
-    <!--====== SERVICES PART START ======-->
-
+    <HeaderComponent />
+    <LogoApiComponent />
+    <!--====== Recommended Recipes PART START ======-->
     <section
       id="recommended-recipes"
       class="services-area pt-120"
@@ -27,6 +20,7 @@
         <div class="justify-center row">
           <div class="w-full sm:w-2/3 lg:w-1/3">
             <div
+              @click="gotoDetail"
               class="single-services wow fadeIn"
               data-wow-duration="1s"
               data-wow-delay="0.2s"
@@ -118,8 +112,7 @@
         </div> <!-- row -->
       </div> <!-- container -->
     </section>
-
-    <!--====== SERVICES PART ENDS ======-->
+    <!--====== Recommended Recipes PART ENDS ======-->
 
     <!--====== BACK TOP TOP PART START ======-->
     <a
@@ -129,9 +122,19 @@
     <!--====== BACK TOP TOP PART ENDS ======-->
   </div>
 </template>
-
 <script>
+import HeaderComponent from "../components/HeaderComponent.vue";
+import LogoApiComponent from "../components/LogoApiComponent.vue";
 export default {
   name: "HomeView",
+  components: {
+    HeaderComponent,
+    LogoApiComponent,
+  },
+  methods: {
+    gotoDetail() {
+      this.$router.push({ name: "detail-recipe" });
+    },
+  },
 };
 </script>

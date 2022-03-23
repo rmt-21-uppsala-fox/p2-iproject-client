@@ -6,17 +6,17 @@ $(function () {
 
     $('.preloader').delay(500).fadeOut(500);
 
-    
+
     //===== Sticky
 
     $(window).on('scroll', function (event) {
         var scroll = $(window).scrollTop();
         if (scroll < 20) {
             $(".navbar-area").removeClass("sticky");
-            $(".navbar .navbar-brand img").attr("src", "assets/images/logo.svg");
+            $(".navbar .navbar-brand img").attr("src", "assets/images/logowhat.png");
         } else {
             $(".navbar-area").addClass("sticky");
-            $(".navbar .navbar-brand img").attr("src", "assets/images/logo-2.svg");
+            $(".navbar .navbar-brand img").attr("src", "assets/images/logowhat.png");
         }
     });
 
@@ -54,8 +54,8 @@ $(function () {
 
     $(".navbar-nav a").on('click', function () {
         $(".navbar-toggler").removeClass('active');
-    });    
-    
+    });
+
 
     //===== testimonial active
 
@@ -67,8 +67,7 @@ $(function () {
         centerPadding: "0",
         slidesToShow: 3,
         slidesToScroll: 4,
-        responsive: [
-            {
+        responsive: [{
                 breakpoint: 1200,
                 settings: {
                     slidesToShow: 3,

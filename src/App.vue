@@ -18,16 +18,11 @@
       </div>
     </div>
     <!--====== PRELOADER PART ENDS ======-->
-    <HeaderComponent />
-    <LogoComponent />
     <router-view />
   </div>
 </template>
 <script>
-import HeaderComponent from "./components/HeaderComponent.vue";
-import LogoComponent from "./components/LogoApiComponent.vue";
 export default {
   name: "App",
-  components: { HeaderComponent, LogoComponent },
 };
 </script>
