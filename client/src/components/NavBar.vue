@@ -15,7 +15,7 @@
           </li>
         </ul>
         <form class="d-flex">
-          <h3 >Search</h3>
+          <!-- <div class="me-2"><h3 >Search</h3></div> -->
           <input v-model="name" @keyup="findUsers" class="form-control me-2 ml-3" type="search" placeholder="Search" aria-label="Search" />
           <!-- <button class="btn btn-outline-success" type="submit">Search</button> -->
         </form>
@@ -25,6 +25,7 @@
 </template>
 
 <script>
+import swal from 'sweetalert'
 export default {
   data(){
     return{
@@ -33,6 +34,7 @@ export default {
   },
   methods: {
     logout() {
+      swal('logged out')
       localStorage.clear();
       this.$store.commit("FETCH_CHATS", false);
       this.$store.commit("FETCH_FRIENDS", false);
@@ -43,7 +45,13 @@ export default {
       this.$router.push("/login");
     },
     findUsers(){
-      console.log(this.name);
+      // console.log(this.name);
+      if(this.name){
+        this.$store.dispatch('findAllUser',{search:this.name})
+      }else{
+        this.$store.commit('FETCH_USERS',false)
+      }
+      
     }
   },
 };

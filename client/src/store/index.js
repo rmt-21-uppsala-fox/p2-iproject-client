@@ -83,6 +83,9 @@ export default new Vuex.Store({
       } catch (error) {
         swal(error.response.data.message)
       }
+    },
+    facebookLogin(context,token){
+      return axios({url:`http://localhost:3000/users/facebookSignIn`,method:'POST',data:token})
     }
     
 

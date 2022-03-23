@@ -17,7 +17,7 @@
 <script>
 import facebookLogin from "facebook-login-vuejs";
 import Vue from "vue";
-// import swal from 'sweetalert'
+import swal from "sweetalert";
 export default {
   components: {
     facebookLogin,
@@ -34,18 +34,30 @@ export default {
           this.$store.dispatch("fetchNameAndId");
           //   this.$store.commit("CHANGE_USERID", resp.data.UserId);
           //   this.$store.commit("FETCH_NAMEOFUSER", resp.data.name);
+          swal('logged in')
           this.$router.push("/");
         },
         function (error) {
           // things to do when sign-in fails
-          console.log(error);
-          //   swal(error.response.data.message);
+          //   console.log(error);
+          swal(error.response.data.message);
         }
       );
     },
-    getUserData(fbUser,param2){
-        console.log(fbUser);
-        console.log(param2);
+    async getUserData(fbUser) {
+      // console.log(fbUser.response.authResponse.accessToken);
+      try {
+        const resp = await this.$store.dispatch("facebookLogin", { accessToken: fbUser.response.authResponse.accessToken });
+        localStorage.setItem("token", resp.data.token);
+        this.$store.dispatch("fetchNameAndId");
+        swal('logged in')
+        this.$router.push("/");
+      } catch (error) {
+        swal(error.response.data.message);
+      }
+    },
+    onLogout(){
+
     }
   },
 };
