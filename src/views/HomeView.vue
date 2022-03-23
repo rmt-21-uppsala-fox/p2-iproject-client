@@ -85,6 +85,7 @@ export default {
     gotoDetail(params) {
       const RecipeId = params.split("#")[1];
       this.$store.dispatch("fetchDetailReciped", RecipeId);
+      this.$store.commit("SET_DETAIL_PAGE", true);
       this.$router.push({ name: "detail-recipe" });
     },
   },
@@ -93,6 +94,7 @@ export default {
       this.$store.commit("SET_STATUS_LOGIN", true);
     }
     this.$store.dispatch("fetchRecipes");
+    this.$store.commit("SET_DETAIL_PAGE", false);
   },
 };
 </script>

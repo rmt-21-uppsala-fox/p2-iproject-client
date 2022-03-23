@@ -10,6 +10,7 @@ export default new Vuex.Store({
     },
     isLogin: false,
     recipes: [],
+    detailPage: false,
   },
   getters: {},
   mutations: {
@@ -21,6 +22,9 @@ export default new Vuex.Store({
     },
     SET_CURRENT_USER(state, payload) {
       state.currentUser = payload
+    },
+    SET_DETAIL_PAGE(state, payload) {
+      state.detailPage = payload
     }
   },
   actions: {
