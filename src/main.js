@@ -10,7 +10,7 @@ import {
   io
 } from 'socket.io-client';
 //instance socketIO
-const socket = io('http://localhost:3001');
+const socket = io('http://localhost:3000');
 
 Vue.config.productionTip = false
 Vue.use(VueSocketIOExt, socket, {

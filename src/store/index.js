@@ -5,9 +5,7 @@ Vue.use(Vuex)
 let baseUrl = "http://localhost:3000"
 export default new Vuex.Store({
   state: {
-    currentUser: {
-      username: "",
-    },
+    currentUser: "",
     isLogin: false,
     recipes: [],
     detailPage: false,
@@ -15,13 +13,11 @@ export default new Vuex.Store({
   getters: {},
   mutations: {
     SET_STATUS_LOGIN(state, payload) {
-      state.isLogin = payload
+      state.isLogin = payload.isLogin
+      state.currentUser = payload.currentUser
     },
     FETCH_RECIPES(state, payload) {
       state.recipes = payload
-    },
-    SET_CURRENT_USER(state, payload) {
-      state.currentUser = payload
     },
     SET_DETAIL_PAGE(state, payload) {
       state.detailPage = payload

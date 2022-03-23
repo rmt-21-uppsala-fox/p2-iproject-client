@@ -68,6 +68,16 @@
                 rel="nofollow"
               >Register</router-link>
             </div>
+            <div class="absolute right-0 hidden mt-2 mr-24 navbar-btn sm:inline-block lg:mt-0 lg:static lg:mr-0">
+              <a
+                @click.prevent="logoutHandler"
+                v-if="isLogin"
+                class="main-btn gradient-btn"
+                data-scroll-nav="0"
+                href="#"
+                rel="nofollow"
+              >Logout</a>
+            </div>
           </nav> <!-- navbar -->
         </div>
       </div> <!-- row -->
@@ -81,6 +91,12 @@ export default {
   computed: {
     isLogin() {
       return this.$store.state.isLogin;
+    },
+  },
+  methods: {
+    logoutHandler() {
+      localStorage.clear();
+      this.$store.commit("SET_STATUS_LOGIN", false);
     },
   },
 };

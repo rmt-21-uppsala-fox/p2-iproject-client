@@ -80,18 +80,28 @@ export default {
     isLogin() {
       return this.$store.state.isLogin;
     },
+    currentUser() {
+      return this.$store.state.currentUser;
+    },
   },
   methods: {
     gotoDetail(params) {
       const RecipeId = params.split("#")[1];
       this.$store.dispatch("fetchDetailReciped", RecipeId);
       this.$store.commit("SET_DETAIL_PAGE", true);
+      if (localStorage.getItem("access_token")) {
+        this._vm.$socket.client.emit("JOIN_ROOM", RecipeId, this.currentUser);
+      }
       this.$router.push({ name: "detail-recipe" });
     },
   },
   created: function () {
     if (localStorage.getItem("access_token")) {
-      this.$store.commit("SET_STATUS_LOGIN", true);
+      console.log(this.currentUser, "ini ya");
+      this.$store.commit("SET_STATUS_LOGIN", {
+        isLogin: true,
+        currentUser: this.$store.state.currentUser,
+      });
     }
     this.$store.dispatch("fetchRecipes");
     this.$store.commit("SET_DETAIL_PAGE", false);

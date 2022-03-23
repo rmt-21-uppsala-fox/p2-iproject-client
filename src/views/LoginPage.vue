@@ -93,8 +93,10 @@ export default {
       try {
         const response = await this.$store.dispatch("loginHandler", this.user);
         localStorage.setItem("access_token", response.data.access_token);
-        this.$store.commit("SET_STATUS_LOGIN", true);
-        this.$store.commit("SET_CURRENT_USER", this.user.username);
+        this.$store.commit("SET_STATUS_LOGIN", {
+          isLogin: true,
+          currentUser: this.user.username,
+        });
         this.$router.push({ name: "home" });
       } catch (error) {
         console.log(error);
