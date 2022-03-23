@@ -89,9 +89,6 @@ export default {
       const RecipeId = params.split("#")[1];
       this.$store.dispatch("fetchDetailReciped", RecipeId);
       this.$store.commit("SET_DETAIL_PAGE", true);
-      if (localStorage.getItem("access_token")) {
-        this._vm.$socket.client.emit("JOIN_ROOM", RecipeId, this.currentUser);
-      }
       this.$router.push({ name: "detail-recipe" });
     },
   },

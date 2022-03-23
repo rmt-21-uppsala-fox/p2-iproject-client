@@ -1,6 +1,7 @@
 <template>
   <!-- Start Detail Recipe -->
   <div class="detail-recipe">
+    <HeaderComponent />
     <!-- component -->
     <link
       rel="stylesheet"
@@ -33,11 +34,15 @@
           </div>
         </div>
         <div class="flex flex-wrap -mx-4">
-          <div class="w-full md:w-1/2 lg:w-1/3 px-4">
+          <div
+            v-for="recipe in filteredRecipe"
+            :key="recipe.uri"
+            class="w-full md:w-1/2 lg:w-1/3 px-4"
+          >
             <div class="max-w-[370px] mx-auto mb-10">
               <div class="rounded overflow-hidden mb-8 card-recipe">
                 <img
-                  src="https://cdn.tailgrids.com/1.0/assets/images/blogs/blog-01/image-01.jpg"
+                  :src="recipe.recipe.image"
                   alt="image"
                   class="w-full"
                 />
@@ -48,6 +53,7 @@
                      rounded
                      text-center
                      text-white button-bookmark
+                     p-2
                      ">
                   Add to bookmark
                 </span>
@@ -63,16 +69,12 @@
                         mb-4
                         inline-block
                         text-dark
-                        hover:text-primary
+                        hover:text-primary mt-2
                         "
                   >
-                    Meet AutoManage, the best AI management tools
+                    {{recipe.recipe.label}}
                   </a>
                 </h3>
-                <p class="text-base text-body-color">
-                  Lorem Ipsum is simply dummy text of the printing and
-                  typesetting industry.
-                </p>
               </div>
             </div>
           </div>
@@ -85,7 +87,31 @@
 </template>
 
 <script>
-export default {};
+import HeaderComponent from "../components/HeaderComponent.vue";
+export default {
+  name: "RecipePage",
+  components: { HeaderComponent },
+  computed: {
+    filteredRecipe() {
+      return this.$store.state.filteredRecipe;
+    },
+    isLogin() {
+      return this.$store.state.isLogin;
+    },
+    currentUser() {
+      return this.$store.state.currentUser;
+    },
+  },
+  created: function () {
+    if (localStorage.getItem("access_token")) {
+      this.$store.commit("SET_STATUS_LOGIN", {
+        isLogin: true,
+        currentUser: this.$store.state.currentUser,
+      });
+    }
+    this.$store.dispatch("getRecipes");
+  },
+};
 </script>
 
 <style>
