@@ -24,12 +24,12 @@
                 class="inline-block no-underline hover:text-black hover:underline py-2"
               >Home</router-link>
             </li>
-            <li v-if="isLogin">
+            <li>
               <router-link
-                to="/favorites"
+                to="/"
                 class="inline-block no-underline hover:text-black hover:underline py-2 px-4"
                 href="#"
-              >Favorites</router-link>
+              >Workshop</router-link>
             </li>
           </ul>
         </nav>
@@ -74,6 +74,12 @@
             v-else
             class="md:flex items-center justify-between text-base text-gray-700 pt-4 md:pt-0"
           >
+            <li>
+              <router-link
+                to="/"
+                class="inline-block no-underline hover:text-black hover:underline py-2"
+              >My Cart</router-link>
+            </li>
             <li>
               <a
                 href="#"

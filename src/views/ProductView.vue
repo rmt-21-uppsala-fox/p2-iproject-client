@@ -66,7 +66,7 @@
                 type="text"
                 id="text"
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-1 mb-4 mt-2"
-                placeholder="search food name"
+                placeholder="search product name"
               />
               <div class="flex">
                 <button
@@ -245,7 +245,6 @@ export default {
   },
   async created() {
     await this.fetchData();
-    if (this.isLogin) await this.fetchFavorites();
   },
 };
 </script>

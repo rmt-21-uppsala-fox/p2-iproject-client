@@ -37,9 +37,9 @@ const routes = [
     component: RegisterPage,
   },
   {
-    path: "/food/:id",
+    path: "/products/:id",
     name: "detail",
-    component: () => import("../views/DetailFood.vue"),
+    component: () => import("../views/DetailProduct.vue"),
   },
 ];
 

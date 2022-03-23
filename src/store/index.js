@@ -61,13 +61,13 @@ export default new Vuex.Store({
         });
       }
     },
-    async fetchFoodById(context, payload) {
+    async fetchProductById(context, payload) {
       try {
         const { data } = await local({
-          url: `/customer/food/${payload}`,
+          url: `/products/${payload}`,
           method: "GET",
         });
-        context.commit("FETCH_FOOD", data);
+        context.commit("FETCH_PRODUCTS", data);
         context.commit("SET_CATEGORY", data.Category.name);
       } catch (error) {
         Swal.fire({
