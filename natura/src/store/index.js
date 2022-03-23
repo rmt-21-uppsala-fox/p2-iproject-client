@@ -8,6 +8,7 @@ export default new Vuex.Store({
   state: {
     menus: [],
     selectedMenu: [],
+    orderName: '',
   },
   getters: {
     totalItem: function(state) {
@@ -35,6 +36,9 @@ export default new Vuex.Store({
     },
     SET_SELECTED_MENU(state, payload) {
       state.selectedMenu = payload;
+    },
+    SET_ORDERNAME(state, payload) {
+      state.orderName = payload
     }
   },
   actions: {
@@ -45,7 +49,15 @@ export default new Vuex.Store({
       } catch (error) {
         console.log(error.response.data)
       }
-    }
+    },
+    async createOrder (context, payload) {
+      try {
+        const { data } = await axios.post('/neworder', payload)
+        context.commit("SET_ORDERNAME", data.orderName)
+      } catch (error) {
+        console.log(error.response.data)
+      }
+    } 
   },
   modules: {
   }
