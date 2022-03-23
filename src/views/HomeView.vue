@@ -33,9 +33,7 @@ export default {
         
             await this.$store.dispatch('fetchImages')
 
-            const images = this.$store.state.currentUserImagesUrl
-            
-           
+            const images = this.$store.state.imagesUrl
 
             const labels = ['Tony Stark', localStorage.currentUserName]
             Promise.all(labels.map(async (label) => {

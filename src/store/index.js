@@ -7,12 +7,13 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     currentUser: {},
-    currentUserImagesUrl: {},
+    imagesUrl: null,
     packages: [],
     cart: [],
     faceRecognitionLoaded: false,
     labeledDescriptors: [],
     ableToPay: false,
+    isLoggedIn: false,
   },
   getters: {
     getCart(state) {
@@ -23,8 +24,8 @@ export default new Vuex.Store({
     setCurrentUser(state, payload) {
       state.currentUser = payload
     },
-    setCurrentUserImagesUrl(state, payload) {
-      state.currentUserImagesUrl = payload
+    setImagesUrl(state, payload) {
+      state.imagesUrl = payload
     },
     setPackages(state, payload) {
       state.packages = payload
@@ -41,8 +42,25 @@ export default new Vuex.Store({
     setAbleToPay(state) {
       state.ableToPay = true
     },
+    setIsLoggedIn(state) {
+      state.isLoggedIn = true
+    },
+    doLogout(state) {
+      localStorage.clear()
+      state.currentUser = []
+      state.cart = []
+      state.ableToPay = false
+      state.isLoggedIn = false
+    }
   },
   actions: {
+    async doRegister(context, registerData) {
+      try {
+        await axios.post('http://localhost:3000/register', registerData)
+      } catch (error) {
+        console.log(error)
+      }
+    },
     async doLogin(context, loginData) {
       try {
         const response = await axios.post('http://localhost:3000/login', loginData)
@@ -58,8 +76,13 @@ export default new Vuex.Store({
         localStorage.setItem('currentUserName', name)
         localStorage.setItem('currentUserId', id)
         localStorage.setItem('currentUserEmail', email)
-        
-        context.commit('setCurrentUser', {id, name, email})
+
+        context.commit('setCurrentUser', {
+          id,
+          name,
+          email
+        })
+        context.commit('setIsLoggedIn')
       } catch (error) {
         console.log(error);
       }
@@ -86,12 +109,14 @@ export default new Vuex.Store({
           }
         })
 
-          context.commit('setCurrentUserImagesUrl', response.data)
+        context.commit('setImagesUrl', response.data)
       } catch (error) {
         console.log(error)
       }
     },
-    async doXenditPay({getters}) {
+    async doXenditPay({
+      getters
+    }) {
       try {
         let data = {
           "external_id": `invoice-${new Date().getTime()}`,
@@ -128,7 +153,9 @@ export default new Vuex.Store({
     },
     async uploadToImgBB(context, base64) {
       try {
-        const response = await axios.post('http://localhost:3000/uploadToImgBB', {img: base64},{
+        const response = await axios.post('http://localhost:3000/uploadToImgBB', {
+          img: base64
+        }, {
           headers: {
             'access_token': localStorage.access_token
           }

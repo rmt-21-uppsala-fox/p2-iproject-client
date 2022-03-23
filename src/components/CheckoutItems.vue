@@ -5,7 +5,7 @@
         <small v-text="productPackage.description"></small>
     </div>
     <div class="col-4 text-nowrap">
-        <p>Rp. {{productPackage.price}}</p>
+        <p>{{formattedPrice}}</p>
     </div>
     <hr style="width: 94%; height:1px">
 </div>
@@ -14,7 +14,16 @@
 <script>
 export default {
     name: 'CheckoutItems',
-    props: ['productPackage']
+    props: ['productPackage'],
+    computed: {
+        formattedPrice() {
+            return new Intl.NumberFormat('id-ID', {
+                style: 'currency',
+                currency: 'IDR',
+                minimumFractionDigits: 0
+            }).format(this.productPackage.price);
+        },
+    }
 }
 </script>
 

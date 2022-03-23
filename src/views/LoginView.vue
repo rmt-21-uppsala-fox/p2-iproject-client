@@ -1,5 +1,5 @@
 <template>
-<div id="page_login" class="index pt-4 mt-5">
+<div id="page_login" class="index pt-1 mt-4">
     <div class="container">
         <div class="col-md-10 mx-md-auto">
             <div class="login-box bg-white pl-lg-5 pl-0">
@@ -32,10 +32,10 @@
                     <div class="col-md-6">
                         <div class="content text-center">
                             <div class="border-bottom pb-4 mb-5">
-                                <h3>Don't have an account?</h3>
+                                <h5>Don't have an account?</h5>
                                 <router-link to="/register" class="btn btn-outline-dark">Sign up</router-link>
                             </div>
-                            <h5 class="mb-4 mt-n1">"Welcome to my humble abode!"</h5>
+                            <h5 class="mb-4 mt-n1">"Take control of your LYFE"</h5>
                         </div>
                     </div>
                 </div>
