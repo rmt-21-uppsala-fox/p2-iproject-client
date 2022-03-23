@@ -2,6 +2,8 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 // import HomeView from "../views/HomeView.vue";
 import HomePage from "../views/HomePage.vue";
+import LoginPage from "../views/LoginPage.vue";
+import RegisterPage from "../views/RegisterPage.vue";
 import GoogleMapsPage from "../views/GoogleMapsPage.vue";
 import MarkerGoogleMapsPage from "../views/MarkerGoogleMapsPage.vue";
 import SingleMarkerGoogleMaps from "../views/SingleMarkerGoogleMaps.vue";
@@ -11,12 +13,22 @@ Vue.use(VueRouter);
 const routes = [
   {
     path: "/",
-    redirect: "/home",
+    redirect: "/login",
   },
   {
     path: "/home",
     name: "HomePage",
     component: HomePage,
+  },
+  {
+    path: "/register",
+    name: "RegisterPage",
+    component: RegisterPage,
+  },
+  {
+    path: "/login",
+    name: "LoginPage",
+    component: LoginPage,
   },
   {
     path: "/maps",

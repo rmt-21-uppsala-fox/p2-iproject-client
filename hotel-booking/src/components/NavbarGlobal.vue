@@ -8,7 +8,7 @@
           alt="Flowbite Logo"
         />
         <span class="self-center text-xl font-semibold whitespace-nowrap dark:text-white"
-          >Flowbite</span
+          >Booking</span
         >
       </a>
       <div class="flex items-center md:order-2">

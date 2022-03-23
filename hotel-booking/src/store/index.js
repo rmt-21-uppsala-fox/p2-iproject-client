@@ -49,6 +49,42 @@ export default new Vuex.Store({
       console.log(data, "Masuk 49 INDEX STORE");
       context.commit("COMMIT_MARKERSBYID", data);
     },
+    async doRegister(context, payload) {
+      try {
+        const url = "http://localhost:3000/register";
+        const response = await axios({
+          method: "post",
+          url,
+          data: {
+            username: payload.username,
+            email: payload.email,
+            password: payload.password,
+          },
+        });
+        const data = response.data;
+        console.log(data);
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    async doLogin(context, payload) {
+      try {
+        const url = "http://localhost:3000/login";
+        const response = await axios({
+          method: "post",
+          url,
+          data: {
+            email: payload.email,
+            password: payload.password,
+          },
+        });
+        const data = response.data;
+        console.log(data);
+        localStorage.setItem("access_token", data.access_token);
+      } catch (error) {
+        console.log(error);
+      }
+    },
   },
   modules: {},
 });
