@@ -11,7 +11,9 @@
     >
       <div class="px-3 py-2 bg-black">
         <h2 class="mb-3">(っ◔◡◔)っ Menu</h2>
-        <button class="btn btn-dark mb-3 form-control">🏡 Home</button>
+        <router-link to="/">
+          <button class="btn btn-dark mb-3 form-control">🏡 Home</button>
+        </router-link>
         <br />
         <button class="btn btn-dark mb-3 form-control">📜 New Post</button>
         <br />

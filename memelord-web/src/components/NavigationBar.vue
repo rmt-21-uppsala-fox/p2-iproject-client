@@ -10,13 +10,32 @@
         </div>
         <div class="card-header">
           <div class="user-menu d-flex">
-            <div class="user-name text-end me-3">
+            <div
+              v-if="this.$store.state.isLogin"
+              class="user-name text-end me-3"
+            >
               <h6 class="mb-0">Hello</h6>
               <p class="mb-0 text-sm">Jack</p>
             </div>
-            <button class="btn btn-dark">Logout</button>
-            <button class="btn btn-dark">Login</button>
-            <button class="btn btn-dark">Register</button>
+            <div v-if="this.$store.state.isLogin">
+              <button class="btn btn-dark">
+                <router-link class="router text-white" to="/"
+                  >Logout</router-link
+                >
+              </button>
+            </div>
+            <div v-if="!this.$store.state.isLogin">
+              <button class="btn btn-dark">
+                <router-link class="router text-white" to="/login"
+                  >Login</router-link
+                >
+              </button>
+              <button class="btn btn-dark ms-3">
+                <router-link class="router text-white" to="/register"
+                  >register</router-link
+                >
+              </button>
+            </div>
           </div>
         </div>
       </nav>
@@ -33,3 +52,9 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.router {
+  text-decoration: none;
+}
+</style>

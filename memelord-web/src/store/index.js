@@ -7,9 +7,13 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   state: {
     postData: [],
+    isLogin: false,
   },
   getters: {},
   mutations: {
+    LOGIN_STATUS(state, data) {
+      state.isLogin = data;
+    },
     FETCH_POST(state, data) {
       state.postData = data;
     },
@@ -22,6 +26,21 @@ export default new Vuex.Store({
       });
       context.commit("FETCH_POST", data);
     },
+
+    async doLogin(context, userData) {
+      try {
+        const { data } = await axios({
+          method: "post",
+          url: "/login",
+          data: userData,
+        });
+        localStorage.setItem("access_token", data.access_token);
+        localStorage.setItem("id", data.id);
+        localStorage.setItem("username", data.username);
+        context.commit("LOGIN_STATUS", true);
+      } catch (error) {
+        return error.response.data.message;
+      }
+    },
   },
-  modules: {},
 });
