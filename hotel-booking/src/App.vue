@@ -6,6 +6,7 @@
       <router-link to="/register">Register</router-link> |
       <router-link to="/maps">Maps</router-link> |
       <router-link to="/markermaps">Marker Maps</router-link> |
+      <router-link to="/payment">Payment Page</router-link>
       <!-- <router-link to="/markermapsbyhotel">Marker Maps By Hotel</router-link> -->
     </nav>
     <router-view />
