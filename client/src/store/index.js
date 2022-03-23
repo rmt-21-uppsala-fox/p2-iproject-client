@@ -24,6 +24,7 @@ export default new Vuex.Store({
       state.detailGame = payload;
     },
     IS_LOGIN(state, payload) {
+      console.log(payload);
       state.isLogin = payload;
     },
   },
@@ -72,7 +73,23 @@ export default new Vuex.Store({
           data: payload,
         });
         localStorage.setItem("access_token", res.data.access_token);
+        localStorage.setItem("id", res.data.id);
         context.commit(`IS_LOGIN`, true);
+      } catch (err) {
+        console.log(err);
+      }
+    },
+    async signUp(context, payload) {
+      try {
+        const res = await axios({
+          method: "POST",
+          data: payload,
+          url: "http://localhost:3000/register",
+        });
+        // console.log(res);
+        localStorage.setItem("access_token", res.data.access_token);
+        localStorage.setItem("id", res.data.id);
+        context.commit("IS_LOGIN", true);
       } catch (err) {
         console.log(err);
       }
