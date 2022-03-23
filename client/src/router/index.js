@@ -5,6 +5,7 @@ import VueRouter from "vue-router";
 // import Register from '../views/Register.vue'
  import Login from '../views/Login.vue'
 import Home from '../views/Home.vue'
+import SearchResult from '../views/SearchResult.vue'
 
 
 Vue.use(VueRouter);
@@ -35,6 +36,11 @@ const routes = [
     path: "/movies/:imdbId",
     name: "Details",
     component: Details,
+  },
+  {
+    path: "/search",
+    name: "Search",
+    component: SearchResult,
   },
   // {
   //   path: "/about",

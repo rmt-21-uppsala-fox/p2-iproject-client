@@ -9,6 +9,7 @@
           </div> -->
           <div class="my-2 grid grid-cols-1">
             <button
+             v-if="routeName == 'Home'"
           @click.prevent="getMovie(compMovie.id)"
 
           type="button"
@@ -36,6 +37,35 @@
         >
           Buy or Rent
         </button>
+        <button
+           v-if="routeName == 'Purchased'" 
+          @click.prevent="getMovie(compMovie.id)"
+
+          type="button"
+          class="
+          border border-gray-300
+            inline-block
+            px-6
+            py-2.5
+            bg-indigo-800
+            text-white
+            font-medium
+            text-xs
+            leading-tight
+            uppercase
+            rounded
+            shadow-md
+            hover:bg-red-600 hover:shadow-lg
+            bg-blue-700
+            focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0
+            active:bg-indigo-700 active:shadow-lg
+            transition
+            duration-150
+            ease-in-out
+          "
+        >
+          Watch
+        </button>
           </div>
 
 
@@ -52,7 +82,7 @@ export default {
             console.log(imdbId)
             this.$router.push({
         //kirim untuk merender komponen DetailPage
-        name: "Details",
+        name: "Watch",
         params: {
           imdbId: imdbId,
         },
@@ -64,6 +94,9 @@ export default {
     computed: {
         compMovie() {
             return this.movie
+        },
+        routeName() {
+            return this.$route.name
         }
     }
 }

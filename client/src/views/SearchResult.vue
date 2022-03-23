@@ -24,27 +24,8 @@
 </template>
 
 <script>
-import MovieCard from '../components/MovieCard.vue'
 export default {
-    name: "Purchased",
-    components: { MovieCard },
-  
-  created() {
-    this.getPurchased()
-  },
-  methods: {
-    async getPurchased() {
-      await this.$store.dispatch("getPurchased")
-    }
-  },
-  computed: {
-    movies() {
-        this.$store.state.purchasedMovies.map(el => {
-            el.image = el.imageUrl
-        })
-      return this.$store.state.purchasedMovies
-    }
-  }
+    name: "SearchResult"
 }
 </script>
 

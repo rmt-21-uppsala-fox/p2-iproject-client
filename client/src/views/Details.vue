@@ -36,7 +36,7 @@
                   ease-in-out
                 "
               >
-                Buy  {{ price.buy }}
+                Buy {{ price.buy }}
               </button>
               <button
                 @click.prevent="postPayToken('rent')"
@@ -63,9 +63,8 @@
                   ease-in-out
                 "
               >
-                Rent  {{ price.rent }}
+                Rent {{ price.rent }}
               </button>
-              
             </div>
           </div>
           <div>
@@ -89,7 +88,7 @@
                 Year : {{ movie.year }}
               </p>
               <p class="mx-3 my-1 font-sans font-bold text-xl text-white">
-                Genre : {{ movie.genre }}
+                Genre : {{ movie.genres }}
               </p>
               <p class="mx-3 my-1 font-sans font-bold text-xl text-white">
                 Synopsis :
@@ -133,8 +132,13 @@ export default {
   created() {
     this.getMovie();
     this.getMoviePrice();
+    this.isPurchased();
   },
   methods: {
+    async isPurchased() {
+      const imdbId = this.$route.params.imdbId;
+      this.$store.dispatch("isPurchased", imdbId);
+    },
     async getMovie() {
       const imdbId = this.$route.params.imdbId;
       this.$store.dispatch("getMovie", imdbId);
@@ -147,17 +151,30 @@ export default {
       const imdbId = this.$route.params.imdbId;
       const payload = {
         imdbId: imdbId,
-        type: type
-      }
-      this.$store.dispatch("postPayToken", payload).then(()=> {
-        console.log(this.payToken)
-      window.snap.pay(this.payToken, {
-        onSuccess: function (result) { console.log('success'); console.log(result); },
-        onPending: function (result) { console.log('pending'); console.log(result); },
-        onError: function (result) { console.log('error'); console.log(result); },
-        onClose: function () { console.log('customer closed the popup without finishing the payment'); }
+        type: type,
+      };
+      this.$store.dispatch("postPayToken", payload).then(() => {
+        console.log(this.payToken);
+        window.snap.pay(this.payToken, {
+          onSuccess: function (result) {
+            console.log("success");
+            console.log(result);
+          },
+          onPending: function (result) {
+            console.log("pending");
+            console.log(result);
+          },
+          onError: function (result) {
+            console.log("error");
+            console.log(result);
+          },
+          onClose: function () {
+            console.log(
+              "customer closed the popup without finishing the payment"
+            );
+          },
+        });
       });
-      })
     },
   },
   computed: {
@@ -165,23 +182,21 @@ export default {
       return this.$store.state.movie;
     },
     price() {
-      let formatter = new Intl.NumberFormat('id-ID', {
-            style: 'currency',
-            currency: 'IDR',
-          
-           
-          });
-          
-          const rent = formatter.format(this.$store.state.price.rent)
-          const buy = formatter.format(this.$store.state.price.buy)
+      let formatter = new Intl.NumberFormat("id-ID", {
+        style: "currency",
+        currency: "IDR",
+      });
+
+      const rent = formatter.format(this.$store.state.price.rent);
+      const buy = formatter.format(this.$store.state.price.buy);
       return {
         rent: rent,
-        buy: buy
-      }
+        buy: buy,
+      };
     },
     payToken() {
-      return this.$store.state.paymentToken
-    }
+      return this.$store.state.paymentToken;
+    },
   },
 };
 </script>

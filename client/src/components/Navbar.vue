@@ -83,7 +83,7 @@
             <!-- Left links -->
             <ul class="navbar-nav flex flex-col pl-0 list-style-none mr-auto">
               <li
-                @click.prevent="changePage"
+                @click.prevent="changePage('/')"
                 class="nav-item mr-4 p-2 border rounded bg-red-700 hover:bg-red-600"
               >
                 <a
@@ -99,7 +99,9 @@
                   ><i class="fa-solid fa-house"></i> Home</a
                 >
               </li>
-              <li class="nav-item p-2 border mx-1 rounded bg-red-700 hover:bg-red-600">
+              <li
+               @click.prevent="changePage('/purchased')"
+                class="nav-item p-2 border mx-1 rounded bg-red-700 hover:bg-red-600">
                 <a
                   class="
                     nav-link
@@ -359,7 +361,12 @@ export default {
     },
     async getGenres() {
       await this.$store.dispatch("getGenres")
-    }
+    },
+     async changePage(path) {
+      console.log("INI CHANGEPAGE HANDLER");
+     
+       await this.$router.push(path);
+     }
   },
   computed: {
     localStorage() {

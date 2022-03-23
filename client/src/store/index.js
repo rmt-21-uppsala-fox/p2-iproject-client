@@ -168,6 +168,28 @@ export default new Vuex.Store({
         console.log(error.response.data.message)
       }
     },
+    async getPurchased(context) {
+      try {
+         
+        const response = await axios.get(`${LOCAL_URL}/movies/purchased/all`, {
+          headers: {
+            access_token: localStorage.access_token
+
+          }
+        })
+
+        
+        
+        
+        context.commit("SET_PURCHASED", response.data)
+        
+        
+      } catch (error) {
+        Swal.fire(error.response.data.message)
+        
+        console.log(error.response.data.message)
+      }
+    },
     async postPayToken(context, payload) {
       try {
         const body =  {
