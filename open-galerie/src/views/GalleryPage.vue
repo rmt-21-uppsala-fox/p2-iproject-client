@@ -15,11 +15,33 @@ export default {
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(75, width / height, 0.1, 1000);
     const renderer = new THREE.WebGLRenderer();
+    // const geometry = new THREE.BoxGeometry(1, 1, 1);
+    const geometry = new THREE.BoxGeometry(1, 1, 1);
+    const loader = new THREE.TextureLoader();
+    const cubeMaterials = [
+      new THREE.MeshBasicMaterial({
+        map: loader.load("https://files.catbox.moe/7i1g5u.png"),
+      }), //right side
+      new THREE.MeshBasicMaterial({
+        map: loader.load("https://files.catbox.moe/7i1g5u.png"),
+      }), //left side
+      new THREE.MeshBasicMaterial({
+        map: loader.load("https://files.catbox.moe/7i1g5u.png"),
+      }), //top side
+      new THREE.MeshBasicMaterial({
+        map: loader.load("https://files.catbox.moe/7i1g5u.png"),
+      }), //bottom side
+      new THREE.MeshBasicMaterial({
+        map: loader.load("https://files.catbox.moe/7i1g5u.png"),
+      }), //front side
+      new THREE.MeshBasicMaterial({
+        map: loader.load("https://files.catbox.moe/ema8wo.png"),
+      }), //back side
+    ];
+    const player = new THREE.Mesh(geometry, cubeMaterials);
 
-    const player = new THREE.Mesh(
-      new THREE.BoxGeometry(),
-      new THREE.MeshBasicMaterial({ color: 0x00ff00 })
-    );
+    player.castShadow = true;
+    player.receiveShadow = true;
 
     return {
       scene: scene,
@@ -33,15 +55,114 @@ export default {
     };
   },
   created() {
+    let hemiLight = new THREE.HemisphereLight(0xffffff, 0xffffff, 0.61);
+    hemiLight.position.set(0, 50, 0);
+    this.scene.add(hemiLight);
+
+    let d = 8.25;
+    let dirLight = new THREE.DirectionalLight(0xffffff, 0.54);
+    dirLight.position.set(-8, 12, 8);
+    dirLight.castShadow = true;
+    dirLight.shadow.mapSize = new THREE.Vector2(1024, 1024);
+    dirLight.shadow.camera.near = 0.1;
+    dirLight.shadow.camera.far = 1500;
+    dirLight.shadow.camera.left = d * -1;
+    dirLight.shadow.camera.right = d;
+    dirLight.shadow.camera.top = d;
+    dirLight.shadow.camera.bottom = d * -1;
+
+    this.scene.add(dirLight);
+    const texture = new THREE.TextureLoader().load(
+      "https://files.catbox.moe/j1o04x.png"
+    );
+    texture.wrapS = THREE.RepeatWrapping;
+    texture.wrapT = THREE.RepeatWrapping;
+    texture.repeat.set(20, 20);
+
     var pgeometry = new THREE.PlaneGeometry(100, 100);
-    var pmaterial = new THREE.MeshBasicMaterial({ color: 0x0000ff });
+    var pmaterial = new THREE.MeshBasicMaterial({ map: texture });
     var floor = new THREE.Mesh(pgeometry, pmaterial);
+    floor.receiveShadow = true;
     floor.material.side = THREE.DoubleSide;
     floor.rotation.x = -Math.PI / 2;
     floor.position.y = -1;
 
     this.scene.add(floor);
     this.scene.add(this.player);
+
+    const geometry = new THREE.BoxGeometry(100, 100, 100);
+    const loader = new THREE.TextureLoader();
+    const cubeMaterials = [
+      new THREE.MeshBasicMaterial({
+        map: loader.load(
+          "https://files.catbox.moe/7i1g5u.png",
+          function (texture) {
+            texture.wrapS = THREE.RepeatWrapping;
+            texture.wrapT = THREE.RepeatWrapping;
+            texture.repeat.set(20, 20);
+          }
+        ),
+        side: THREE.BackSide,
+      }), //right side
+      new THREE.MeshBasicMaterial({
+        map: loader.load(
+          "https://files.catbox.moe/7i1g5u.png",
+          function (texture) {
+            texture.wrapS = THREE.RepeatWrapping;
+            texture.wrapT = THREE.RepeatWrapping;
+            texture.repeat.set(20, 20);
+          }
+        ),
+        side: THREE.BackSide,
+      }), //left side
+      new THREE.MeshBasicMaterial({
+        map: loader.load(
+          "https://files.catbox.moe/7i1g5u.png",
+          function (texture) {
+            texture.wrapS = THREE.RepeatWrapping;
+            texture.wrapT = THREE.RepeatWrapping;
+            texture.repeat.set(20, 20);
+          }
+        ),
+        side: THREE.BackSide,
+      }), //top side
+      new THREE.MeshBasicMaterial({
+        map: loader.load(
+          "https://files.catbox.moe/7i1g5u.png",
+          function (texture) {
+            texture.wrapS = THREE.RepeatWrapping;
+            texture.wrapT = THREE.RepeatWrapping;
+            texture.repeat.set(20, 20);
+          }
+        ),
+        side: THREE.BackSide,
+      }), //bottom side
+      new THREE.MeshBasicMaterial({
+        map: loader.load(
+          "https://files.catbox.moe/7i1g5u.png",
+          function (texture) {
+            texture.wrapS = THREE.RepeatWrapping;
+            texture.wrapT = THREE.RepeatWrapping;
+            texture.repeat.set(20, 20);
+          }
+        ),
+        side: THREE.BackSide,
+      }), //front side
+      new THREE.MeshBasicMaterial({
+        map: loader.load(
+          "https://files.catbox.moe/7i1g5u.png",
+          function (texture) {
+            texture.wrapS = THREE.RepeatWrapping;
+            texture.wrapT = THREE.RepeatWrapping;
+            texture.repeat.set(20, 20);
+          }
+        ),
+        side: THREE.BackSide,
+      }), //back side
+    ];
+    const wall = new THREE.Mesh(geometry, cubeMaterials);
+    wall.position.z = 10;
+    this.scene.add(wall);
 
     this.player.position.x = 0;
 
@@ -90,6 +211,7 @@ export default {
   sockets: {
     connect: function () {
       console.log("connected", this.$socket);
+      this.$socket.client.emit("gallery", this.$route.params.id);
     },
     disconnect: function () {
       console.log("disconnected", this.$socket);
@@ -97,12 +219,33 @@ export default {
     introduction: function (id, playerNum, ids) {
       ids.forEach((users) => {
         if (id !== users) {
+          const geometry = new THREE.BoxGeometry(1, 1, 1);
+          const loader = new THREE.TextureLoader();
+          const cubeMaterials = [
+            new THREE.MeshBasicMaterial({
+              map: loader.load("https://files.catbox.moe/7i1g5u.png"),
+            }), //right side
+            new THREE.MeshBasicMaterial({
+              map: loader.load("https://files.catbox.moe/7i1g5u.png"),
+            }), //left side
+            new THREE.MeshBasicMaterial({
+              map: loader.load("https://files.catbox.moe/7i1g5u.png"),
+            }), //top side
+            new THREE.MeshBasicMaterial({
+              map: loader.load("https://files.catbox.moe/7i1g5u.png"),
+            }), //bottom side
+            new THREE.MeshBasicMaterial({
+              map: loader.load("https://files.catbox.moe/7i1g5u.png"),
+            }), //front side
+            new THREE.MeshBasicMaterial({
+              map: loader.load("https://files.catbox.moe/ema8wo.png"),
+            }), //back side
+          ];
           this.clients[users] = {
-            mesh: new THREE.Mesh(
-              new THREE.BoxGeometry(),
-              new THREE.MeshBasicMaterial({ color: 0x00ff00 })
-            ),
+            mesh: new THREE.Mesh(geometry, cubeMaterials),
           };
+          this.clients[users].mesh.castShadow = true;
+          this.clients[users].mesh.receiveShadow = true;
           this.scene.add(this.clients[users].mesh);
         }
       });
@@ -119,11 +262,30 @@ export default {
       }
       if (_id != this.id && !alreadyHasUser) {
         console.log("A new user connected with the id: " + _id);
+        const geometry = new THREE.BoxGeometry(1, 1, 1);
+        const loader = new THREE.TextureLoader();
+        const cubeMaterials = [
+          new THREE.MeshBasicMaterial({
+            map: loader.load("https://files.catbox.moe/7i1g5u.png"),
+          }), //right side
+          new THREE.MeshBasicMaterial({
+            map: loader.load("https://files.catbox.moe/7i1g5u.png"),
+          }), //left side
+          new THREE.MeshBasicMaterial({
+            map: loader.load("https://files.catbox.moe/7i1g5u.png"),
+          }), //top side
+          new THREE.MeshBasicMaterial({
+            map: loader.load("https://files.catbox.moe/7i1g5u.png"),
+          }), //bottom side
+          new THREE.MeshBasicMaterial({
+            map: loader.load("https://files.catbox.moe/7i1g5u.png"),
+          }), //front side
+          new THREE.MeshBasicMaterial({
+            map: loader.load("https://files.catbox.moe/ema8wo.png"),
+          }), //back side
+        ];
         this.clients[_id] = {
-          mesh: new THREE.Mesh(
-            new THREE.BoxGeometry(),
-            new THREE.MeshBasicMaterial({ color: 0x00ff00 })
-          ),
+          mesh: new THREE.Mesh(geometry, cubeMaterials),
         };
 
         //Add initial users to the scene
