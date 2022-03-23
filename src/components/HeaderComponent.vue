@@ -22,7 +22,7 @@
                 data-wow-delay="0.5s"
               >WhatoEat ?</h2>
               <p
-                class="text-white text wow fadeInUp"
+                class="text-white text wow fadeInUp mb-3"
                 data-wow-duration="1.3s"
                 data-wow-delay="0.8s"
               >Find recipe, recommendation recipe based on weather, and you can plan your meal</p>

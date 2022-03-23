@@ -9,13 +9,17 @@ export default new Vuex.Store({
       username: "",
       password: "",
     },
-    isLogin: false
+    isLogin: false,
+    recipes: [],
   },
   getters: {},
   mutations: {
     FETCH_STATUS_LOGIN(state, payload) {
       state.isLogin = payload
     },
+    FETCH_RECIPES(state, payload) {
+      state.recipes = payload
+    }
   },
   actions: {
     async loginHandler(context, payload) {
@@ -24,6 +28,10 @@ export default new Vuex.Store({
         password: payload.password
       })
     },
+    async fetchRecipes(context) {
+      const response = await axios.get(`${baseUrl}/recipes/filter`)
+      context.commit("FETCH_RECIPES", response.data)
+    }
   },
   modules: {}
 })
