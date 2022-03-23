@@ -33,8 +33,8 @@ export default new Vuex.Store({
         setNovelToRead(state, novel) {
             state.novelToRead = novel;
         },
-        setBookmarked(state, novel) {
-            state.bookmarked = novel;
+        setBookmarked(state, novels) {
+            state.bookmarked = novels;
         },
     },
     actions: {
@@ -130,17 +130,20 @@ export default new Vuex.Store({
                 // swal('Error!', error.response, 'error');
             }
         },
+
         getBookmark: async ({ commit }) => {
             try {
-                console.log(`masuk ke get bookmark`);
                 const uid = localStorage.getItem('uid');
                 const res = await getDocs(
                     collection(db, 'bookmark'),
                     where('userId', '==', uid)
                 );
                 const bookmarkList = [];
-                res.docs.forEach((item) => {
-                    bookmarkList.push(item.data());
+                res.docs.forEach(async (item) => {
+                    const reses = await local.get(
+                        `/novel/title/${item.data().link.split('/')[4]}`
+                    );
+                    bookmarkList.push(reses.data);
                 });
                 commit('setBookmarked', bookmarkList);
             } catch (error) {

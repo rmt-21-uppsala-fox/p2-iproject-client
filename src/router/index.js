@@ -1,20 +1,19 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 import HomeView from '../views/HomeView.vue';
-import BookmarkView from '../views/BookmarkView.vue';
 
 Vue.use(VueRouter);
 
 const routes = [
     {
         path: '/',
-        name: 'home',
+        name: 'HomeView',
         component: HomeView,
     },
     {
-        path: '/bookmarks',
-        name: 'bookmark',
-        component: BookmarkView,
+        path: '/bookmark',
+        name: 'BookmarkView',
+        component: () => import('../views/BookmarkView.vue'),
     },
     {
         path: '/novel/:title',

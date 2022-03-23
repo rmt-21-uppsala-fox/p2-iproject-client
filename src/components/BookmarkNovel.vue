@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="grid" v-if="!bookmark">
+        <div class="grid">
             <div
                 class="max-w-sm bg-white rounded-lg border border-gray-200 shadow-md dark:bg-white-400"
             >
@@ -17,12 +17,12 @@
                             class="mb-2 text-xl font-bold tracking-tight text-gray-900"
                             style="
                                 display: -webkit-box;
-                                -webkit-line-clamp: 1;
+                                -webkit-line-clamp: 2;
                                 -webkit-box-orient: vertical;
                                 overflow: hidden;
                             "
                         >
-                            {{ novel.title }}
+                            {{ !novel ? bookmark.Rating : novel.title }}
                         </h5>
                     </a>
                     <div class="flex flex-wrap">
@@ -30,6 +30,7 @@
                             {{ novel.rating }}
                         </p>
                         <img
+                            v-if="!bookmark"
                             class="w-5 h-5 ml-2 mt-0.5"
                             src="https://www.freepnglogos.com/uploads/star-png/file-featured-article-star-svg-wikimedia-commons-8.png"
                             alt=""
@@ -65,7 +66,11 @@
                                 ></path>
                             </svg>
                         </a>
-                        <a href="#" @click.prevent="postBookmarks">
+                        <a
+                            v-if="!bookmark"
+                            href="#"
+                            @click.prevent="postBookmarks"
+                        >
                             <img
                                 class="w-6 hover:cursor-pointer"
                                 src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/8d/Linearicons_bookmark.svg/768px-Linearicons_bookmark.svg.png"
@@ -76,85 +81,5 @@
                 </div>
             </div>
         </div>
-        <div class="grid" v-else>
-            <div
-                class="w-full bg-red-50 rounded-lg border border-gray-200 shadow-md dark:bg-white-400"
-            >
-                <a href="#" @click.prevent="readNovel">
-                    <img
-                        class="h-60 mx-auto bg-cover object-cover"
-                        :src="novel.imgContent"
-                        alt=""
-                    />
-                </a>
-                <div class="p-4">
-                    <h2
-                        class="font-semibold mb-2 text-orange-500"
-                        style="
-                            display: -webkit-box;
-                            -webkit-line-clamp: 1;
-                            -webkit-box-orient: vertical;
-                            overflow: hidden;
-                        "
-                    >
-                        {{ bookmark.Rating.split('Average')[0] }}
-                    </h2>
-
-                    <div class="flex flex-wrap">
-                        <p
-                            class="font-normal"
-                            style="
-                                display: -webkit-box;
-                                -webkit-line-clamp: 1;
-                                -webkit-box-orient: vertical;
-                                overflow: hidden;
-                            "
-                        >
-                            Author : {{ bookmark['Author(s)'] }}
-                        </p>
-                        <p
-                            class="mb-3 font-normal"
-                            style="
-                                display: -webkit-box;
-                                -webkit-line-clamp: 1;
-                                -webkit-box-orient: vertical;
-                                overflow: hidden;
-                            "
-                        >
-                            Genre : {{ bookmark['Genre(s)'] }}
-                        </p>
-                        <p class="mb-3 font-normal text-gray-700">
-                            {{ bookmark.Rating.split('Average')[1] }}
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </div>
     </div>
 </template>
-
-<script>
-export default {
-    name: 'NovelComponent',
-    props: ['novel', 'bookmark'],
-    data() {
-        return {};
-    },
-    methods: {
-        readNovel() {
-            this.$store.dispatch('readNovel', { link: this.novel.link });
-            this.$router.push(
-                `/novel/${this.novel.title.split(' ').join('-')}`
-            );
-        },
-        postBookmarks() {
-            this.$store.dispatch('postBookmark', {
-                title: this.novel.title,
-                link: this.novel.link,
-            });
-        },
-    },
-};
-</script>
-
-<style></style>

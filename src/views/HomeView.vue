@@ -151,7 +151,9 @@
             <!-- product card -->
             <div class="flex w-4/6 mx-auto justify-between">
                 <all-novel :novels="novels"></all-novel>
-                asdf
+                <div>
+                    <!-- create flex image card  -->
+                </div>
             </div>
             <!-- pagination -->
 

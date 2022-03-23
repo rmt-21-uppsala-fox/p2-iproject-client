@@ -1,6 +1,11 @@
 <template>
     <div class="bookmark pt-20 h-screen">
-        <all-novel class="pt-20 pb-20 gap-5" :bookmarks="bookmarks"></all-novel>
+        <div class="mx-auto w-4/6">
+            <all-novel
+                class="pt-20 pb-20 gap-5"
+                :bookmarks="bookmarks"
+            ></all-novel>
+        </div>
         <footer-component></footer-component>
     </div>
 </template>
@@ -15,7 +20,14 @@ export default {
         AllNovel,
         FooterComponent,
     },
-    created() {
+    computed: {
+        bookmarks() {
+            return this.$store.state.bookmarked;
+        },
+    },
+    mounted() {
+        console.log(`masuk bookmark`);
         this.$store.dispatch('getBookmark');
     },
 };
+</script>
