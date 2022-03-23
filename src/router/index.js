@@ -15,6 +15,11 @@ const routes = [
         name: 'NovelChapterView',
         component: () => import('../views/NovelChapterView.vue'),
     },
+    {
+        path: '/register',
+        name: 'RegisterView',
+        component: () => import('../views/RegisterView.vue'),
+    },
 ];
 
 const router = new VueRouter({
