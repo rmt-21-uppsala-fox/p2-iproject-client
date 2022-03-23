@@ -158,12 +158,12 @@
                         class="grid gap-2 mb-2"
                     >
                         <div
-                            class="w-3/4 mx-auto rounded-lg border border-gray-200 shadow-md dark:bg-white-400"
+                            class="w-2/4 mx-auto rounded-lg border border-gray-200 shadow-md dark:bg-white-400"
                         >
                             <a href="#">
                                 <img
                                     class="h-60 mx-auto bg-cover object-cover"
-                                    src="https://api.lorem.space/image/book?w=150&h=0&hash=8B7BCDC2"
+                                    src="https://api.lorem.space/image/book?w=150&h=200&hash=8B7BCDC2"
                                     alt=""
                                 />
                             </a>
