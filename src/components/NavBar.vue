@@ -13,7 +13,7 @@
                 <router-link to="/login" class="nav-link ">LOGIN</router-link>
             </li>
             <li class="nav-item">
-                <router-link to="/packages" class="nav-link">PACKAGES</router-link>
+                <router-link to="/register" class="nav-link ">REGISTER</router-link>
             </li>
         </ul>
     </div>

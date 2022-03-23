@@ -4,13 +4,13 @@
         <CheckoutCard v-for="productPackage in cart" :key="productPackage.id" :productPackage=productPackage></CheckoutCard>
     </div>
     <div class="col-4 border border-secondary rounded grid w-25">
-        <h3>Checkout</h3>
+        <h3 class="mt-4">Checkout</h3>
         <br>
         <CheckoutItems v-for="productPackage in cart" :key="productPackage.id" :productPackage=productPackage></CheckoutItems>
 
         <div class="row">
             <div class="col-6 pe-5">
-                <p class="font-weight-bold text-nowrap">This Month's Total </p>
+                <p class="font-weight-bold text-nowrap">This Month's Total</p>
             </div>
             <div class="col-6 ps-5">
                 <p v-if="cartTotalAmount === 0">Rp. 0</p>
@@ -20,25 +20,24 @@
 
         <div class="row mb-3">
             <div class="col-6 text-nowrap">
-                <button v-b-modal.modal-2 type="button" @click="faceRecognition" class="btn btn-outline-success btn-sm"><i class="fa-solid fa-face-grin-beam fa-xl"></i> Face Payment</button>
+                <button v-if="$store.state.cart.length > 0" v-b-modal.modal-2 type="button" @click="faceRecognition" class="btn btn-outline-success btn-sm"><i class="fa-solid fa-face-grin-beam fa-xl"></i> Face Payment</button>
             </div>
             <div class="col-6">
-                <b-button v-b-modal.modal-1 type="button" @click="doXenditPay" class="btn btn-outline-primary btn-sm">Xendit Pay</b-button>
+                <button v-if="$store.state.ableToPay && $store.state.cart.length > 0" v-b-modal.modal-1 type="button" @click="doXenditPay" class="btn btn-primary btn-sm">Xendit Pay</button>
             </div>
         </div>
 
     </div>
     <div>
-        <div id="canvas"></div>
         <div>
 
             <b-modal id="modal-1" title="XenditPay" size="xl" hide-footer="true" hide-header="true">
                 <iframe :src="invoiceUrl" height="600" width="1100"></iframe>
             </b-modal>
 
-            <video id="videoInput" width="1100" height="600" muted controls></video>
-            <b-modal id="modal-2" title="FacePay" size="xl" hide-footer="true" hide-header="true">
-            </b-modal>
+            <span v-show="showFaceRecognition" id="canvas" style="position: absolute; z-index: 2; left: 37.5%; top: 20%"></span>
+            <video v-show="showFaceRecognition" id="videoInput" style="position: absolute; z-index: 1 ; left: 37.5%; top: 20%" width="450" height="400" muted controls autoplay></video>
+
         </div>
     </div>
 
@@ -58,19 +57,20 @@ export default {
     },
     data() {
         return {
-            invoiceUrl: ''
+            invoiceUrl: '',
+            showFaceRecognition: false,
         }
     },
     methods: {
         async doXenditPay() {
-            const invoiceUrl = await this.$store.dispatch('doXenditPay')
-            this.invoiceUrl = invoiceUrl
+            this.invoiceUrl = await this.$store.dispatch('doXenditPay')
         },
         async faceRecognition() {
             try {
+                this.showFaceRecognition = true
                 const video = this.$el.querySelector('video')
-
-                console.log(video);
+                const canvasElem = this.$el.querySelector('#canvas')
+                let detectedUserName = []
 
                 const options = {
                     video: true
@@ -78,19 +78,14 @@ export default {
 
                 const stream = await navigator.mediaDevices.getUserMedia(options)
                 video.srcObject = stream
-
-                console.log(stream);
-
-                console.log(this.$store.state.labeledDescriptors);
+                const tracks = stream.getTracks();
 
                 const faceMatcher = new faceapi.FaceMatcher(this.$store.state.labeledDescriptors, 0.6)
 
                 video.addEventListener('play', () => {
                     const canvas = faceapi.createCanvasFromMedia(video)
 
-                    // video.append(canvas)
-
-                    document.body.append(canvas)
+                    canvasElem.append(canvas)
 
                     const displaySize = {
                         width: video.width,
@@ -108,7 +103,7 @@ export default {
                         const results = resizedDetections.map((d) => {
                             return faceMatcher.findBestMatch(d.descriptor)
                         })
-                        console.log(results[0].label)
+                        detectedUserName.push(results[0].label)
                         results.forEach((result, i) => {
                             const box = resizedDetections[i].detection.box
                             const drawBox = new faceapi.draw.DrawBox(box, {
@@ -121,7 +116,15 @@ export default {
 
                     setTimeout(() => {
                         clearInterval(interval)
-                    }, 5000);
+                        this.showFaceRecognition = false
+
+                        tracks[0].stop;
+                        if (detectedUserName.includes(localStorage.currentUserName)) {
+                            this.$store.commit('setAbleToPay')
+                        } else {
+                            alert('Not Authorized')
+                        }
+                    }, 3000);
                 })
             } catch (error) {
                 console.log(error);
@@ -143,7 +146,3 @@ export default {
     }
 }
 </script>
-
-<style>
-
-</style>

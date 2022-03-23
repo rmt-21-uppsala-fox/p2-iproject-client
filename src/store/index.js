@@ -6,17 +6,26 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
+    currentUser: {},
+    currentUserImagesUrl: {},
     packages: [],
     cart: [],
     faceRecognitionLoaded: false,
     labeledDescriptors: [],
+    ableToPay: false,
   },
   getters: {
-    getCart(state){
+    getCart(state) {
       return state.cart
     }
   },
   mutations: {
+    setCurrentUser(state, payload) {
+      state.currentUser = payload
+    },
+    setCurrentUserImagesUrl(state, payload) {
+      state.currentUserImagesUrl = payload
+    },
     setPackages(state, payload) {
       state.packages = payload
     },
@@ -28,7 +37,10 @@ export default new Vuex.Store({
     },
     setLabeledDescriptors(state, payload) {
       state.labeledDescriptors = payload
-    }
+    },
+    setAbleToPay(state) {
+      state.ableToPay = true
+    },
   },
   actions: {
     async doLogin(context, loginData) {
@@ -36,12 +48,18 @@ export default new Vuex.Store({
         const response = await axios.post('http://localhost:3000/login', loginData)
 
         const {
-          access_token, name
+          access_token,
+          name,
+          id,
+          email
         } = response.data
 
         localStorage.setItem('access_token', access_token)
         localStorage.setItem('currentUserName', name)
-
+        localStorage.setItem('currentUserId', id)
+        localStorage.setItem('currentUserEmail', email)
+        
+        context.commit('setCurrentUser', {id, name, email})
       } catch (error) {
         console.log(error);
       }
@@ -60,22 +78,30 @@ export default new Vuex.Store({
         console.log(error)
       }
     },
+    async fetchImages(context) {
+      try {
+        const response = await axios.get('http://localhost:3000/currentUserImagesUrl', {
+          headers: {
+            'access_token': localStorage.access_token
+          }
+        })
+
+          context.commit('setCurrentUserImagesUrl', response.data)
+      } catch (error) {
+        console.log(error)
+      }
+    },
     async doXenditPay({getters}) {
       try {
         let data = {
-          "external_id": "invoice-1",
+          "external_id": `invoice-${new Date().getTime()}`,
           "amount": 0,
           "customer": {
-            "given_names": "Tommy",
-            "email": "tomthedeveloper11@gmail.com",
-            "mobile_number": "08123234586",
-            "address": {
-              "city": "Medan",
-              "country": "Indonesia"
-            }
+            "given_names": localStorage.currentUserName,
+            "email": localStorage.currentUserEmail,
           },
           "items": [],
-          "description": "Invoice Demo #123",
+          "description": `Invoice Demo #${new Date().getTime()}`,
         }
         const cartItems = getters.getCart
 
@@ -88,7 +114,7 @@ export default new Vuex.Store({
             "description": item.description
           })
         });
-       
+
         const response = await axios.post('http://localhost:3000/xenditPay', data, {
           headers: {
             'access_token': localStorage.access_token
@@ -98,6 +124,20 @@ export default new Vuex.Store({
         return response.data
       } catch (error) {
         console.log(error)
+      }
+    },
+    async uploadToImgBB(context, base64) {
+      try {
+        const response = await axios.post('http://localhost:3000/uploadToImgBB', {img: base64},{
+          headers: {
+            'access_token': localStorage.access_token
+          }
+        })
+
+        console.log(response.data);
+
+      } catch (error) {
+        console.log(error);
       }
     },
   },

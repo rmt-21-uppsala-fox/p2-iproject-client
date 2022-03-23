@@ -6,23 +6,23 @@
                 <div class="row no-gutters align-items-center">
                     <div class="col-md-6">
                         <div class="form-wrap bg-white">
-                            <h1 class="index-title text-center mb-4">Log in</h1>
-                            <form class="form" v-on:submit.prevent="doLogin">
+                            <h1 class="index-title text-center mb-4">Register</h1>
+                            <form class="form" v-on:submit.prevent="doRegister">
                                 <div class="row">
                                     <div class="col-12">
                                         <div class="form-group position-relative">
                                             <span class="zmdi zmdi-email"></span>
-                                            <input v-model="loginData.email" type="email" class="email form-control" placeholder="Email Address">
+                                            <input v-model="registerData.email" type="email" class="email form-control" placeholder="Email Address">
                                         </div>
                                     </div>
                                     <div class="col-12">
                                         <div class="form-group position-relative">
                                             <span class="zmdi zmdi-key"></span>
-                                            <input v-model="loginData.password" type="password" class="password form-control" placeholder="Password">
+                                            <input v-model="registerData.password" type="password" class="password form-control" placeholder="Password">
                                         </div>
                                     </div>
                                     <div class="col-12">
-                                        <button type="submit" class="btn btn-lg btn-dark col-12 submit">Log in
+                                        <button type="submit" class="btn btn-lg btn-dark col-12 submit">Sign up
                                         </button>
                                     </div>
                                 </div>
@@ -32,8 +32,8 @@
                     <div class="col-md-6">
                         <div class="content text-center">
                             <div class="border-bottom pb-4 mb-5">
-                                <h3>Don't have an account?</h3>
-                                <router-link to="/register" class="btn btn-outline-dark">Sign up</router-link>
+                                <h3>Already have an account?</h3>
+                                <router-link to="/login" class="btn btn-outline-dark">Log in</router-link>
                             </div>
                             <h5 class="mb-4 mt-n1">"Welcome to my humble abode!"</h5>
                         </div>
@@ -50,24 +50,23 @@
 
 <script>
 export default {
-    name: 'LoginView',
+    name: 'RegisterView',
     components: {},
     data() {
         return {
-            loginData: {
+            registerData: {
                 email: '',
                 password: ''
             }
         }
     },
     methods: {
-        async doLogin() {
+        async doRegister() {
             await this.$store.dispatch('doLogin', {
-                email: this.loginData.email,
-                password: this.loginData.password
+                email: this.registerData.email,
+                password: this.registerData.password
             })
-            await this.$store.dispatch('fetchPackages')
-            await this.$router.push('/')
+            await this.$router.push('/login')
         }
     }
 }

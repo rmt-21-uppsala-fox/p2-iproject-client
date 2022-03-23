@@ -1,14 +1,6 @@
 <template>
 <div class="home">
-    <form>
-        <div class="input-group my-5 w-50 mx-auto">
-            <input type="text" class="form-control" placeholder="Search Products">
-            <div class="input-group-append">
-                <button class="btn btn-outline-secondary" type="button">Search</button>
-            </div>
-        </div>
-    </form>
-    <div class="justify-content-center">
+    <div class="justify-content-center mt-5 pt-2">
         <span class="pre-title">BEST-SELLING HOUSEHOLD ESSENTIAL</span>
         <br>
         <span class="main-title">Featured Products</span>
@@ -38,13 +30,19 @@ export default {
             await faceapi.nets.faceRecognitionNet.loadFromUri('/assets/models')
             await faceapi.nets.faceLandmark68Net.loadFromUri('/assets/models')
             await faceapi.nets.ssdMobilenetv1.loadFromUri('/assets/models')
-            this.$store.commit('setFaceApiLoaded')
+        
+            await this.$store.dispatch('fetchImages')
 
-            const labels = ['Captain America', 'Tony Stark', 'Thor', 'Tommy']
+            const images = this.$store.state.currentUserImagesUrl
+            
+           
+
+            const labels = ['Tony Stark', localStorage.currentUserName]
             Promise.all(labels.map(async (label) => {
                 const descriptions = []
-                for (let i = 1; i <= 2; i++) {
-                    const img = await faceapi.fetchImage(`/assets/labeled_images/${label}/${i}.jpg`)
+                for (let i = 0; i <= 1; i++) {
+                    
+                    const img = await faceapi.fetchImage(images[label][i]);
 
                     const detections = await faceapi.detectSingleFace(img).withFaceLandmarks().withFaceDescriptor()
                     descriptions.push(detections.descriptor)
