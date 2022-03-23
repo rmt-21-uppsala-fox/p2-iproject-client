@@ -14,8 +14,9 @@
               <h6 class="mb-0">Hello</h6>
               <p class="mb-0 text-sm">Jack</p>
             </div>
-            <button class="btn btn-dark" @click="doLogout">Logout</button>
-            <button class="btn btn-dark" @click="doLogout">Login</button>
+            <button class="btn btn-dark">Logout</button>
+            <button class="btn btn-dark">Login</button>
+            <button class="btn btn-dark">Register</button>
           </div>
         </div>
       </nav>
