@@ -211,16 +211,21 @@
         @click="center = gmp"
       ></gmap-marker>
     </gmap-map>
+    <HFooter></HFooter>
   </div>
 </template>
 
 <script>
 // import DatePicker from "v-calendar/lib/components/date-picker.umd";
+import HFooter from "vue-hacktiv8-footer";
 export default {
   name: "SingleMarkerGoogleMaps",
   // components: {
   // DatePicker,
   // },
+  components: {
+    HFooter,
+  },
   data() {
     return {
       center: {

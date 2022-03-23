@@ -126,15 +126,18 @@
         </ul>
       </div>
     </div>
+    <HFooter></HFooter>
   </div>
 </template>
 
 <script>
 import BookingList from "../components/BookingList.vue";
+import HFooter from "vue-hacktiv8-footer";
 export default {
   name: "PaymentPage",
   components: {
     BookingList,
+    HFooter,
   },
   async created() {
     await this.$store.dispatch("getBookedBallroom");

@@ -10,12 +10,17 @@
         @click="center = gmp"
       ></gmap-marker>
     </gmap-map>
+    <HFooter></HFooter>
   </div>
 </template>
 
 <script>
+import HFooter from "vue-hacktiv8-footer";
 export default {
   name: "MarkerGoogleMapsPage",
+  components: {
+    HFooter,
+  },
   data() {
     return {
       center: {
