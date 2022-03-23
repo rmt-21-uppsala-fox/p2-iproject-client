@@ -8,7 +8,7 @@
         <novel-component
             v-for="bookmark in bookmarks"
             :key="bookmark.id"
-            :novel="bookmark.Novel"
+            :novel="bookmark"
             :bookmark="bookmark"
         ></novel-component>
     </div>
@@ -34,7 +34,7 @@ export default {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     grid-template-rows: repeat(3, 1fr);
-    /* justify-items: center; */
+    justify-items: center;
     grid-gap: 2rem;
 }
 </style>

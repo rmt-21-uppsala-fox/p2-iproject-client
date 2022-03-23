@@ -15,7 +15,7 @@
 
                             <router-link
                                 class="block mt-4 lg:inline-block lg:mt-0 text-blue-200 hover:text-blue-300 mr-4"
-                                to="/bookmarks"
+                                to="/bookmark"
                                 >Bookmark</router-link
                             >
                             <router-link
