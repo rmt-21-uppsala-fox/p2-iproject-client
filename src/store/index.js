@@ -110,6 +110,26 @@ export default new Vuex.Store({
                 swal('Error!', error.response.data.msg, 'error');
             }
         },
+
+        postBookmark: async (context, { link, title }) => {
+            try {
+                console.log(`masuk ke home`, link, title);
+                const uid = localStorage.getItem('uid');
+                console.log(uid);
+                const ids = uid + '-' + title;
+                await setDoc(doc(db, 'bookmark', ids), {
+                    userId: uid,
+                    link,
+                    title,
+                    createdAt: Timestamp.fromDate(new Date()),
+                });
+                console.log(`tembusan`, link, title);
+                swal('Success', 'Bookmark Success', 'success');
+            } catch (error) {
+                console.log(error);
+                // swal('Error!', error.response, 'error');
+            }
+        },
     },
 
     modules: {},
