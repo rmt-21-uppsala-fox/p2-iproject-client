@@ -10,12 +10,16 @@ export default new Vuex.Store({
     ninjas_api: "ULAeUu+S9XYvgHPEGWOg2Q==pKmdRYNeGdbvjyFf",
     baseUrl: "http://localhost:3000",
     distance: 0,
+    display: "estimatePage"
   },
   getters: {
   },
   mutations: {
     SET_DISTANCE: function (state, distance) {
       state.distance = 0.001 * distance.value;
+    },
+    SET_DISPLAY: function (state, display) {
+      state.display = display;
     }
   },
   actions: {

@@ -8,6 +8,8 @@
 import mapboxgl from "mapbox-gl";
 import MapboxDraw from "@mapbox/mapbox-gl-draw";
 import "@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw.css";
+import MapboxDirections from "@mapbox/mapbox-gl-directions/dist/mapbox-gl-directions";
+import "@mapbox/mapbox-gl-directions/dist/mapbox-gl-directions.css";
 import Swal from "sweetalert2";
 
 export default {
@@ -22,6 +24,11 @@ export default {
       direction: {},
       draw: {},
     };
+  },
+  computed: {
+    display() {
+      return this.$store.state.display;
+    },
   },
   methods: {
     showUserLocation() {
@@ -72,12 +79,10 @@ export default {
       }
     },
     async drawRoute(coords) {
-      // If a route is already loaded, remove it
       if (this.map.getSource("route")) {
         this.map.removeLayer("route");
         this.map.removeSource("route");
       } else {
-        // Add a new layer to the map
         this.map.addLayer({
           id: "route",
           type: "line",
@@ -103,16 +108,13 @@ export default {
     },
     async createDrawMap() {
       this.draw = new MapboxDraw({
-        // Instead of showing all the draw tools, show only the line string and delete tools.
         displayControlsDefault: false,
         controls: {
           line_string: true,
           trash: true,
         },
-        // Set the draw mode to draw LineStrings by default.
         defaultMode: "draw_line_string",
         styles: [
-          // Set the line style for the user-input coordinates.
           {
             id: "gl-draw-line",
             type: "line",
@@ -132,7 +134,6 @@ export default {
               "line-opacity": 0.7,
             },
           },
-          // Style the vertex point halos.
           {
             id: "gl-draw-polygon-and-line-vertex-halo-active",
             type: "circle",
@@ -147,7 +148,6 @@ export default {
               "circle-color": "#FFF",
             },
           },
-          // Style the vertex points.
           {
             id: "gl-draw-polygon-and-line-vertex-active",
             type: "circle",
@@ -171,7 +171,6 @@ export default {
     async createMap(center) {
       try {
         mapboxgl.accessToken = this.access_token;
-
         this.map = new mapboxgl.Map({
           container: "map", // container ID
           style: "mapbox://styles/mapbox/streets-v11", // style URL
@@ -182,8 +181,24 @@ export default {
         const nav = new mapboxgl.NavigationControl();
         this.map.addControl(nav, "top-right");
 
-        this.createDrawMap();
-        this.map.on("draw.delete", this.removeRoute);
+        if (this.display == "travelPage") {
+          this.map = new mapboxgl.Map({
+            container: "map",
+            style: "mapbox://styles/mapbox/streets-v11",
+            center,
+            zoom: 13,
+          });
+
+          this.map.addControl(
+            new MapboxDirections({
+              accessToken: mapboxgl.accessToken,
+            }),
+            "top-left"
+          );
+        } else {
+          this.createDrawMap();
+          this.map.on("draw.delete", this.removeRoute);
+        }
       } catch (error) {
         if (error.response) {
           Swal.fire({

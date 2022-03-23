@@ -3,7 +3,7 @@
     <CustomNavbar></CustomNavbar>
     <MapDisplay class="w-[100%] h-[55em]"></MapDisplay>
     <DraggableDiv
-      class="artboard artboard-horizontal phone-1 col-11 bg-[#FAF7F5] shadow-2xl rounded-2xl border-8 border-primary absolute top-20 left-10"
+      class="artboard artboard-horizontal phone-1 col-11 bg-[#FAF7F5] shadow-2xl rounded-2xl border-8 border-primary absolute bottom-28 right-10"
     >
       <template slot="header">
         <h1 class="font-bold text-4xl text-[#003A3D] mt-2">
@@ -129,6 +129,7 @@ export default {
   },
   created() {
     this.getCarModel();
+    this.$store.commit("SET_DISPLAY", "estimatePage");
   },
 };
 </script>
