@@ -24,6 +24,7 @@ export default new Vuex.Store({
         allNovel: [],
         novelToRead: [],
         bookmarked: [],
+        apiNovels: [],
     },
     getters: {},
     mutations: {
@@ -35,6 +36,9 @@ export default new Vuex.Store({
         },
         setBookmarked(state, novels) {
             state.bookmarked = novels;
+        },
+        setApiNovel(state, novels) {
+            state.apiNovels = novels.slice(0, 6);
         },
     },
     actions: {
@@ -86,7 +90,13 @@ export default new Vuex.Store({
                 let query = `/novel`;
                 if (params?.genre) query += `/${params.genre}`;
                 if (params?.order) query += `?order=${params.order}`;
-                const { data } = await local.get(query);
+                const { data } = await local.get(query, {
+                    headers: {
+                        Authorization: `Bearer ${localStorage.getItem(
+                            'access_token'
+                        )}`,
+                    },
+                });
                 commit('setAllNovels', data);
             } catch (error) {
                 swal('Error!', error.response.data.msg, 'error');
@@ -113,17 +123,22 @@ export default new Vuex.Store({
 
         postBookmark: async (context, { link, title }) => {
             try {
-                console.log(`masuk ke home`, link, title);
                 const uid = localStorage.getItem('uid');
-                console.log(uid);
                 const ids = uid + '-' + title;
+                await local.get('/auth', {
+                    headers: {
+                        Authorization: `Bearer ${localStorage.getItem(
+                            'access_token'
+                        )}`,
+                    },
+                });
+
                 await setDoc(doc(db, 'bookmark', ids), {
                     userId: uid,
                     link,
                     title,
                     createdAt: Timestamp.fromDate(new Date()),
                 });
-                console.log(`tembusan`, link, title);
                 swal('Success', 'Bookmark Success', 'success');
             } catch (error) {
                 console.log(error);
@@ -134,6 +149,13 @@ export default new Vuex.Store({
         getBookmark: async ({ commit }) => {
             try {
                 const uid = localStorage.getItem('uid');
+                await local.get('/auth', {
+                    headers: {
+                        Authorization: `Bearer ${localStorage.getItem(
+                            'access_token'
+                        )}`,
+                    },
+                });
                 const res = await getDocs(
                     collection(db, 'bookmark'),
                     where('userId', '==', uid)
@@ -147,6 +169,18 @@ export default new Vuex.Store({
                 });
                 commit('setBookmarked', bookmarkList);
             } catch (error) {
+                swal('Error!', error.response.data.msg, 'error');
+            }
+        },
+
+        getApiNovel: async ({ commit }) => {
+            try {
+                console.log(`masuk ke api novel`);
+                const res = await local.post(`/novel/api`);
+                console.log(res.data);
+                commit('setApiNovel', res.data.data);
+            } catch (error) {
+                console.log(error);
                 swal('Error!', error.response.data.msg, 'error');
             }
         },

@@ -151,11 +151,50 @@
             <!-- product card -->
             <div class="flex w-4/6 mx-auto justify-between">
                 <all-novel :novels="novels"></all-novel>
-                <div>
-                    <!-- create flex image card  -->
+                <div class="flex flex-col ml-10 w-1/3 gap-2">
+                    <div
+                        v-for="apiNovel in apiNovels"
+                        :key="apiNovel"
+                        class="grid gap-2 mb-2"
+                    >
+                        <div
+                            class="w-3/4 mx-auto rounded-lg border border-gray-200 shadow-md dark:bg-white-400"
+                        >
+                            <a href="#">
+                                <img
+                                    class="h-60 mx-auto bg-cover object-cover"
+                                    src="https://api.lorem.space/image/book?w=150&h=0&hash=8B7BCDC2"
+                                    alt=""
+                                />
+                            </a>
+                            <div class="p-4">
+                                <h2 class="font-semibold mb-2 text-orange-500">
+                                    Title: {{ apiNovel.title }}
+                                </h2>
+                                <div class="flex flex-wrap">
+                                    <p class="font-normal">
+                                        release : {{ apiNovel.release_count }}
+                                    </p>
+                                </div>
+                                <div class="flex flex-wrap">
+                                    <p class="mb-3 font-normal">
+                                        rating : {{ apiNovel.rating }}
+                                    </p>
+                                </div>
+                                <div
+                                    class="flex flex-wrap"
+                                    v-html="
+                                        apiNovel.description
+                                            .split(' ')
+                                            .slice(0, 20)
+                                            .join(' ') + '...'
+                                    "
+                                ></div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <!-- pagination -->
 
             <footer-component class="mt-20"></footer-component>
         </div>
@@ -166,6 +205,8 @@
 // @ is an alias to /src
 import AllNovel from '@/components/AllNovel.vue';
 import FooterComponent from '@/components/Footer.vue';
+
+// import ApiNovel from '@/components/ApiNovel.vue';
 
 export default {
     name: 'HomeView',
@@ -214,9 +255,13 @@ export default {
         activePage() {
             return `border-b-2 border-blue-600`;
         },
+        apiNovels() {
+            return this.$store.state.apiNovels;
+        },
     },
     created() {
         this.$store.dispatch('getAllNovels');
+        this.$store.dispatch('getApiNovel');
     },
 };
 </script>
