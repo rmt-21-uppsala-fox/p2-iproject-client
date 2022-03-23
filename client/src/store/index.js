@@ -6,7 +6,8 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    photos:[]
+    photos:[],
+
   },
   mutations: {
     FETCH_PPHOTOS(state,payload) {
@@ -21,7 +22,9 @@ export default new Vuex.Store({
       } catch (err) {
         console.log(err);
       }
-    }
+    },
+
+    
   },
   getters: {
   },
