@@ -1,4 +1,5 @@
 // import firebase
+import {} from 'dotenv/config';
 import { initializeApp } from 'firebase/app';
 import {
     getAuth,
