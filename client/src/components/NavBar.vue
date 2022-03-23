@@ -25,8 +25,34 @@
         />
       </svg>
     </div>
-    <div class="flex items-center space-x-4 w-1/12">
-      <p class="relative m-auto">Elon Musk</p>
+    <div class="flex items-center space-x-4 w-[15.5%]">
+      <a
+        class="link link-hover text-white pl-10"
+        v-if="!isLogin"
+        @click="goToLogin"
+        >Sign In</a
+      >
+      <a class="link link-hover text-white px-5" v-if="!isLogin">Sign Up</a>
+      <a class="link link-hover text-white pl-28" v-if="isLogin">Logout</a>
     </div>
   </nav>
 </template>
+
+<script>
+export default {
+  methods: {
+    async goToLogin() {
+      try {
+        this.$router.push(`/login`);
+      } catch (err) {
+        console.log(err);
+      }
+    },
+  },
+  computed: {
+    isLogin() {
+      return this.$store.state.isLogin;
+    },
+  },
+};
+</script>
