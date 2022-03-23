@@ -10,7 +10,7 @@
     <div class="col-8">
         <ul class="navbar-nav me-auto mb-2 mb-md-0">
             <li class="nav-item">
-                <router-link to="/categories" class="nav-link ">CATEGORIES</router-link>
+                <router-link to="/login" class="nav-link ">LOGIN</router-link>
             </li>
             <li class="nav-item">
                 <router-link to="/packages" class="nav-link">PACKAGES</router-link>

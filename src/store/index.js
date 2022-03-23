@@ -7,7 +7,9 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     packages: [],
-    cart: []
+    cart: [],
+    faceRecognitionLoaded: false,
+    labeledDescriptors: [],
   },
   getters: {
     getCart(state){
@@ -21,6 +23,12 @@ export default new Vuex.Store({
     addToCart(state, payload) {
       state.cart.push(payload)
     },
+    setFaceRecognitionLoaded(state) {
+      state.faceRecognitionLoaded = true
+    },
+    setLabeledDescriptors(state, payload) {
+      state.labeledDescriptors = payload
+    }
   },
   actions: {
     async doLogin(context, loginData) {
@@ -28,16 +36,19 @@ export default new Vuex.Store({
         const response = await axios.post('http://localhost:3000/login', loginData)
 
         const {
-          access_token
+          access_token, name
         } = response.data
 
         localStorage.setItem('access_token', access_token)
+        localStorage.setItem('currentUserName', name)
+
       } catch (error) {
         console.log(error);
       }
     },
     async fetchPackages(context) {
       try {
+
         const response = await axios.get('http://localhost:3000/packages', {
           headers: {
             'access_token': localStorage.access_token
