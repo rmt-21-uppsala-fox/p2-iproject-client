@@ -20,9 +20,13 @@ export default new Vuex.Store({
     price: {},
     paymentToken: '',
     purchaseSuccess: false,
-    errorMsg: ''
+    errorMsg: '',
+    chatMessages: []
   },
   mutations: {
+    SUCKET_MESSAGESFROMSERVER(state, messages) {
+      state.chatMessages = messages
+    },
     SET_MOVIES(state, movies) {
       state.movies = movies
     },
@@ -267,6 +271,34 @@ export default new Vuex.Store({
         console.log(error.response.data.message)
       }
     },
+    socket_connect() {
+      console.log("socket connected", this._vm.$socket)
+    },
+    socket_disconnect() {
+      console.log("socket disconnected", this._vm.$socket)
+    },
+
+    socket_customEventFromServer(_, payload) {
+      console.log("customEventFromServer", payload)
+    },
+
+    sendCustomEvenetToServer(_, payload) {
+      this._vm.$socket.client.emit("customEventFromClient", payload)
+    },
+    setChatUser(_, payload) {
+      this._vm.$socket.client.emit("setUsername", payload)
+    },
+    sendMessage(_, payload) {
+      this._vm.$socket.client.emit("sendMessageToServer", {
+        user: localStorage.username,
+        message: payload.trim()
+
+      })
+    },
+    socket_messagesFromServer(context, payload) {
+      context.commit("SUCKET_MESSAGESFROMSERVER", payload)
+    }
+
     
   },
   modules: {},

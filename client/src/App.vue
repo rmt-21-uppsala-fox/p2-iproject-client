@@ -20,7 +20,13 @@ export default {
       pageName() {
         return this.$route.name
       }
-  }
+  },
+  
+  created() {
+    this.$store.dispatch("sendCustomEvenetToServer", {
+      message: "Hello from client"
+    })
+ }
 };
 </script>
 

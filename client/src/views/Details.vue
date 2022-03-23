@@ -115,7 +115,33 @@
                   </p>
                 </div>
                 <div class="bg-gray-300 mx-5 my-2 py-2 px-2">
-                  <div class="bg-gray-200 bg-opacity-50 px-3 py-3 h-96"></div>
+                  <div class="flex flex-col items-end bg-gray-200 bg-opacity-50 px-3 py-3 h-96   overflow-y-scroll">
+                    <div class="">
+                      <div class="float-left  p-4 min-w-full " v-for="(message, index) in chatMessages" v-bind:key="message.user + index">
+                      <div class="font-bold">{{message.user}}</div>
+                      <div >{{message.message}}</div> 
+                    </div>
+                      
+                      <!-- <ul id="chatBox">
+                      <li >{{message.user}}: {{message.message}}</li>
+                    </ul> -->
+                    </div>
+
+                    
+                   
+                  </div>
+                   <div class="w-full px-2 py-2 my-1">
+                      <form @submit.prevent="sendMessage">
+                        <input
+                        
+                        class="w-4/6 px-1 py-1 mx-1"
+                          type="text"
+                          v-model="message"
+                          placeholder="Message"
+                        />
+                        <input  class="px-1 py-1 mx-1 w-1/6 bg-blue-700 text-white font-bold"  type="submit" value="Send" />
+                      </form>
+                    </div>
                 </div>
               </div>
             </div>
@@ -131,11 +157,28 @@ import Swal from "sweetalert2";
 export default {
   name: "Details",
   created() {
-    // this.getMovie();
-    // this.getMoviePrice();
+    this.getMovie();
+    this.getMoviePrice();
     // this.isPurchased();
+    this.setChatUser()
+  },
+  data() {
+    return {
+      message: "",
+      messages: [],
+    };
   },
   methods: {
+    setChatUser() {
+      const payload =  localStorage.username
+      this.$store.dispatch("setChatUser", payload);
+    },
+    sendMessage() {
+      const payload =  this.message
+      console.log(payload, "INI MESSAGE")
+      this.$store.dispatch("sendMessage", payload);
+      this.message = ''
+    },
     // async isPurchased() {
     //   const imdbId = this.$route.params.imdbId;
     //   this.$store.dispatch("isPurchased", imdbId);
@@ -227,6 +270,9 @@ export default {
     purchaseSuccess() {
       return this.$store.state.purchaseSuccess;
     },
+    chatMessages(){
+      return this.$store.state.chatMessages
+    }
   },
 };
 </script>

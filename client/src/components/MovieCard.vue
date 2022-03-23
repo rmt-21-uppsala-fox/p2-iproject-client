@@ -82,7 +82,7 @@ export default {
             console.log(imdbId)
             this.$router.push({
         //kirim untuk merender komponen DetailPage
-        name: "Watch",
+        name: "Details",
         params: {
           imdbId: imdbId,
         },

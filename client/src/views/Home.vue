@@ -30,7 +30,7 @@ export default {
   components: { MovieCard },
   name: "Home",
   created() {
-   // this.getTop5Movies()
+    this.getTop5Movies()
   },
   methods: {
     async getTop5Movies() {
