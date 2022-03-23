@@ -20,7 +20,6 @@ export default {
       map: {},
       direction: {},
       draw: {},
-      ditance: {},
     };
   },
   methods: {
@@ -56,7 +55,7 @@ export default {
           radius,
         });
         const routeCoords = response.data.coords;
-        this.distance = response.data.distance;
+        this.$store.commit("SET_DISTANCE", response.data.distance);
         this.drawRoute(routeCoords);
       } catch (error) {
         console.error(error);
@@ -155,7 +154,7 @@ export default {
           },
         ],
       });
-      this.map.addControl(this.draw, "top-left");
+      this.map.addControl(this.draw, "top-right");
       this.map.on("draw.create", this.updateRoute);
       this.map.on("draw.update", this.updateRoute);
     },

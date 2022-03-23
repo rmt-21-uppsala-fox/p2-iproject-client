@@ -2,7 +2,7 @@
   <div class="navbar bg-base-100">
     <div class="navbar-start">
       <div class="dropdown">
-        <label tabindex="0" class="btn btn-ghost btn-circle">
+        <label tabindex="0" class="btn btn-primary btn-square rounded-2xl">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             class="h-5 w-5"
@@ -22,14 +22,14 @@
           tabindex="0"
           class="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52"
         >
-          <li><a>Homepage</a></li>
-          <li><a>Portfolio</a></li>
-          <li><a>About</a></li>
+          <li><a>Single Destination</a></li>
+          <li><a>Multiple Destination</a></li>
+          <li><a>Add Car</a></li>
         </ul>
       </div>
     </div>
     <div class="navbar-center">
-      <a class="btn btn-ghost normal-case text-xl">daisyUI</a>
+      <a class="btn btn-ghost normal-case text-xl">CARBON </a>
     </div>
     <div class="navbar-end">
       <button class="btn btn-ghost btn-circle">
