@@ -7,27 +7,121 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
+    leagues: [
+      {
+        id: 1,
+        name: "Premier League",
+        description:
+          "The Premier League, also known exonymously as the English Premier League or the EPL (legal name: The Football Association Premier League Limited), is the top level of the English football league system. Contested by 20 clubs, it operates on a system of promotion and relegation with the English Football League (EFL).",
+        image:
+          "https://banner2.cleanpng.com/20180601/plw/kisspng-premier-league-england-national-football-team-live-5b10ebe5a94620.9186064015278356216934.jpg",
+      },
+      {
+        id: 2,
+        name: "Serie A",
+        description:
+          "The Serie A , also called Serie A TIM for sponsorship reasons, is a professional league competition for football clubs located at the top of the Italian football league system and the winner is awarded the Scudetto and the Coppa Campioni d'Italia.",
+        image:
+          "https://logosvector.net/wp-content/uploads/2012/12/serie-a-vector-logo.png",
+      },
+      {
+        id: 3,
+        name: "La Liga",
+        description:
+          "The Campeonato Nacional de Liga de Primera División, commonly known simply as Primera División in Spain, and as La Liga in English-speaking countries and officially as LaLiga Santander for sponsorship reasons, stylized as LaLiga, is the men's top professional football division of the Spanish football league system.",
+        image:
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bb/LaLiga_Santander_logo_%28stacked%29.svg/1200px-LaLiga_Santander_logo_%28stacked%29.svg.png",
+      },
+    ],
     eplClubs: [],
+    spaClubs: [],
+    itaClubs: [],
     chats: [],
+    header: "",
+    currentuser: "",
+    vids: [],
+    favLeague: "",
   },
   getters: {},
   mutations: {
+    SET_HEADER(state, payload) {
+      state.header = payload;
+    },
     SET_EPL(state, payload) {
       state.eplClubs = payload;
     },
+    SET_SPA(state, payload) {
+      state.spaClubs = payload;
+    },
+    SET_ITA(state, payload) {
+      state.itaClubs = payload;
+    },
+    SET_CURRENTUSER(state, payload) {
+      console.log(payload, "<<< ini di set");
+      state.currentuser = payload;
+    },
+    SET_CHAT(state, payload) {
+      state.chats = payload;
+    },
+    SET_VID(state, payload) {
+      state.vids = payload;
+    },
+    SET_FAV(state, payload) {
+      state.favLeague = payload;
+    },
   },
   actions: {
-    socket_connect() {
+    socket_connect(context) {
+      context.commit("SET_CHAT", []);
       console.log("connected", this._vm.$socket);
     },
-    socket_disconnect() {
+    socket_disconnect(context) {
+      context.commit("SET_CHAT", []);
       console.log("disconnected", this._vm.$socket);
     },
-    socket_customEventFromServer(_, payload) {
+    socket_messageFromServer(context, payload) {
+      context.commit("SET_CHAT", payload);
       console.log("customEventFromServer", payload);
     },
     sendChatToServer(_, payload) {
-      this._vm.$socket.client.emit("chatFromClient", payload);
+      console.log(payload);
+      this._vm.$socket.client.emit("chatFromClient", {
+        user: localStorage.getItem("name"),
+        message: payload,
+      });
+    },
+    async claimFav(context, payload) {
+      try {
+        const access_token = localStorage.getItem("access_token");
+        const response = await axios({
+          method: "POST",
+          url: "http://localhost:3000/myfav",
+          headers: { access_token },
+          data: payload,
+        });
+        console.log(response.data);
+        router.push("/landing");
+      } catch (err) {
+        console.log(err);
+      }
+    },
+    async findFav(context) {
+      try {
+        const access_token = localStorage.getItem("access_token");
+        const response = await axios({
+          method: "GET",
+          url: "http://localhost:3000/myfav",
+          headers: { access_token },
+        });
+        console.log(response.data);
+        if (!response.data) {
+          router.push("/");
+        } else {
+          context.commit("SET_FAV", response.data);
+        }
+      } catch (err) {
+        console.log(err);
+      }
     },
     async getEplTable(context) {
       try {
@@ -39,6 +133,37 @@ export default new Vuex.Store({
         });
         console.log(response.data);
         context.commit("SET_EPL", response.data.teams);
+        context.commit("SET_HEADER", response.data.competition.name);
+      } catch (err) {
+        console.log(err);
+      }
+    },
+    async getSPATable(context) {
+      try {
+        const access_token = localStorage.getItem("access_token");
+        const response = await axios({
+          method: "GET",
+          url: "http://localhost:3000/laliga",
+          headers: { access_token },
+        });
+        console.log(response.data);
+        context.commit("SET_SPA", response.data.teams);
+        context.commit("SET_HEADER", response.data.competition.name);
+      } catch (err) {
+        console.log(err);
+      }
+    },
+    async getITATable(context) {
+      try {
+        const access_token = localStorage.getItem("access_token");
+        const response = await axios({
+          method: "GET",
+          url: "http://localhost:3000/seriea",
+          headers: { access_token },
+        });
+        console.log(response.data);
+        context.commit("SET_ITA", response.data.teams);
+        context.commit("SET_HEADER", response.data.competition.name);
       } catch (err) {
         console.log(err);
       }
@@ -72,6 +197,10 @@ export default new Vuex.Store({
         });
         console.log(response.data);
         localStorage.setItem("access_token", response.data.access_token);
+        localStorage.setItem("name", response.data.name);
+        localStorage.setItem("id", response.data.id);
+        let name = localStorage.getItem("name");
+        context.commit("SET_CURRENTUSER", name);
         router.push("/landing");
       } catch (err) {
         console.log(err);
