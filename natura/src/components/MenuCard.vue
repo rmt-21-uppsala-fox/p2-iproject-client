@@ -17,7 +17,6 @@
       <div class="p-text">
       <p class="menu-name" v-text="menu.name"></p>
       <p class="menu-price" v-text="`IDR ${menu.price}`"></p>
-      <p v-text="menu.description"></p>
       </div>
     </v-card>
   </v-col>
@@ -26,7 +25,22 @@
 <script>
 export default {
     name: "MenuCard",
-    props: ['menu']
+    props: ['menu', 'initialQuantity'],
+    data() {
+      return {
+        quantity: this.initialQuantity ? this.initialQuantity : 0
+      }
+    },
+    methods: {
+      menuDetail() {
+        this.$router.push({
+          name: 'detail',
+          params: {
+            dataMenu: this.menu
+          }
+        })
+      }
+    }
 }
 </script>
 
@@ -82,6 +96,7 @@ export default {
 }
 
 .menu-name {
+    margin-top: 10px !important;
     font-weight: bold;
 }
 

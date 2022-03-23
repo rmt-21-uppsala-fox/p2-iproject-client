@@ -7,24 +7,34 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     menus: [],
-    customerName: '',
-    phoneNumber: '',
-    totalPerson: '',
+    selectedMenu: [],
   },
   getters: {
+    totalItem: function(state) {
+      let quantity = 0
+      if(state.selectedMenu.length > 0) {
+        state.selectedMenu.forEach(e => {
+          quantity += e.quantity
+        })
+      }
+      return quantity
+    },
+    totalPrice: function(state) {
+      let totalPrice = 0
+      if(state.selectedMenu.length > 0) {
+        state.selectedMenu.forEach(e => {
+          totalPrice += e.totalPrice
+        })
+      }
+      return totalPrice
+    }
   },
   mutations: {
     FETCH_MENUS(state, payload) {
       state.menus = payload;
     },
-    SET_CUSTOMERNAME(state, payload) {
-      state.customerName = payload;
-    },
-    SET_PHONENUMBER(state, payload) {
-      state.phoneNumber = payload;
-    },
-    SET_TOTALPERSON(state, payload) {
-      state.totalPerson = payload;
+    SET_SELECTED_MENU(state, payload) {
+      state.selectedMenu = payload;
     }
   },
   actions: {

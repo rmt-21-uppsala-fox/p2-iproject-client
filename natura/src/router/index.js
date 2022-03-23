@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import FormPage from '../views/FormPage.vue'
 import MenuView from '../views/MenuView.vue'
+import DetailMenu from '../views/DetailMenu.vue'
 
 Vue.use(VueRouter)
 
@@ -30,6 +31,13 @@ const routes = [
     name: 'menus',
     component: MenuView
   },
+  {
+    path: '/menu/detail',
+    name: 'detail',
+    component: DetailMenu,
+    props: true
+  },
+  
 ]
 
 const router = new VueRouter({

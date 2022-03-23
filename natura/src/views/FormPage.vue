@@ -53,9 +53,9 @@ export default {
     },
     methods: {
       changePage: function () {
-          this.$store.commit("SET_CUSTOMERNAME", this.customerName)
-          this.$store.commit("SET_PHONENUMBER", this.phoneNumber)
-          this.$store.commit("SET_TOTALPERSON", this.totalPerson)
+          localStorage.setItem("customerName", this.customerName)
+          localStorage.setItem("phoneNumber", this.phoneNumber)
+          localStorage.setItem("totalPerson", this.totalPerson)
           this.$router.push('/menus')
       }
     }
