@@ -27,7 +27,7 @@ export default new Vuex.Store({
     }
   },
   actions: {
-    async getAllFriends(context,id){
+    async getAllPosts(context,id){
       try {
         const {data} = await axios({url:`http://localhost:3000/posts/${id}`})
         context.commit('FETCH_POSTS',data)
@@ -35,7 +35,7 @@ export default new Vuex.Store({
         swal(error.response.data.message)
       }
     },
-    async getAllFriends(context,id){
+    async getAllRelations(context,id){
       try {
         const {data} = await axios({url:`http://localhost:3000/relations/${id}`})
         context.commit('FETCH_FRIENDS',data)
