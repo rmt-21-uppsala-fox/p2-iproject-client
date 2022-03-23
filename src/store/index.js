@@ -8,7 +8,7 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   state: {
     products: [],
-    favorites: [],
+    myCart: [],
     isLogin: false,
     pageCount: 0,
     category: "",
@@ -29,8 +29,8 @@ export default new Vuex.Store({
     SET_PAGECOUNT(state, payload) {
       state.pageCount = Math.ceil(payload / 9);
     },
-    FETCH_FAVORITES(state, payload) {
-      state.favorites = payload;
+    FETCH_MYCART(state, payload) {
+      state.myCart = payload;
     },
     SET_CATEGORY(state, payload) {
       state.category = payload;
@@ -77,7 +77,7 @@ export default new Vuex.Store({
         });
       }
     },
-    async fetchFavorites(context) {
+    async fetchMyCart(context) {
       try {
         const { data } = await local({
           url: "/customer/favorites",
@@ -86,7 +86,7 @@ export default new Vuex.Store({
             access_token: localStorage.access_token,
           },
         });
-        context.commit("FETCH_FAVORITES", data);
+        context.commit("FETCH_MYCART", data);
       } catch (error) {
         Swal.fire({
           icon: "error",
@@ -140,12 +140,15 @@ export default new Vuex.Store({
         },
       });
     },
-    addFavorites(context, payload) {
+    addMyCart(context, payload) {
       return local({
-        url: `/customer/favorites/${payload}`,
+        url: `/mycart/${payload.productId}`,
         method: "POST",
         headers: {
           access_token: localStorage.access_token,
+        },
+        data: {
+          quantity: payload.quantity,
         },
       });
     },

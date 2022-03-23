@@ -28,7 +28,7 @@
             <p class="mt-2">{{rupiahPrice}}</p>
           </div>
           <div>
-            <form class="flex w-full mt-4 items-center">
+            <form class="flex w-full mt-4 items-center" @submit.prevent="addMyCart">
               <input
                 v-model="quantity"
                 type="number"
@@ -57,6 +57,7 @@
   </div>
 </template>
 <script>
+import Swal from "sweetalert2";
 import NavBar from "../components/NavBar.vue";
 import PageFooter from "../components/PageFooter.vue";
 export default {
@@ -67,7 +68,7 @@ export default {
   },
   data() {
     return {
-      quantity: 0,
+      quantity: "",
     };
   },
   computed: {
@@ -91,9 +92,36 @@ export default {
     async fetchProductById() {
       await this.$store.dispatch("fetchProductById", this.$route.params.id);
     },
+    async addMyCart() {
+      try {
+        if (!localStorage.getItem("access_token")) {
+          Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: `Please login/register first!`,
+          });
+        } else {
+          await this.$store.dispatch("addMyCart", {
+            productId: this.$route.params.id,
+            quantity: this.quantity,
+          });
+          Swal.fire("Product is added to your cart.", "", "success");
+        }
+      } catch (error) {
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: `${error.response.data.message}!`,
+        });
+      }
+    },
+    setIsLogin(payload) {
+      this.$store.commit("SET_ISLOGIN", payload);
+    },
   },
   async created() {
     await this.fetchProductById();
+    if (localStorage.access_token) this.setIsLogin(true);
   },
 };
 </script>

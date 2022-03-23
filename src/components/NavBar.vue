@@ -77,7 +77,7 @@
             <li>
               <router-link
                 to="/"
-                class="inline-block no-underline hover:text-black hover:underline py-2"
+                class="inline-block no-underline hover:text-black hover:underline py-2 px-4"
               >My Cart</router-link>
             </li>
             <li>
