@@ -16,6 +16,12 @@
           looks reasonable. The generated Lorem Ipsum is therefore always free
           from repetition, injected humour, or non-characteristic words etc.
         </p>
+        <div class="card w-96 bg-base-100 shadow-xl">
+          <div class="card-body">
+            <h2 class="card-title btn btn-base">Find Me!</h2>
+            <MapBox />
+          </div>
+        </div>
         <div class="card-actions justify-end"></div>
       </div>
     </div>
@@ -34,8 +40,12 @@
 </template>
 
 <script>
+import MapBox from "../components/MapBox.vue";
 export default {
   name: "AboutView",
+  components: {
+    MapBox,
+  },
   created() {
     this.$store.dispatch("generateQrCode");
   },

@@ -11,7 +11,10 @@ export default new Vuex.Store({
     school: [],
     qrCode: "",
     isLogin: false,
-    isPage: "home"
+    isPage: "home",
+    dashboardPage: "dashboard",
+    isRegis: false,
+    dataKib: []
   },
   getters: {
   },
@@ -27,6 +30,15 @@ export default new Vuex.Store({
     },
     SET_PAGE(state, payload) {
       state.isPage = payload
+    },
+    SET_DASHBOARD_PAGE(state, payload) {
+      state.dashboardPage = payload
+    },
+    SET_REGIS(state, payload) {
+      state.isRegis = payload
+    },
+    SET_DATA_KIB(state, payload) {
+      state.dataKib = payload
     }
   },
   actions: {
@@ -46,6 +58,18 @@ export default new Vuex.Store({
       try {
         const res = await axios({
           url: `https://api-sekolah-indonesia.herokuapp.com/sekolah/SMP?page=${payload}&perPage=10`,
+          method: 'get'
+        })
+        let data = res.data.dataSekolah
+        ctx.commit('SET_SCHOOL_DATA', data)
+      } catch (err) {
+        console.log(err);
+      }
+    },
+    async getSchoolDataPageOption(ctx) {
+      try {
+        const res = await axios({
+          url: `https://api-sekolah-indonesia.herokuapp.com/sekolah/SMP?page=1&perPage=50`,
           method: 'get'
         })
         let data = res.data.dataSekolah
@@ -76,12 +100,58 @@ export default new Vuex.Store({
           }
         })
         const token = res.data.token
-        if(token) {
+        if (token) {
           localStorage.setItem("access_token", token)
           ctx.commit('SET_LOGIN', true)
         }
       } catch (err) {
         console.log(err.response);
+      }
+    },
+    async registerUser(ctx, payload) {
+      try {
+        const res = await axios({
+          url: `${baseUrl}/register`,
+          method: "post",
+          data: {
+            email: payload.email,
+            password: payload.password,
+            schoolId: payload.schoolId,
+            role: "operator"
+          }
+        })
+        ctx.commit("SET_REGIS", true)
+        console.log(res.data.message);
+      } catch (err) {
+        console.log(err);
+      }
+    },
+    async getDataList(ctx) {
+      try {
+        const res = await axios({
+          url: `${baseUrl}/kib`,
+          method: "get",
+          headers: {
+            access_token: localStorage.getItem("access_token")
+          }
+        })
+        ctx.commit("SET_DATA_KIB", res.data.kib)
+      } catch (err) {
+        console.log(err);
+      }
+    },
+    async deleteKib(ctx, payload) {
+      try {
+        await axios({
+          url: `${baseUrl}/kib/delete/${payload}`,
+          method: "delete",
+          headers: {
+            access_token: localStorage.getItem("access_token")
+          }
+        })
+        ctx.dispatch("getDataList")
+      } catch (err) {
+        console.log(err);
       }
     }
   },

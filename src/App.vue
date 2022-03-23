@@ -63,7 +63,7 @@
         <section>
           <router-view />
         </section>
-        <footer>
+        <footer class="">
           <HFooter class="flex flex-col justify-center p-5"></HFooter>
         </footer>
         <!-- Page content here -->
@@ -118,7 +118,7 @@
             </div>
             <div class="card card-compact w-50 bg-base-100 shadow-xl">
               <div class="card-body">
-                <li class="hover-bordered">
+                <li @click="changeDashboard('datalist')" class="hover-bordered">
                   <a>
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -137,7 +137,7 @@
                     Data KIB
                   </a>
                 </li>
-                <li class="hover-bordered">
+                <li @click="changeDashboard('formkib')" class="hover-bordered">
                   <a>
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -183,6 +183,9 @@ export default {
       this.$store.commit("SET_PAGE", page);
       this.$router.push({ name: `${page}` }).catch(() => {});
     },
+    changeDashboard(page) {
+      this.$store.commit("SET_DASHBOARD_PAGE", page);
+    }
   },
 };
 </script>
