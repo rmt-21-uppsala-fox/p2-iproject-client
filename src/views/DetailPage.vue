@@ -1,8 +1,6 @@
 <template>
   <div>
     <HeaderComponent />
-    <!--====== VIDEO COUNTER PART START ======-->
-
     <section
       id="facts"
       class="pt-20 video-counter"
@@ -70,47 +68,49 @@
           <!-- Recipe start -->
           <!-- Chat Start -->
           <div class="w-full lg:w-1/2">
-            <div class="bg-blue w-full p-8 flex justify-center font-sans">
-              <div class="rounded bg-grey-light w-64 p-2">
-                <div class="flex justify-between py-1">
-                  <h3 class="text-sm">New landing page</h3>
-                  <svg
-                    class="h-4 fill-current text-grey-dark cursor-pointer"
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 24 24"
-                  >
-                    <path d="M5 10a1.999 1.999 0 1 0 0 4 1.999 1.999 0 1 0 0-4zm7 0a1.999 1.999 0 1 0 0 4 1.999 1.999 0 1 0 0-4zm7 0a1.999 1.999 0 1 0 0 4 1.999 1.999 0 1 0 0-4z" />
-                  </svg>
+            <div class="flex justify-center items-center h-screen ">
+              <div class="w-80 h-96 bg-white rounded shadow-2xl">
+                <nav class="w-full h-10 bg-blue-500 rounded-tr rounded-tl flex justify-between items-center">
+                  <div class="flex justify-center items-center">
+                    <i class="mdi mdi-arrow-left font-normal text-white ml-1"></i>
+                    <span class="text-md font-medium text-white ml-1">Live Chat</span>
+                  </div>
+                </nav>
+                <div
+                  class="overflow-auto px-1 py-1"
+                  style="height: 19rem;"
+                  id="journal-scroll"
+                >
+                  <div class="flex items-center pr-10">
+                    <span
+                      class="flex ml-1 h-auto bg-blue-500 text-gray-200 text-xs font-normal rounded-sm px-1 p-1 items-end"
+                      style="font-size: 10px;"
+                    >Hi Dr.Hendrikson, I haven't been feeling well for past few days
+                    </span>
+                  </div>
                 </div>
-                <div class="text-sm mt-2">
-                  <div class="bg-white p-2 rounded mt-1 border-b border-grey cursor-pointer hover:bg-grey-lighter">
-                    Do a mobile first layout
+                <div class="flex justify-between items-center p-1 ">
+                  <div class="relative">
+                    <i
+                      class="far fa-grin absolute top-2 left-2 text-white"
+                      style="font-size: 17px !important;font-weight: bold;"
+                    ></i>
+                    <input
+                      type="text"
+                      class="rounded-full pl-6 pr-12 py-2 focus:outline-none h-auto placeholder-gray-100 bg-blue-500 text-white"
+                      style="font-size:12px; width: 250px;"
+                      placeholder="Type a message..."
+                      id="typemsg"
+                    >
                   </div>
-
-                  <div class="bg-white p-2 rounded mt-1 border-b border-grey cursor-pointer hover:bg-grey-lighter">
-                    Check the meta tags
+                  <div class="w-7 h-7 rounded-full bg-blue-300 text-center items-center flex justify-center hover:bg-blue-500 hover:text-white">
+                    <i class="fas fa-microphone"></i>
                   </div>
-
-                  <div class="bg-white p-2 rounded mt-1 border-b border-grey cursor-pointer hover:bg-grey-lighter">
-                    Check the responsive layout on all devices
-                    <div class="text-grey-darker mt-2 ml-2 flex justify-between items-start">
-                      <span class="text-xs flex items-center">
-                        <svg
-                          class="h-4 fill-current mr-1"
-                          xmlns="http://www.w3.org/2000/svg"
-                          viewBox="0 0 50 50"
-                        >
-                          <path d="M11 4c-3.855 0-7 3.145-7 7v28c0 3.855 3.145 7 7 7h28c3.855 0 7-3.145 7-7V11c0-3.855-3.145-7-7-7zm0 2h28c2.773 0 5 2.227 5 5v28c0 2.773-2.227 5-5 5H11c-2.773 0-5-2.227-5-5V11c0-2.773 2.227-5 5-5zm25.234 9.832l-13.32 15.723-8.133-7.586-1.363 1.465 9.664 9.015 14.684-17.324z" />
-                        </svg>
-                        3/5
-                      </span>
-                      <img
-                        src="https://i.imgur.com/OZaT7jl.png"
-                        class="rounded-full"
-                      />
-                    </div>
+                  <div class="w-7 h-7 rounded-full bg-blue-300 text-center items-center flex justify-center">
+                    <button class="w-7 h-7 rounded-full text-center items-center flex justify-center focus:outline-none hover:bg-blue-500 hover:text-white">
+                      <i class="far fa-paper-plane"></i>
+                    </button>
                   </div>
-                  <p class="mt-3 text-grey-dark">Add a card...</p>
                 </div>
               </div>
             </div>
@@ -119,8 +119,6 @@
         </div> <!-- row -->
       </div> <!-- container -->
     </section>
-
-    <!--====== VIDEO COUNTER PART ENDS ======-->
   </div>
 </template>
 
@@ -134,11 +132,25 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .card-recipe {
   margin: 15px;
 }
 .button-bookmark {
   padding: 5px;
+}
+#journal-scroll::-webkit-scrollbar {
+  width: 6px;
+  cursor: pointer;
+}
+
+#journal-scroll::-webkit-scrollbar-track {
+  background-color: rgba(229, 231, 235, var(--bg-opacity));
+  cursor: pointer;
+}
+
+#journal-scroll::-webkit-scrollbar-thumb {
+  cursor: pointer;
+  background-color: #a0aec0;
 }
 </style>
