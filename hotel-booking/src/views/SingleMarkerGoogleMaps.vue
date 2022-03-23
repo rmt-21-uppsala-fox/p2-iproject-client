@@ -1,33 +1,30 @@
 <template>
   <div>
     <div class="flex">
-      <div>
-        <v-date-picker v-model="range" is-range />
-        <button
-          @click="doBookBallroom"
-          type="button"
-          class="text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-200 dark:focus:ring-blue-900 font-medium rounded-lg text-sm px-5 py-2.5 inline-flex justify-center w-full text-center"
-        >
-          Booking
-        </button>
-      </div>
       <div
         class="max-w-sm bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700"
       >
-        <a href="#">
+        <!-- <a href="#">
           <img class="rounded-t-lg" src="/docs/images/blog/image-1.jpg" alt="" />
-        </a>
+        </a> -->
         <div class="p-5">
           <a href="#">
             <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-              Noteworthy technology acquisitions 2021
+              {{ hotelName }}
             </h5>
           </a>
           <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">
-            Here are the biggest enterprise technology acquisitions of 2021 so far, in reverse
-            chronological order.
+            {{ markersById.data.body.propertyDescription.address.fullAddress }}
           </p>
-          <a
+          <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">
+            {{ markersById.data.body.hygieneAndCleanliness.healthAndSafetyMeasures.description }}
+          </p>
+          <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">
+            {{
+              markersById.data.body.hygieneAndCleanliness.hygieneQualifications.qualifications[0]
+            }}
+          </p>
+          <!-- <a
             href="#"
             class="inline-flex items-center py-2 px-3 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
           >
@@ -44,22 +41,24 @@
                 clip-rule="evenodd"
               ></path>
             </svg>
-          </a>
+          </a> -->
         </div>
       </div>
 
       <div
         class="p-4 max-w-sm bg-white rounded-lg border shadow-md sm:p-8 dark:bg-gray-800 dark:border-gray-700"
       >
-        <h5 class="mb-4 text-xl font-medium text-gray-500 dark:text-gray-400">Standard plan</h5>
+        <h5 class="mb-4 text-xl font-medium text-gray-500 dark:text-gray-400">
+          Standard Ballroom plan
+        </h5>
         <div class="flex items-baseline text-gray-900 dark:text-white">
-          <span class="text-3xl font-semibold">$</span>
-          <span class="text-5xl font-extrabold tracking-tight">49</span>
-          <span class="ml-1 text-xl font-normal text-gray-500 dark:text-gray-400">/month</span>
+          <span class="text-3xl font-semibold">{{ formatPrice }}</span>
+          <span class="text-5xl font-extrabold tracking-tight"></span>
+          <span class="ml-1 text-xl font-normal text-gray-500 dark:text-gray-400">/day</span>
         </div>
 
         <ul role="list" class="my-7 space-y-5">
-          <li class="flex space-x-3">
+          <li v-for="(each, index) in facilities" :key="index" class="flex space-x-3">
             <svg
               class="flex-shrink-0 w-5 h-5 text-blue-600 dark:text-blue-500"
               fill="currentColor"
@@ -72,9 +71,9 @@
                 clip-rule="evenodd"
               ></path>
             </svg>
-            <span class="text-base font-normal leading-tight text-gray-500 dark:text-gray-400"
-              >2 team members</span
-            >
+            <span class="text-base font-normal leading-tight text-gray-500 dark:text-gray-400">{{
+              each
+            }}</span>
           </li>
           <li class="flex space-x-3">
             <svg
@@ -110,7 +109,7 @@
               >Integration help</span
             >
           </li>
-          <li class="flex space-x-3 line-through decoration-gray-500">
+          <!-- <li class="flex space-x-3 line-through decoration-gray-500">
             <svg
               class="flex-shrink-0 w-5 h-5 text-gray-400 dark:text-gray-500"
               fill="currentColor"
@@ -173,17 +172,33 @@
             <span class="text-base font-normal leading-tight text-gray-500"
               >24×7 phone &amp; email support</span
             >
-          </li>
+          </li> -->
         </ul>
-        <button
+        <!-- <button
           type="button"
           class="text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-200 dark:focus:ring-blue-900 font-medium rounded-lg text-sm px-5 py-2.5 inline-flex justify-center w-full text-center"
         >
           Choose plan
-        </button>
+        </button> -->
       </div>
       <!-- <DatePicker> -->
-
+      <div>
+        <v-date-picker v-model="range" is-range />
+        <button
+          @click="doBookBallroom"
+          type="button"
+          class="mb-2 mt-4 text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-200 dark:focus:ring-blue-900 font-medium rounded-lg text-sm px-5 py-2.5 inline-flex justify-center w-full text-center"
+        >
+          Booking
+        </button>
+        <button
+          @click="doPayment"
+          type="button"
+          class="mt-2 text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-200 dark:focus:ring-blue-900 font-medium rounded-lg text-sm px-5 py-2.5 inline-flex justify-center w-full text-center"
+        >
+          Payment
+        </button>
+      </div>
       <!-- </DatePicker> -->
     </div>
     <h2>Google Maps with Single Markers</h2>
@@ -299,6 +314,9 @@ export default {
         price: this.ballroomPrice,
       });
     },
+    doPayment() {
+      this.$router.push({ name: "PaymentPage" });
+    },
   },
   async created() {
     console.log(this.$route.params.id, "masuk 88");
@@ -316,6 +334,16 @@ export default {
         this.$store.state.markersById.data.body.propertyDescription.featuredPrice.currentPrice
           .plain * 100
       );
+    },
+    formatPrice() {
+      let formatter = new Intl.NumberFormat("id-ID", {
+        style: "currency",
+        currency: "IDR",
+      });
+      return formatter.format(this.ballroomPrice);
+    },
+    facilities() {
+      return this.markersById?.data.body.amenities[0].listItems[4].listItems;
     },
     // getLocations() {
     //   const locations = [];

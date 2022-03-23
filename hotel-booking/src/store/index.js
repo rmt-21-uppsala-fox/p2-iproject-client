@@ -9,6 +9,8 @@ export default new Vuex.Store({
     hotels: [],
     markers: [],
     markersById: [],
+    bookedBallroom: [],
+    invoiceUrl: "",
   },
   getters: {},
   mutations: {
@@ -20,6 +22,12 @@ export default new Vuex.Store({
     },
     COMMIT_MARKERSBYID(state, payload) {
       state.markersById = payload;
+    },
+    COMMIT_BOOKEDBALLROOM(state, payload) {
+      state.bookedBallroom = payload;
+    },
+    COMMIT_INVOICEURL(state, payload) {
+      state.invoiceUrl = payload;
     },
   },
   actions: {
@@ -116,6 +124,43 @@ export default new Vuex.Store({
         });
         const data = response.data;
         console.log(data);
+      } catch (error) {
+        console.log(error.response);
+      }
+    },
+    async getBookedBallroom(context) {
+      try {
+        const url = "http://localhost:3000/hotels/book/";
+        const response = await axios({
+          method: "get",
+          url,
+          headers: {
+            access_token: localStorage.getItem("access_token"),
+          },
+        });
+        const data = response.data;
+        console.log(data);
+        context.commit("COMMIT_BOOKEDBALLROOM", data);
+      } catch (error) {
+        console.log(error.response);
+      }
+    },
+    async payWithXendit(context, payload) {
+      try {
+        console.log(payload, "masuk 146");
+        const url = `http://localhost:3000/hotels/book/payment/${payload}`;
+        const response = await axios({
+          method: "post",
+          url,
+          headers: {
+            access_token: localStorage.getItem("access_token"),
+          },
+        });
+        const data = response.data;
+        console.log(data, " index Masuk 156");
+        // return data;
+        window.open(data.url);
+        context.commit("COMMIT_INVOICEURL", data.url);
       } catch (error) {
         console.log(error.response);
       }

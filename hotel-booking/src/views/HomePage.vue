@@ -1,8 +1,8 @@
 <template>
   <div>
-    <NavbarGlobal
+    <!-- <NavbarGlobal
       class="bg-white border-gray-200 px-2 sm:px-4 py-2.5 rounded dark:bg-gray-800"
-    ></NavbarGlobal>
+    ></NavbarGlobal> -->
     <div v-if="hotels.data">
       <!-- Start -->
       <a
@@ -35,13 +35,13 @@
 </template>
 
 <script>
-import NavbarGlobal from "../components/NavbarGlobal.vue";
+// import NavbarGlobal from "../components/NavbarGlobal.vue";
 
 export default {
   name: "HomePage",
-  components: {
-    NavbarGlobal,
-  },
+  // components: {
+  //   NavbarGlobal,
+  // },
   methods: {
     async goToSingleMarkerPage(id) {
       console.log(id, "masuk 47 homepage");
