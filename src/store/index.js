@@ -5,20 +5,22 @@ Vue.use(Vuex)
 let baseUrl = "http://localhost:3000"
 export default new Vuex.Store({
   state: {
-    users: {
+    currentUser: {
       username: "",
-      password: "",
     },
     isLogin: false,
     recipes: [],
   },
   getters: {},
   mutations: {
-    FETCH_STATUS_LOGIN(state, payload) {
+    SET_STATUS_LOGIN(state, payload) {
       state.isLogin = payload
     },
     FETCH_RECIPES(state, payload) {
       state.recipes = payload
+    },
+    SET_CURRENT_USER(state, payload) {
+      state.currentUser = payload
     }
   },
   actions: {
@@ -31,6 +33,32 @@ export default new Vuex.Store({
     async fetchRecipes(context) {
       const response = await axios.get(`${baseUrl}/recipes/filter`)
       context.commit("FETCH_RECIPES", response.data)
+    },
+    async fetchDetailReciped(context, RecipeId) {
+      try {
+        const response = await axios.get(`${baseUrl}/recipes/filter${RecipeId}`)
+        context.commit("FETCH_RECIPES", response.data)
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    //mendengar event connect dari server
+    socket_connect() {
+      console.log("connected", this._vm.$socket);
+    },
+    //mendengarkan event disconnect dari server
+    socket_disconnect() {
+      console.log("disconnect", this._vm.$socket);
+    },
+    //mendengar custom event "customEventFromServer"
+    socket_customEventFromServer(_, payload) {
+      console.log("customEventFromServer", payload);
+    },
+    //karna disini mau mengirimkan(emit) ke server
+    //dan tidak mendengarkan event dari server
+    //maka tidak perlu menggunakan awalan/prefix socket_
+    sendCustomEventToServer(_, payload) {
+      this._vm.$socket.client.emit("customEventFromClient", payload)
     }
   },
   modules: {}

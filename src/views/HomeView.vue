@@ -25,7 +25,7 @@
             :key="index"
           >
             <div
-              @click="gotoDetail"
+              @click="gotoDetail(recipe.recipe.uri)"
               class="single-services wow fadeIn"
               data-wow-duration="1s"
               data-wow-delay="0.2s"
@@ -44,7 +44,7 @@
                 <a
                   class="duration-300 hover:text-theme-color"
                   href="javascript:void(0)"
-                >Learn More <i class="ml-2 lni lni-chevron-right"></i></a>
+                >Read More <i class="ml-2 lni lni-chevron-right"></i></a>
               </div>
             </div> <!-- single services -->
           </div>
@@ -77,13 +77,21 @@ export default {
     recipes() {
       return this.$store.state.recipes;
     },
+    isLogin() {
+      return this.$store.state.isLogin;
+    },
   },
   methods: {
-    gotoDetail() {
+    gotoDetail(params) {
+      const RecipeId = params.split("#")[1];
+      this.$store.dispatch("fetchDetailReciped", RecipeId);
       this.$router.push({ name: "detail-recipe" });
     },
   },
   created: function () {
+    if (localStorage.getItem("access_token")) {
+      this.$store.commit("SET_STATUS_LOGIN", true);
+    }
     this.$store.dispatch("fetchRecipes");
   },
 };

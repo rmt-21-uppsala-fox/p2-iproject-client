@@ -50,6 +50,7 @@
 
             <div class="absolute right-0 hidden mt-2 mr-24 navbar-btn sm:inline-block lg:mt-0 lg:static lg:mr-0">
               <router-link
+                v-if="!isLogin"
                 to="/login"
                 class="main-btn gradient-btn"
                 data-scroll-nav="0"
@@ -59,6 +60,7 @@
             </div>
             <div class="absolute right-0 hidden mt-2 mr-24 navbar-btn sm:inline-block lg:mt-0 lg:static lg:mr-0">
               <router-link
+                v-if="!isLogin"
                 to="/register"
                 class="main-btn gradient-btn"
                 data-scroll-nav="0"
@@ -76,6 +78,11 @@
 <script>
 export default {
   name: "NavbarComponent",
+  computed: {
+    isLogin() {
+      return this.$store.state.isLogin;
+    },
+  },
 };
 </script>
 

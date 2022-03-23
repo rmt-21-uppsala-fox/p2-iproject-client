@@ -22,37 +22,45 @@
                 <div class="counter-content">
                   <div class="mb-8 section-title">
                     <div class="line"></div>
-                    <h3 class="title">Recipe Name</h3>
+                    <h3 class="title">{{recipes.recipe.label}}</h3>
                     <img
-                      src="assets/images/video.png"
-                      alt="video"
+                      :src="recipes.recipe.image"
+                      alt="Image"
                       style="width:300px"
                     >
                   </div> <!-- section title -->
-                  <p class="text">
-                    <input
-                      type="checkbox"
-                      class="appearance-none checked:bg-blue-600 checked:border-transparent ..."
-                    >Ingredients
-                  </p>
-                  <p class="text">
-                    <input
-                      type="checkbox"
-                      class="appearance-none checked:bg-blue-600 checked:border-transparent ..."
-                    >Ingredients
-                  </p>
+                  <div
+                    v-for="ingredient in recipes.recipe.ingredients"
+                    :key="ingredient.uri"
+                    class="flex items-start"
+                  >
+                    <div class="flex items-center h-5">
+                      <input
+                        id="comments"
+                        name="comments"
+                        type="checkbox"
+                        class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded"
+                      >
+                    </div>
+                    <div class="ml-3 text-sm">
+                      <label
+                        for="comments"
+                        class="font-medium text-gray-700"
+                      >{{ingredient.text}}</label>
+                    </div>
+                  </div>
                 </div>
                 <div class="row no-gutters">
                   <div class="flex items-center justify-center single-counter counter-color-1">
                     <div class="text-center counter-items">
-                      <span class="text-2xl font-bold text-white"><span class="counter">1025</span>K</span>
+                      <span class="text-2xl font-bold text-white"><span class="counter">{{Math.ceil(recipes.recipe.calories)}}</span>K</span>
                       <p class="text-white">Calories</p>
                     </div>
                   </div> <!-- single counter -->
                   <div class="flex items-center justify-center single-counter counter-color-2">
                     <div class="text-center counter-items">
-                      <span class="text-2xl font-bold text-white"><span class="counter">2</span>K</span>
-                      <p class="text-white">Servings</p>
+                      <span class="text-xs font-bold text-white"><span class="counter">{{recipes.recipe.mealType[0]}}</span></span>
+                      <p class="text-white">Meal Type</p>
                     </div>
                   </div> <!-- single counter -->
                   <div class="flex items-center justify-center single-counter counter-color-3">
@@ -79,7 +87,6 @@
                 <div
                   class="overflow-auto px-1 py-1"
                   style="height: 19rem;"
-                  id="journal-scroll"
                 >
                   <div class="flex items-center pr-10">
                     <span
@@ -92,7 +99,7 @@
                 <div class="flex justify-between items-center p-1 ">
                   <div class="relative">
                     <i
-                      class="far fa-grin absolute top-2 left-2 text-white"
+                      class="far fa-grin absolute top-2 left-1 text-white"
                       style="font-size: 17px !important;font-weight: bold;"
                     ></i>
                     <input
@@ -100,7 +107,6 @@
                       class="rounded-full pl-6 pr-12 py-2 focus:outline-none h-auto placeholder-gray-100 bg-blue-500 text-white"
                       style="font-size:12px; width: 250px;"
                       placeholder="Type a message..."
-                      id="typemsg"
                     >
                   </div>
                   <div class="w-7 h-7 rounded-full bg-blue-300 text-center items-center flex justify-center hover:bg-blue-500 hover:text-white">
@@ -129,6 +135,14 @@ export default {
   components: {
     HeaderComponent,
   },
+  computed: {
+    recipes() {
+      return this.$store.state.recipes;
+    },
+  },
+  created: function () {
+    this.$store.dispatch("fetchDetailReciped");
+  },
 };
 </script>
 
@@ -138,19 +152,5 @@ export default {
 }
 .button-bookmark {
   padding: 5px;
-}
-#journal-scroll::-webkit-scrollbar {
-  width: 6px;
-  cursor: pointer;
-}
-
-#journal-scroll::-webkit-scrollbar-track {
-  background-color: rgba(229, 231, 235, var(--bg-opacity));
-  cursor: pointer;
-}
-
-#journal-scroll::-webkit-scrollbar-thumb {
-  cursor: pointer;
-  background-color: #a0aec0;
 }
 </style>
