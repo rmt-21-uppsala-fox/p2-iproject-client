@@ -41,8 +41,8 @@ export default {
     },
     computed: {
         novel() {
+            // tombol kasih id pake scroll to
             document.documentElement.scrollIntoView({ behavior: 'smooth' });
-
             return this.$store.state.novelToRead;
         },
     },

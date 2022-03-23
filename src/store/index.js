@@ -6,7 +6,16 @@ import {
     createUserWithEmailAndPassword,
     auth,
     signInWithEmailAndPassword,
+    db,
 } from '../../firebase/index.js';
+import {
+    collection,
+    doc,
+    getDocs,
+    setDoc,
+    Timestamp,
+    where,
+} from 'firebase/firestore';
 
 Vue.use(Vuex);
 
@@ -14,6 +23,7 @@ export default new Vuex.Store({
     state: {
         allNovel: [],
         novelToRead: [],
+        bookmarked: [],
     },
     getters: {},
     mutations: {
@@ -23,21 +33,28 @@ export default new Vuex.Store({
         setNovelToRead(state, novel) {
             state.novelToRead = novel;
         },
+        setBookmarked(state, novel) {
+            state.bookmarked = novel;
+        },
     },
     actions: {
         postRegister: async (context, { email, password }) => {
             try {
-                console.log(`masuk`, auth, email, password);
                 const res = await createUserWithEmailAndPassword(
                     auth,
                     email,
                     password
                 );
-                console.log(res);
+                await setDoc(doc(db, 'users', res.user.uid), {
+                    uid: res.user.uid,
+                    email,
+                    password,
+                    createdAt: Timestamp.fromDate(new Date()),
+                });
                 localStorage.setItem('access_token', res.user.accessToken);
                 localStorage.setItem('email', email);
+                localStorage.setItem('uid', res.user.uid);
                 swal('Success', 'Register Success', 'success');
-                console.log(res.user.email, res.user.accessToken);
             } catch (error) {
                 swal('Error', error.response.data.msg, 'error');
             }
@@ -54,6 +71,8 @@ export default new Vuex.Store({
                 console.log(res);
                 localStorage.setItem('access_token', res.user.accessToken);
                 localStorage.setItem('email', email);
+                localStorage.setItem('uid', res.user.uid);
+
                 swal('Success', 'Register Success', 'success');
                 console.log(res.user.email, res.user.accessToken);
             } catch (error) {
@@ -73,6 +92,7 @@ export default new Vuex.Store({
                 swal('Error!', error.response.data.msg, 'error');
             }
         },
+
         readNovel: async ({ commit }, { link, chapter }) => {
             try {
                 console.log(`masukasdasdasd`, link, chapter);

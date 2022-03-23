@@ -17,7 +17,7 @@
 <script>
 import NovelComponent from './Novel.vue';
 export default {
-    name: 'allNovel',
+    name: 'AllNovel',
     components: {
         NovelComponent,
     },
