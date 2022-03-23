@@ -115,9 +115,12 @@
                   </p>
                 </div>
                 <div class="bg-gray-300 mx-5 my-2 py-2 px-2">
-                  <div class="flex flex-col items-end bg-gray-200 bg-opacity-50 px-3 py-3 h-96   overflow-y-scroll">
-                    <div class="">
-                      <div class="float-left  p-4 min-w-full " v-for="(message, index) in chatMessages" v-bind:key="message.user + index">
+                  <div class="flex flex-col items-start bg-gray-200 bg-opacity-50 px-3 py-3 h-96   overflow-y-scroll">
+                    <div class="w-3/4 float-left ">
+                      <div class=" p-4 w-full " v-for="(message, index) in chatMessages" v-bind:key="message.user + index"
+                      v-bind:class ="[message.user == currentUser ? 'text-left'  : 'text-right']"
+
+                      >
                       <div class="font-bold">{{message.user}}</div>
                       <div >{{message.message}}</div> 
                     </div>
@@ -276,6 +279,9 @@ export default {
     },
     chatMessages(){
       return this.$store.state.chatMessages
+    },
+    currentUser() {
+      return localStorage.username
     }
   },
 };

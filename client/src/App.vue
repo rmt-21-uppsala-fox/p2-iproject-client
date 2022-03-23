@@ -31,7 +31,7 @@ export default {
 </script>
 
 <style>
-@import "../dist/output.css";
+@import "../output.css";
 @import url("https://cdn.jsdelivr.net/npm/tw-elements/dist/css/index.min.css");
 @import url("https://cdn.tailwindcss.com");
 @import url("https://app.sandbox.midtrans.com/snap/snap.js");

@@ -3,8 +3,8 @@ import Vuex from "vuex";
 import router from "../router/index"
 import axios from 'axios'
 import Swal from 'sweetalert2'
-//const BASE_URL = ""
-const LOCAL_URL = "http://localhost:3000"
+const BASE_URL = "https://iproject2.herokuapp.com"
+//const LOCAL_URL = "http://localhost:3000"
 
 
 Vue.use(Vuex);
@@ -75,7 +75,7 @@ export default new Vuex.Store({
           email: userData.email,
           password: userData.password
         } 
-        const response = await axios.post(`${LOCAL_URL}/login`, body)
+        const response = await axios.post(`${BASE_URL}/login`, body)
 
         
         
@@ -96,7 +96,7 @@ export default new Vuex.Store({
     async getGenres(context) {
       try {
          
-        const response = await axios.get(`${LOCAL_URL}/genres`)
+        const response = await axios.get(`${BASE_URL}/genres`)
 
         
         
@@ -105,6 +105,7 @@ export default new Vuex.Store({
         
         
       } catch (error) {
+        console.log(error)
         Swal.fire(error.response.data.message)
         
         console.log(error.response.data.message)
@@ -116,7 +117,7 @@ export default new Vuex.Store({
     async getTop5Movies(context) {
       try {
          
-        const response = await axios.get(`${LOCAL_URL}/movies`, {
+        const response = await axios.get(`${BASE_URL}/movies`, {
           headers: {
             access_token: localStorage.access_token
 
@@ -130,6 +131,7 @@ export default new Vuex.Store({
         
         
       } catch (error) {
+        console.log(error)
         Swal.fire(error.response.data.message)
         
         console.log(error.response.data.message)
@@ -139,7 +141,7 @@ export default new Vuex.Store({
     async getMoviePrice(context, imdbId) {
       try {
          
-        const response = await axios.get(`${LOCAL_URL}/movies/price/${imdbId}`, {
+        const response = await axios.get(`${BASE_URL}/movies/price/${imdbId}`, {
           headers: {
             access_token: localStorage.access_token
 
@@ -162,7 +164,7 @@ export default new Vuex.Store({
     async getMovie(context, imdbId) {
       try {
          
-        const response = await axios.get(`${LOCAL_URL}/movies/${imdbId}`, {
+        const response = await axios.get(`${BASE_URL}/movies/${imdbId}`, {
           headers: {
             access_token: localStorage.access_token
 
@@ -184,7 +186,7 @@ export default new Vuex.Store({
     async getPurchased(context) {
       try {
          
-        const response = await axios.get(`${LOCAL_URL}/movies/purchased/all`, {
+        const response = await axios.get(`${BASE_URL}/movies/purchased/all`, {
           headers: {
             access_token: localStorage.access_token
 
@@ -214,7 +216,7 @@ export default new Vuex.Store({
 
         } 
         console.log(body, payload.imdbId, "INI BODY PAYMENT")
-        const response = await axios.post(`${LOCAL_URL}/payment/${payload.imdbId}`, body, {
+        const response = await axios.post(`${BASE_URL}/payment/${payload.imdbId}`, body, {
           headers: {
             access_token: localStorage.access_token
           }
@@ -246,7 +248,7 @@ export default new Vuex.Store({
           trailerUrl: payload.trailerUrl
         }
         console.log(body, payload.imdbId, "INI BODY PAYMENT")
-        const response = await axios.post(`${LOCAL_URL}/movies/purchased/${payload.imdbId}`, body, {
+        const response = await axios.post(`${BASE_URL}/movies/purchased/${payload.imdbId}`, body, {
           headers: {
             access_token: localStorage.access_token
           }
@@ -297,6 +299,7 @@ export default new Vuex.Store({
       })
     },
     socket_messagesFromServer(context, payload) {
+      
       context.commit("SOCKET_MESSAGESFROMSERVER", payload)
     }
 
