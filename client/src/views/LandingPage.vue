@@ -1,7 +1,17 @@
 <template>
   <div>
     <div class="mr-30 flex flex-col bg-red-500 items-center">
-      <img src="Rijksmuseum.png" alt="" style="height: 100vh" />
+      <div>
+        <observer @on-change="onChange" class="test-lazy">
+          <img
+            class="blur-sm"
+            src="Rijksmuseum.png"
+            alt=""
+            style="height: 100vh"
+          />
+        </observer>
+        <p class="flex flex-col content-center text-center">RIJKSMUSEUM</p>
+      </div>
     </div>
     <div
       style="
@@ -31,8 +41,33 @@
 </template>
 
 <script>
+import Observer from "vue-intersection-observer";
 export default {
   name: "LandingPage",
+  data() {
+    return {
+      currentInfo: false,
+    };
+  },
+  props: {
+    imageSrc: {
+      type: [String, Number],
+    },
+  },
+  components: {
+    Observer,
+  },
+  methods: {
+    onChange(entry, unobserve) {
+      // After loading Cancel monitoring, optimise performance
+      if (entry.isIntersecting) {
+        unobserve();
+      }
+      this.currentInfo = entry.isIntersecting
+        ? this.imageSrc
+        : "https://avatars2.githubusercontent.com/u/20992106?s=460&v=4";
+    },
+  },
 };
 </script>
 
