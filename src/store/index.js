@@ -7,11 +7,16 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     mapbox_token: "pk.eyJ1IjoibXNncm91bSIsImEiOiJjbDBvejR3b3Qwb2dyM29vN3oxczlxZWtiIn0.iokUpDxaIVuFlBR_zrw5Dw",
-    baseUrl: "http://localhost:3000"
+    ninjas_api: "ULAeUu+S9XYvgHPEGWOg2Q==pKmdRYNeGdbvjyFf",
+    baseUrl: "http://localhost:3000",
+    distance: 0,
   },
   getters: {
   },
   mutations: {
+    SET_DISTANCE: function (state, distance) {
+      state.distance = 0.001 * distance.value;
+    }
   },
   actions: {
     getMatchRoute: async function (context, payload) {
@@ -23,7 +28,36 @@ export default new Vuex.Store({
           context.state.baseUrl +
           `/route?coordinates=${newCoords}&radiuses=${radiuses}`
       })
+    },
+    getCarbonProduced: async function (context, payload) {
+      const { distance, fuelEfficiency } = payload;
+      return await axios({
+        method: 'GET',
+        url: context.state.baseUrl + "/carbon",
+        params: {
+          distance,
+          fuelEfficiency
+        }
+      })
+    },
+    getCarModel: async function () {
+      return await axios({
+        method: 'GET',
+        url: "https://private-f4d9b-carsapi1.apiary-mock.com/cars"
+      })
+    },
+    getCarFuelEfficiency: async function (context, payload) {
+      const { model, year } = payload
+      return await axios({
+        method: 'GET',
+        url: context.state.baseUrl + "/carbon/fuelEfficiency",
+        params: {
+          model,
+          year
+        }
+      })
     }
+
   }
 })
 

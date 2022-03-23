@@ -1,6 +1,5 @@
 <template>
   <div class="map-holder">
-    <!-- @click="getEndPosition()" -->
     <div id="map" class="w-full h-full"></div>
   </div>
 </template>
@@ -9,6 +8,8 @@
 import mapboxgl from "mapbox-gl";
 import MapboxDraw from "@mapbox/mapbox-gl-draw";
 import "@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw.css";
+import Swal from "sweetalert2";
+
 export default {
   name: "MapDisplay",
   data() {
@@ -20,7 +21,6 @@ export default {
       map: {},
       direction: {},
       draw: {},
-      ditance: {},
     };
   },
   methods: {
@@ -56,10 +56,19 @@ export default {
           radius,
         });
         const routeCoords = response.data.coords;
-        this.distance = response.data.distance;
+        this.$store.commit("SET_DISTANCE", response.data.distance);
         this.drawRoute(routeCoords);
       } catch (error) {
-        console.error(error);
+        if (error.response) {
+          Swal.fire({
+            title: "Something's Wrong",
+            text: error.response.message,
+            icon: "error",
+            confirmButtonText: "Cool",
+          });
+        } else {
+          console.error(error);
+        }
       }
     },
     async drawRoute(coords) {
@@ -155,7 +164,7 @@ export default {
           },
         ],
       });
-      this.map.addControl(this.draw, "top-left");
+      this.map.addControl(this.draw, "top-right");
       this.map.on("draw.create", this.updateRoute);
       this.map.on("draw.update", this.updateRoute);
     },
@@ -176,7 +185,16 @@ export default {
         this.createDrawMap();
         this.map.on("draw.delete", this.removeRoute);
       } catch (err) {
-        console.log("map error", err);
+        if (error.response) {
+          Swal.fire({
+            title: "Something's Wrong",
+            text: error.response.message,
+            icon: "error",
+            confirmButtonText: "Cool",
+          });
+        } else {
+          console.error(error);
+        }
       }
     },
     removeRoute() {

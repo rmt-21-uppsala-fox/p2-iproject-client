@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 // import HomeView from '../views/HomeView.vue'
-import CreateRouteView from '../views/CreateRouteView.vue'
+import EstimateCarbonPage from '../views/EstimateCarbonPage.vue'
 
 Vue.use(VueRouter)
 
@@ -14,7 +14,7 @@ const routes = [
   {
     path: '/',
     name: 'createRoute',
-    component: CreateRouteView
+    component: EstimateCarbonPage
   },
   {
     path: '/about',
