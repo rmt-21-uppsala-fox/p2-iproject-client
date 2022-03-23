@@ -48,13 +48,16 @@
                 />
               </div>
               <div>
-                <span class="
+                <span
+                  @click="createHandler(recipe.recipe.uri)"
+                  class="
                      bg-primary
                      rounded
                      text-center
                      text-white button-bookmark
                      p-2
-                     ">
+                     "
+                >
                   Add to bookmark
                 </span>
                 <h3>
@@ -100,6 +103,13 @@ export default {
     },
     currentUser() {
       return this.$store.state.currentUser;
+    },
+  },
+  methods: {
+    createHandler(params) {
+      const RecipeId = params.split("#")[1];
+      console.log(RecipeId);
+      this.$store.dispatch("createRecipes", RecipeId);
     },
   },
   created: function () {

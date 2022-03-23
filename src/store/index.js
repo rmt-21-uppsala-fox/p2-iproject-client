@@ -10,6 +10,7 @@ export default new Vuex.Store({
     recipes: [],
     filteredRecipe: [],
     detailPage: false,
+    bookmark: []
   },
   getters: {},
   mutations: {
@@ -25,6 +26,9 @@ export default new Vuex.Store({
     },
     SET_DETAIL_PAGE(state, payload) {
       state.detailPage = payload
+    },
+    ADD_BOOKMARK(state, payload) {
+      state.bookmark.push(payload)
     }
   },
   actions: {
@@ -49,6 +53,19 @@ export default new Vuex.Store({
       try {
         const response = await axios.get(`${baseUrl}/recipes/filter${RecipeId}`)
         context.commit("FETCH_RECIPES", response.data)
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    async createRecipes(context, RecipeId) {
+      try {
+        const access_token = localStorage.getItem("access_token")
+        const response = await axios.post(`${baseUrl}/recipes/${RecipeId}`, {}, {
+          headers: {
+            access_token
+          }
+        })
+        context.commit("ADD_BOOKMARK", response.data.bookmark)
       } catch (error) {
         console.log(error);
       }
