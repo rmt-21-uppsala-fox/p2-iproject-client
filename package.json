@@ -2,11 +2,14 @@
   "name": "p2-iproject-client",
   "version": "0.1.0",
   "private": true,
+  "description": "## Project setup ``` npm install ```",
+  "author": "Rosa Alawiyah",
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint"
   },
+  "main": ".eslintrc.js",
   "dependencies": {
     "autoprefixer": "^10",
     "core-js": "^3.8.3",
@@ -32,17 +35,14 @@
     "vue-cli-plugin-tailwind": "~3.0.0",
     "vue-template-compiler": "^2.6.14"
   },
-  "description": "## Project setup ``` npm install ```",
-  "main": ".eslintrc.js",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/rosaalwyh/p2-iproject-client.git"
-  },
-  "keywords": [],
-  "author": "Rosa Alawiyah",
-  "license": "ISC",
   "bugs": {
     "url": "https://github.com/rosaalwyh/p2-iproject-client/issues"
   },
-  "homepage": "https://github.com/rosaalwyh/p2-iproject-client#readme"
+  "homepage": "https://github.com/rosaalwyh/p2-iproject-client#readme",
+  "keywords": [],
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rosaalwyh/p2-iproject-client.git"
+  }
 }
