@@ -12,6 +12,12 @@
     <!-- x y z -->
     <!-- x = plane -->
     <!-- y = heigth -->
+    <a-light
+      color="white"
+      angle="300"
+      intensity="10"
+      position="-0.6 8 2"
+    ></a-light>
     <a-box
       @click="callWikipedia(0)"
       :src="museumImage0"

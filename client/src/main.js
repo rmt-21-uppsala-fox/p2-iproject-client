@@ -6,6 +6,10 @@ import store from "./store";
 import "aframe";
 import "aframe-mouse-cursor-component";
 import "./assets/tailwind.css";
+import AOS from "aos";
+import "aos/dist/aos.css";
+
+AOS.init();
 
 Vue.use(vuescroll);
 

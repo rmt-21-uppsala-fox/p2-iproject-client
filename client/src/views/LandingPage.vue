@@ -1,29 +1,10 @@
 <template>
   <div>
-    <div
-      id="content1"
-      relative
-      v-on:scroll="handleScroll"
-      class="imageInjected relative mr-30 flex flex-col bg-red-500 items-center"
-    >
-      <div>
-        <div class="mt-30">
-          <div
-            class="absolute mt-30 z-10 text-6xl inset-0 font-serif items-center"
-          >
-            {{ "RIJKSMUSEUM" }}
-          </div>
-        </div>
+    <div class="flex flex-col justify-center items-center">
+      <div class="imageInjected z-10 text-6xl font-serif">
+        {{ "RIJKSMUSEUM" }}
       </div>
-      <form
-        class="flex gap-2"
-        @submit.prevent="submit"
-        enctype="multipart/form-data"
-      >
-        <label class="btn" for="file-upload"> Send </label>
-        <input @change="upload" id="file-upload" type="file" />
-        <button class="btn">Feed</button>
-      </form>
+      <div class="z-10 justify-center items-center"></div>
     </div>
 
     <div
@@ -39,7 +20,7 @@
       style="
         width: 100%;
         height: 400px;
-        background-image: url('Rijksmuseum.png');
+        background-image: url('Night-watch.png');
         background-size: cover;
         background-attachment: fixed;
       "
@@ -50,11 +31,19 @@
       class="grid place-content-center relative z-0 bg-red-100"
       style="width: 100%; height: 50vh"
     >
-      <div class="hero rounded-xl bg-red-200">
-        <div class="hero-content text-center">
+      <div
+        data-aos="fade-zoom-in"
+        data-aos-offset="200"
+        data-aos-easing="ease-in-sine"
+        data-aos-duration="600"
+        class="hero rounded-xl bg-red-200"
+      >
+        <div class="hero-content w-96 text-center">
           <div class="max-w-md">
-            <h1 class="font-serif text-5xl font-bold">Hello there</h1>
-            <p class="font-serif py-6">
+            <h1 class="font-serif text-3xl font-bold">
+              Hello and welcome to Rijksmuseum's virtual gallery
+            </h1>
+            <p class="font-serif text-xl py-6">
               Currently, The Rijksmuseum's artworks that are displayed on our
               virtual museum can be seen below
             </p>
@@ -102,13 +91,13 @@
     >
       <div class="hero rounded-xl bg-red-200">
         <div class="hero-content text-center">
-          <div class="max-w-md">
-            <h1 class="font-serif text-5xl font-bold">Hello there</h1>
+          <aside class="max-w-md">
+            <h1 class="font-serif text-3xl font-bold">Come in!</h1>
             <p class="font-serif py-6">
-              Currently, The Rijksmuseum's artworks that are displayed on our
-              virtual museum can be seen below
+              Besides are all the features that you can use related to
+              Rijksmuseum's artworks
             </p>
-          </div>
+          </aside>
         </div>
       </div>
 
@@ -116,6 +105,15 @@
       <router-link to="/museum">
         <img src="icons8-museum-64.png" alt="" srcset="" />
       </router-link>
+      <form
+        class="flex gap-2"
+        @submit.prevent="submit"
+        enctype="multipart/form-data"
+      >
+        <label class="btn" for="file-upload"> Send </label>
+        <input @change="upload" id="file-upload" type="file" />
+        <button class="btn">Feed</button>
+      </form>
     </div>
   </div>
 </template>
@@ -154,7 +152,7 @@ export default {
   computed: {
     museumImage0() {
       if (this.$store.state.image_0) {
-        return this.$store.state.image_0?.artObjects[0].webImage.url;
+        return this.$store.state?.image_0?.artObjects[0]?.webImage?.url;
       } else {
         return console.log(``);
       }
