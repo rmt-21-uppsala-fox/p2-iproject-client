@@ -6,9 +6,7 @@
       class="artboard artboard-horizontal phone-1 col-11 bg-[#FAF7F5] shadow-2xl rounded-2xl border-8 border-primary absolute bottom-28 right-10"
     >
       <template slot="header">
-        <h1 class="font-bold text-4xl text-[#003A3D] mt-2">
-          Estimate Carbon Form
-        </h1>
+        <h1 class="font-bold text-4xl text-[#003A3D] mt-2">Estimate Carbon</h1>
       </template>
       <template slot="main">
         <div class="flex flex-col">
@@ -36,9 +34,14 @@
           >
             Estimate Carbon Production
           </button>
+          <div class="text-right">
+            <button class="btn btn-link font-extralight text-xs">
+              Email me the result
+            </button>
+          </div>
         </div>
       </template>
-      <template slot="footer"> [[[ SOME CONTENT HERE]]] </template>
+      <template slot="footer"></template>
     </DraggableDiv>
   </div>
 </template>

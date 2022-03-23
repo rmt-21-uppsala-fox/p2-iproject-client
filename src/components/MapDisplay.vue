@@ -10,6 +10,8 @@ import MapboxDraw from "@mapbox/mapbox-gl-draw";
 import "@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw.css";
 import MapboxDirections from "@mapbox/mapbox-gl-directions/dist/mapbox-gl-directions";
 import "@mapbox/mapbox-gl-directions/dist/mapbox-gl-directions.css";
+import MapboxGeocoder from "@mapbox/mapbox-gl-geocoder";
+import "@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css";
 import Swal from "sweetalert2";
 
 export default {
@@ -196,6 +198,11 @@ export default {
             "top-left"
           );
         } else {
+          const geocoder = new MapboxGeocoder({
+            accessToken: mapboxgl.accessToken,
+            mapboxgl: mapboxgl,
+          });
+          this.map.addControl(geocoder, "top-left");
           this.createDrawMap();
           this.map.on("draw.delete", this.removeRoute);
         }
@@ -225,4 +232,12 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+.mapboxgl-ctrl-geocoder {
+  width: 900px !important;
+}
+
+.mapboxgl-ctrl-geocoder--icon {
+  display: none !important ;
+}
+</style>
