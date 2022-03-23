@@ -25,7 +25,6 @@
             :key="index"
           >
             <div
-              @click="gotoDetail(recipe.recipe.uri)"
               class="single-services wow fadeIn"
               data-wow-duration="1s"
               data-wow-delay="0.2s"
@@ -42,9 +41,11 @@
                 <p class="mb-8">Lorem ipsum dolor sit amet,consetetur sadipscing elitr, seddiam nonu eirmod tempor
                   invidunt labore.</p>
                 <a
-                  class="duration-300 hover:text-theme-color"
+                  @click="gotoDetail(recipe.recipe.uri)"
+                  class="duration-300 hover:bg-blue-300 p-2 rounded-md"
                   href="javascript:void(0)"
                 >Read More <i class="ml-2 lni lni-chevron-right"></i></a>
+
               </div>
             </div> <!-- single services -->
           </div>

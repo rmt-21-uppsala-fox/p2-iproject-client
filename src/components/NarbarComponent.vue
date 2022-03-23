@@ -43,7 +43,11 @@
                   >Home</router-link>
                 </li>
                 <li class="nav-item">
-                  <a class="page-scroll">Meal Plan</a>
+                  <router-link
+                    v-if="isLogin"
+                    to="/bookmark"
+                    class="page-scroll"
+                  >My Bookmark</router-link>
                 </li>
               </ul>
             </div> <!-- navbar collapse -->
