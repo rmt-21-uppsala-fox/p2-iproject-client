@@ -1,14 +1,17 @@
 <template>
   <div>
-    <div class="flex flex-col justify-center items-center">
-      <div class="imageInjected z-10 text-6xl font-serif">
+    <div
+      @scroll="handleScroll"
+      class="flex flex-col justify-center items-center"
+    >
+      <div class="imageInjected text-6xl font-serif">
         {{ "RIJKSMUSEUM" }}
       </div>
       <div class="z-10 justify-center items-center"></div>
     </div>
 
     <div
-      id="content2"
+      :class="isBlur ? 'blur-none' : 'blur-sm'"
       style="
         width: 100%;
         height: 100vh;
@@ -115,16 +118,22 @@
         <button class="btn">Feed</button>
       </form>
     </div>
+    <HFooter></HFooter>
   </div>
 </template>
 
 <script>
+import HFooter from "vue-hacktiv8-footer";
 export default {
   name: "LandingPage",
   data() {
     return {
       image: "",
+      isBlur: false,
     };
+  },
+  components: {
+    HFooter,
   },
   methods: {
     async upload(file) {
@@ -143,9 +152,11 @@ export default {
       }
     },
     handleScroll() {
-      if (window.scrollY < 400) {
-        console.log(window.scrollY);
-        console.log(`qwwwwwwww`);
+      console.log(window.scrollY);
+      if (window.scrollY < 200) {
+        this.isBlur = true;
+      } else {
+        this.isBlur = false;
       }
     },
   },
