@@ -3,23 +3,21 @@
         <div class="w-full max-w-sm">
             <div class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
                 <div class="mb-4">
-                    <h1 class="text-center font-bold text-2xl mb-2">
-                        Register
-                    </h1>
-                    <form @submit.prevent="postRegister">
+                    <h1 class="text-center font-bold text-2xl mb-2">Login</h1>
+                    <form method="post" @submit.prevent="postLogin">
                         <div class="mb-4">
                             <label
                                 class="block text-gray-700 text-sm font-bold mb-2"
                                 for="email"
                             >
-                                email
+                                Email
                             </label>
                             <input
                                 class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                                 id="email"
                                 type="text"
                                 v-model="userData.email"
-                                placeholder="email"
+                                placeholder="Email@mail.com"
                             />
                         </div>
                         <div class="mb-6">
@@ -42,8 +40,14 @@
                                 class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
                                 type="submit"
                             >
-                                Register
+                                Login
                             </button>
+                            <a
+                                class="bg-red-500 hover:bg-red-700 text-white hover:cursor-pointer font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                                @click.prevent="googleSignInVue"
+                            >
+                                Google
+                            </a>
                         </div>
                     </form>
                 </div>
@@ -54,8 +58,9 @@
 
 <script>
 import swal from 'sweetalert';
+
 export default {
-    name: 'RegisterView',
+    name: 'LoginView',
     data() {
         return {
             userData: {
@@ -65,9 +70,9 @@ export default {
         };
     },
     methods: {
-        async postRegister() {
+        async postLogin() {
             try {
-                await this.$store.dispatch('postRegister', this.userData);
+                await this.$store.dispatch('postLogin', this.userData);
                 this.$router.push('/');
             } catch (err) {
                 typeof err.response.data.msg === 'string'

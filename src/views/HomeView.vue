@@ -4,13 +4,17 @@
             <!-- hero image -->
             <a
                 href="#"
-                class="flex flex-col gap-4 mt-20 w-4/6 h-96 mx-auto items-center bg-white rounded-lg border shadow-md md:flex-row hover:bg-gray-100"
+                class="flex flex-col gap-4 mt-20 w-4/6 h-96 mx-auto bg-white rounded-lg border shadow-md md:flex-row hover:bg-gray-100"
             >
-                <img class="h-96" src="https://picsum.photos/200/200" alt="" />
+                <img
+                    class="h-96"
+                    src="https://cdn.novelupdates.com/images/2018/11/Lord-of-the-Mysteries.jpeg"
+                    alt=""
+                />
                 <div class="flex flex-col justify-between leading-normal">
                     <img
-                        class="h-96"
-                        src="https://picsum.photos/1000/400"
+                        class="h-96 object-contain"
+                        src="https://s26162.pcdn.co/wp-content/uploads/sites/3/2020/09/Fall-Preview.jpg"
                         alt=""
                     />
                 </div>

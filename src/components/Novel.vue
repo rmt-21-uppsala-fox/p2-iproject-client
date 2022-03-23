@@ -98,7 +98,10 @@ export default {
             );
         },
         postBookmarks() {
-            this.$store.dispatch('postBookmarks', this.novel.id);
+            this.$store.dispatch('postBookmark', {
+                title: this.novel.title,
+                link: this.novel.link,
+            });
         },
     },
 };
