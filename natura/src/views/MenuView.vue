@@ -5,7 +5,7 @@
         <h5 class="mb-3">Order Summary</h5>
         <p>Total Item: {{this.totalItem}}</p>
         <p>Total Price: {{this.totalPrice}}</p>
-         <v-btn class="primary rounded">PAY</v-btn>      
+         <v-btn @click='createOrder' class="primary rounded">PAY</v-btn>      
     </v-col>
       <v-col :cols="9" fluid class="menu-content">
         <div fluid class="container-content" id="category.name" >
@@ -28,6 +28,16 @@ export default {
     methods: {
         fetchMenus() {
             this.$store.dispatch("fetchMenus")
+        },
+        createOrder() {
+          const payload = {
+            customerName: localStorage.getItem('customerName'),
+            phoneNumber: localStorage.getItem('phoneNumber'),
+            totalPerson: localStorage.getItem('totalPerson'),
+            orders: this.selectedMenu
+          }
+          this.$store.dispatch('createOrder', payload)
+          this.$router.push('/payment')
         }
     },
     computed: {

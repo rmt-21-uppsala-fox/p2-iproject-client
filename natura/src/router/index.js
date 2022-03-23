@@ -4,12 +4,13 @@ import HomeView from '../views/HomeView.vue'
 import FormPage from '../views/FormPage.vue'
 import MenuView from '../views/MenuView.vue'
 import DetailMenu from '../views/DetailMenu.vue'
+import PaymentPage from '../views/PaymentPage.vue'
 
 Vue.use(VueRouter)
 
 const routes = [
   {
-    path: '/',
+    path: '/home',
     name: 'home',
     component: HomeView
   },
@@ -22,7 +23,7 @@ const routes = [
     component: () => import(/* webpackChunkName: "about" */ '../views/AboutView.vue')
   },
   {
-    path: '/form',
+    path: '/',
     name: 'form',
     component: FormPage
   },
@@ -37,7 +38,11 @@ const routes = [
     component: DetailMenu,
     props: true
   },
-  
+  {
+    path: '/payment',
+    name: 'payment',
+    component: PaymentPage,
+  },
 ]
 
 const router = new VueRouter({
