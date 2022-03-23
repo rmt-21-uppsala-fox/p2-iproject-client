@@ -1,12 +1,15 @@
-import Vue from 'vue'
-import App from './App.vue'
-import router from './router'
-import store from './store'
+import Vue from "vue";
+import vuescroll from "vue-scroll";
+import App from "./App.vue";
+import router from "./router";
+import store from "./store";
 import "aframe";
 import "aframe-mouse-cursor-component";
-import './assets/tailwind.css'
+import "./assets/tailwind.css";
 
-Vue.config.productionTip = false
+Vue.use(vuescroll);
+
+Vue.config.productionTip = false;
 
 Vue.config.ignoredElements = [
   "a-scene",
@@ -20,10 +23,11 @@ Vue.config.ignoredElements = [
   "a-cursor",
   "a-cylinder",
   "a-assets",
+  "a-link",
 ];
 
 new Vue({
   router,
   store,
-  render: h => h(App)
-}).$mount('#app')
+  render: (h) => h(App),
+}).$mount("#app");

@@ -1,19 +1,33 @@
 <template>
   <div>
-    <div class="mr-30 flex flex-col bg-red-500 items-center">
-      <div>
-        <observer @on-change="onChange" class="test-lazy">
-          <img
-            class="blur-sm"
-            src="Rijksmuseum.png"
-            alt=""
-            style="height: 100vh"
-          />
-        </observer>
-        <p class="flex flex-col content-center text-center">RIJKSMUSEUM</p>
-      </div>
-    </div>
     <div
+      id="content1"
+      relative
+      v-on:scroll="handleScroll"
+      class="imageInjected relative mr-30 flex flex-col bg-red-500 items-center"
+    >
+      <div>
+        <div class="mt-30">
+          <div
+            class="absolute mt-30 z-10 text-6xl inset-0 font-serif items-center"
+          >
+            {{ "RIJKSMUSEUM" }}
+          </div>
+        </div>
+      </div>
+      <form
+        class="flex gap-2"
+        @submit.prevent="submit"
+        enctype="multipart/form-data"
+      >
+        <label class="btn" for="file-upload"> Send </label>
+        <input @change="upload" id="file-upload" type="file" />
+        <button class="btn">Feed</button>
+      </form>
+    </div>
+
+    <div
+      id="content2"
       style="
         width: 100%;
         height: 100vh;
@@ -21,6 +35,7 @@
       "
     ></div>
     <div
+      id="content3"
       style="
         width: 100%;
         height: 400px;
@@ -29,46 +44,152 @@
         background-attachment: fixed;
       "
     ></div>
+
     <div
-      style="
-        width: 100%;
-        height: 100vh;
-        background-image: url('Rijksmuseum.png');
-        background-size: cover;
-      "
-    ></div>
+      id="content4"
+      class="grid place-content-center relative z-0 bg-red-100"
+      style="width: 100%; height: 50vh"
+    >
+      <div class="hero rounded-xl bg-red-200">
+        <div class="hero-content text-center">
+          <div class="max-w-md">
+            <h1 class="font-serif text-5xl font-bold">Hello there</h1>
+            <p class="font-serif py-6">
+              Currently, The Rijksmuseum's artworks that are displayed on our
+              virtual museum can be seen below
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Carousel -->
+    <div id="content5" class="carousel h-screen w-full">
+      <div id="slide1" class="carousel-item relative w-full">
+        <img :src="museumImage0" class="w-full object-contain" />
+        /
+        <div
+          class="absolute flex justify-between transform -translate-y-1/2 left-5 right-5 top-1/2"
+        >
+          <a disabled="disabled" class="btn btn-circle">❮</a>
+          <a href="#slide2" class="btn btn-circle">❯</a>
+        </div>
+      </div>
+      <div id="slide2" class="carousel-item relative w-full">
+        <img :src="museumImage1" class="w-full object-contain" />
+        /
+        <div
+          class="absolute flex justify-between transform -translate-y-1/2 left-5 right-5 top-1/2"
+        >
+          <a href="#slide1" class="btn btn-circle">❮</a>
+          <a href="#slide3" class="btn btn-circle">❯</a>
+        </div>
+      </div>
+      <div id="slide3" class="carousel-item relative w-full">
+        <img :src="museumImage2" class="w-full object-contain" />
+        /
+        <div
+          class="absolute flex justify-between transform -translate-y-1/2 left-5 right-5 top-1/2"
+        >
+          <a href="#slide2" class="btn btn-circle">❮</a>
+          <a disabled="disabled" class="btn btn-circle">❮</a>
+        </div>
+      </div>
+    </div>
+    <div
+      id="content6"
+      class="grid place-content-center relative z-0 bg-red-100"
+      style="width: 100%; height: 100vh"
+    >
+      <div class="hero rounded-xl bg-red-200">
+        <div class="hero-content text-center">
+          <div class="max-w-md">
+            <h1 class="font-serif text-5xl font-bold">Hello there</h1>
+            <p class="font-serif py-6">
+              Currently, The Rijksmuseum's artworks that are displayed on our
+              virtual museum can be seen below
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Icons -->
+      <router-link to="/museum">
+        <img src="icons8-museum-64.png" alt="" srcset="" />
+      </router-link>
+    </div>
   </div>
 </template>
 
 <script>
-import Observer from "vue-intersection-observer";
 export default {
   name: "LandingPage",
   data() {
     return {
-      currentInfo: false,
+      image: "",
     };
   },
-  props: {
-    imageSrc: {
-      type: [String, Number],
-    },
-  },
-  components: {
-    Observer,
-  },
   methods: {
-    onChange(entry, unobserve) {
-      // After loading Cancel monitoring, optimise performance
-      if (entry.isIntersecting) {
-        unobserve();
-      }
-      this.currentInfo = entry.isIntersecting
-        ? this.imageSrc
-        : "https://avatars2.githubusercontent.com/u/20992106?s=460&v=4";
+    async upload(file) {
+      this.image = file.target.files[0];
     },
+    async submit() {
+      try {
+        const formData = new FormData();
+        formData.append("file", this.image);
+        const labelsData = await this.$store.dispatch("upload", formData);
+        console.log(labelsData);
+
+        console.log(`success`);
+      } catch (error) {
+        console.log(error.response);
+      }
+    },
+    handleScroll() {
+      if (window.scrollY < 400) {
+        console.log(window.scrollY);
+        console.log(`qwwwwwwww`);
+      }
+    },
+  },
+  computed: {
+    museumImage0() {
+      if (this.$store.state.image_0) {
+        return this.$store.state.image_0?.artObjects[0].webImage.url;
+      } else {
+        return console.log(``);
+      }
+    },
+    museumImage1() {
+      if (this.$store.state.image_1) {
+        return this.$store.state.image_1?.artObjects[0].webImage.url;
+      } else {
+        return console.log(``);
+      }
+    },
+    museumImage2() {
+      if (this.$store.state.image_2) {
+        return this.$store.state.image_2?.artObjects[0].webImage.url;
+      } else {
+        return console.log(``);
+      }
+    },
+  },
+  async created() {
+    await this.$store.dispatch("callRijksmuseum", {
+      URL_0: "&imgonly=True&q=corpses+of",
+      URL_1: "&imgonly=True&q=night+watch",
+      URL_2: "&imgonly=True&q=fishing",
+    });
+    window.addEventListener("scroll", this.handleScroll);
+  },
+  destroyed() {
+    window.removeEventListener("scroll", this.handleScroll);
   },
 };
 </script>
 
-<style></style>
+<style>
+.imageInjected {
+  background-image: url("Rijksmuseum.png");
+}
+</style>

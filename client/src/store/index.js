@@ -24,6 +24,9 @@ export default new Vuex.Store({
     imageTitle_2(state) {
       return state.image_2.artObjects[0].title;
     },
+    file(state) {
+      return state.file;
+    },
   },
   mutations: {
     SET_MUSEUM_DATA(state, payload) {
@@ -36,6 +39,9 @@ export default new Vuex.Store({
     },
     SET_WIKIPEDIA(state, payload) {
       state.wikipediaData = payload;
+    },
+    SET_FILE_(state, payload) {
+      state.file = payload.value;
     },
   },
   actions: {
@@ -75,6 +81,9 @@ export default new Vuex.Store({
       } catch (error) {
         console.log(error);
       }
+    },
+    async upload(context, payload) {
+      return axios.post("http://localhost:3000/upload", payload);
     },
   },
   modules: {},

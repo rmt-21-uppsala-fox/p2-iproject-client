@@ -57,7 +57,6 @@
       repeat="1 1"
     ></a-plane>
     <a-sky color="#222"></a-sky>
-
     <a-cylinder
       position="-1 2 -3"
       rotation="0 90 0"
@@ -70,6 +69,12 @@
       src="#wallpapertexture"
       repeat="20 5"
     ></a-cylinder>
+    <a-box
+      position="1 1 1"
+      @click.prevent="back"
+      title="Back"
+      image="#homeThumbnail"
+    ></a-box>
   </a-scene>
 </template>
 
@@ -85,6 +90,12 @@ export default {
       } catch (error) {
         console.log(error);
       }
+    },
+    back(e) {
+      e.preventDefault();
+      this.$router.push("/");
+      var html = document.querySelector("html");
+      html.removeAttribute("class");
     },
   },
   computed: {
