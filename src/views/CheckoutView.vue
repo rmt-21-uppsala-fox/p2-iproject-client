@@ -20,10 +20,10 @@
 
         <div class="row mb-3">
             <div class="col-6 text-nowrap">
-                <button v-b-modal.modal-2 type="button" @click="faceRecognition" class="btn btn-outline-success btn-sm"><i class="fa-solid fa-face-grin-beam fa-xl"></i> Face Payment</button>
+                <button v-if="$store.state.cart.length > 0" v-b-modal.modal-2 type="button" @click="faceRecognition" class="btn btn-outline-success btn-sm"><i class="fa-solid fa-face-grin-beam fa-xl"></i> Face Payment</button>
             </div>
             <div class="col-6">
-                <b-button v-b-modal.modal-1 type="button" @click="doXenditPay" class="btn btn-outline-primary btn-sm">Xendit Pay</b-button>
+                <b-button v-if="$store.state.ableToPay && $store.state.cart.length > 0" v-b-modal.modal-1 type="button" @click="doXenditPay" class="btn btn-outline-primary btn-sm">Xendit Pay</b-button>
             </div>
         </div>
 
@@ -69,6 +69,7 @@ export default {
         async faceRecognition() {
             try {
                 const video = this.$el.querySelector('video')
+                let detectedUserName = []
 
                 console.log(video);
 
@@ -108,7 +109,7 @@ export default {
                         const results = resizedDetections.map((d) => {
                             return faceMatcher.findBestMatch(d.descriptor)
                         })
-                        console.log(results[0].label)
+                        detectedUserName.push(results[0].label)
                         results.forEach((result, i) => {
                             const box = resizedDetections[i].detection.box
                             const drawBox = new faceapi.draw.DrawBox(box, {
@@ -121,7 +122,13 @@ export default {
 
                     setTimeout(() => {
                         clearInterval(interval)
-                    }, 5000);
+
+                        if (detectedUserName.includes(localStorage.currentUserName)) {
+                            this.$store.commit('setAbleToPay')
+                        } else {
+                            alert('Face not recognized')
+                        }
+                    }, 3000);
                 })
             } catch (error) {
                 console.log(error);

@@ -38,9 +38,9 @@ export default {
             await faceapi.nets.faceRecognitionNet.loadFromUri('/assets/models')
             await faceapi.nets.faceLandmark68Net.loadFromUri('/assets/models')
             await faceapi.nets.ssdMobilenetv1.loadFromUri('/assets/models')
-            this.$store.commit('setFaceApiLoaded')
-
-            const labels = ['Captain America', 'Tony Stark', 'Thor', 'Tommy']
+        
+            this.$store.dispatch('fetchImages')
+            const labels = ['Tony Stark', localStorage.currentUserName]
             Promise.all(labels.map(async (label) => {
                 const descriptions = []
                 for (let i = 1; i <= 2; i++) {
