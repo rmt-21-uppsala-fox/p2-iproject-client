@@ -106,6 +106,7 @@ export default {
             quantity: this.quantity,
           });
           Swal.fire("Product is added to your cart.", "", "success");
+          this.$router.push("/mycart");
         }
       } catch (error) {
         Swal.fire({

@@ -36,9 +36,9 @@
       </div>
 
       <div class="order-1 md:order-2 md:w-1/3 flex justify-center">
-        <a
+        <router-link
+          to="/"
           class="flex items-center tracking-wide no-underline hover:no-underline font-bold text-gray-800 text-xl"
-          href="#"
         >
           <img
             src="https://www.pikpng.com/pngl/m/20-204281_car-outline-logo-clipart-best-auto-logo-png.png"
@@ -48,7 +48,7 @@
             alt
           />
           FURAUTOPARTS
-        </a>
+        </router-link>
       </div>
 
       <div class="order-2 md:order-3 flex items-center md:w-1/3 justify-end" id="nav-content">
@@ -76,7 +76,13 @@
           >
             <li>
               <router-link
-                to="/"
+                to="/mycart"
+                class="inline-block no-underline hover:text-black hover:underline py-2"
+              >Transaction</router-link>
+            </li>
+            <li>
+              <router-link
+                to="/mycart"
                 class="inline-block no-underline hover:text-black hover:underline py-2 px-4"
               >My Cart</router-link>
             </li>

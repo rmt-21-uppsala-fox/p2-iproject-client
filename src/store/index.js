@@ -2,7 +2,7 @@ import Vue from "vue";
 import Vuex from "vuex";
 import Swal from "sweetalert2";
 import local from "@/api/axios";
-import happidev from "@/api/happidev";
+
 Vue.use(Vuex);
 
 export default new Vuex.Store({
@@ -80,7 +80,7 @@ export default new Vuex.Store({
     async fetchMyCart(context) {
       try {
         const { data } = await local({
-          url: "/customer/favorites",
+          url: "/mycart",
           method: "GET",
           headers: {
             access_token: localStorage.access_token,
@@ -95,25 +95,21 @@ export default new Vuex.Store({
         });
       }
     },
-    async getQRCode(context, payload) {
+    async deleteMyCart(context, payload) {
       try {
-        const { data } = await happidev({
-          url: "/v1/qrcode",
-          method: "GET",
+        await local({
+          url: `/mycart/${payload}`,
+          method: "DELETE",
           headers: {
-            "x-happi-key":
-              "25c7fcV2MBruiQtacFanPL8o6rvCWfwcv3FYYn4u2COzzDKmuTRBJnwP",
-          },
-          params: {
-            data: payload,
+            access_token: localStorage.access_token,
           },
         });
-        context.commit("SET_QRCODE", data.qrcode);
+        Swal.fire("Product is deleted from your cart.", "", "success");
       } catch (error) {
         Swal.fire({
           icon: "error",
           title: "Oops...",
-          text: "Fetching QR Code failed!",
+          text: `${error.response.data.message}!`,
         });
       }
     },
