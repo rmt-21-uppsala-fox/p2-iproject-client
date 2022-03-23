@@ -22,9 +22,12 @@
           tabindex="0"
           class="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52"
         >
-          <li><a>Single Destination</a></li>
-          <li><a>Multiple Destination</a></li>
-          <li><a>Add Car</a></li>
+          <li><router-link to="/travel">Travel</router-link></li>
+          <li>
+            <router-link to="/" class="text-left"
+              >Estimate Carbon Production</router-link
+            >
+          </li>
         </ul>
       </div>
     </div>
