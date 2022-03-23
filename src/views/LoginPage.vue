@@ -25,19 +25,23 @@
           </div>
           <div class="form-signup-dig">
             <div class="w-full max-w-xs">
-              <form class="max-w-md mb-4 form-input">
+              <form
+                class="max-w-md mb-4 form-input"
+                @submit.prevent="loginHandler"
+              >
                 <div class="mb-4">
                   <label
                     class="block text-grey-darker text-sm font-bold mb-2"
-                    for="password"
+                    for="username"
                   >
-                    Email
+                    Username
                   </label>
                   <input
+                    v-model="user.username"
                     class="shadow appearance-none border rounded h-12 w-full py-2 px-3 text-grey-darker mb-3 leading-tight focus:outline-none focus:shadow-outline"
-                    id="password"
-                    type="email"
-                    placeholder="email"
+                    id="username"
+                    type="username"
+                    placeholder="username"
                   >
                 </div>
                 <div class="mb-6">
@@ -48,6 +52,7 @@
                     Password
                   </label>
                   <input
+                    v-model="user.password"
                     class="shadow appearance-none border rounded w-full h-12 py-2 px-3 text-grey-darker mb-3 leading-tight focus:outline-none focus:shadow-outline"
                     id="password"
                     type="password"
@@ -57,7 +62,7 @@
                 <div class="flex items-center justify-between">
                   <button
                     class="bg-blue-800 hover:bg-blue-dark font-bold w-full h-12 py-2 px-4  rounded focus:outline-none focus:shadow-outline"
-                    type="button"
+                    type="submit"
                   >
                     Sign In
                   </button>
@@ -75,5 +80,25 @@
 <script>
 export default {
   name: "LoginPage",
+  data() {
+    return {
+      user: {
+        username: "",
+        password: "",
+      },
+    };
+  },
+  methods: {
+    async loginHandler() {
+      try {
+        const response = await this.$store.dispatch("loginHandler", this.user);
+        localStorage.setItem("access_token", response.data.access_token);
+        this.$store.commit("FETCH_STATUS_LOGIN", true);
+        this.$router.push({ name: "home" });
+      } catch (error) {
+        console.log(error);
+      }
+    },
+  },
 };
 </script>
