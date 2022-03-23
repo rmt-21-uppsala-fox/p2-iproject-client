@@ -27,20 +27,23 @@
                 data-wow-delay="0.8s"
               >Find recipe, recommendation recipe based on weather, and you can plan your meal</p>
               <div v-if="!detailPage">
-                <input
-                  class="wow fadeInUp w-full mb-3 rounded"
-                  style="padding:6px"
-                  type="text"
-                  data-wow-duration="1.3s"
-                  data-wow-delay="1.1s"
-                  placeholder="Seach recipe, ex: chicken, chocolate, noddles..."
-                >
-                <a
-                  href="#"
-                  class="main-btn gradient-btn gradient-btn-2 wow fadeInUp"
-                  data-wow-duration="1.3s"
-                  data-wow-delay="1.1s"
-                >Search Recipe</a>
+                <form @submit.prevent="searchRecipe">
+                  <input
+                    v-model="name"
+                    name="name"
+                    class="wow fadeInUp w-full mb-3 rounded py-2 px-4"
+                    type="text"
+                    data-wow-duration="1.3s"
+                    data-wow-delay="1.1s"
+                    placeholder="  ex: chicken, chocolate, noddles..."
+                  >
+                  <button
+                    type="submit"
+                    class="main-btn bg-blue-400 wow fadeInUp"
+                    data-wow-duration="1.3s"
+                    data-wow-delay="1.1s"
+                  >Search Recipe</button>
+                </form>
               </div>
             </div> <!-- header hero content -->
           </div>
@@ -55,7 +58,7 @@
               <img
                 src="assets/images/hero-health.png"
                 alt="hero"
-                class="image-hero"
+                class="image-hero rounded-md"
               >
             </div> <!-- header hero image -->
           </div>
@@ -76,16 +79,37 @@ import NavbarComponent from "./NarbarComponent.vue";
 export default {
   name: "HeaderComponent",
   components: { NavbarComponent },
+  data() {
+    return {
+      name: "",
+      minCal: "",
+      maxCal: "",
+      dietLabel: "",
+      mealType: "",
+    };
+  },
   computed: {
     detailPage() {
       return this.$store.state.detailPage;
     },
+    filteredRecipe() {
+      return this.$store.state.filteredRecipe;
+    },
+  },
+  methods: {
+    async searchRecipe() {
+      const query = {
+        name: this.name,
+        minCal: this.minCal,
+        maxCal: this.maxCal,
+        dietLabel: this.dietLabel,
+        mealType: this.mealType,
+      };
+      const response = await this.$store.dispatch("getRecipes", query);
+      this.$store.commit("FETCH_FILTERED_RECIPES", response.data);
+      this.$store.commit("SET_DETAIL_PAGE", true);
+      this.$router.push({ name: "recipes" });
+    },
   },
 };
 </script>
-
-<style scoped>
-.image-hero {
-  border-radius: 20px;
-}
-</style>

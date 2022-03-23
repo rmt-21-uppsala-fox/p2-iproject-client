@@ -8,6 +8,7 @@ export default new Vuex.Store({
     currentUser: "",
     isLogin: false,
     recipes: [],
+    filteredRecipe: [],
     detailPage: false,
   },
   getters: {},
@@ -18,6 +19,9 @@ export default new Vuex.Store({
     },
     FETCH_RECIPES(state, payload) {
       state.recipes = payload
+    },
+    FETCH_FILTERED_RECIPES(state, payload) {
+      state.filteredRecipe = payload
     },
     SET_DETAIL_PAGE(state, payload) {
       state.detailPage = payload
@@ -33,6 +37,13 @@ export default new Vuex.Store({
     async fetchRecipes(context) {
       const response = await axios.get(`${baseUrl}/recipes/filter`)
       context.commit("FETCH_RECIPES", response.data)
+    },
+    async getRecipes(_, query) {
+      return await axios({
+        method: 'POST',
+        url: `${baseUrl}/recipes`,
+        data: query,
+      })
     },
     async fetchDetailReciped(context, RecipeId) {
       try {
