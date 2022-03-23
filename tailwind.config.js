@@ -1,11 +1,16 @@
 module.exports = {
-  purge: {
-    enabled: true,
-    content: [
-      '*.html',
-      './assets/js/main.js'
-    ]
-  },
+  // purge: {
+  //   enabled: true,
+  //   content: [
+  //     '*.html',
+  //     './assets/js/main.js'
+  //   ]
+  // },
+  content: [
+    './src/**/*.{html,js,vue}',
+    '*.html',
+    './assets/js/main.js'
+  ],
   theme: {
     extend: {
       inset: {
