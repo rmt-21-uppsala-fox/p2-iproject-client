@@ -26,18 +26,26 @@
             data-title="Daftar Sekolah"
             class="btn"
           />
+          <input
+            v-if="isLoggedIn"
+            @click="changePage('dashboard')"
+            type="radio"
+            name="options"
+            data-title="Dashboard"
+            class="btn"
+          />
         </div>
       </div>
       <div class="navbar-end">
         <a
-          v-if="page !== 'login'"
+          v-if="isLoggedIn === false"
           @click="changePage('login')"
           class="btn btn-ghost"
           >Login</a
         >
+        <a v-if="isLoggedIn === true" @click="doLogout()" class="btn btn-ghost">Logout</a>
       </div>
     </div>
-    <!-- Dashboard -->
   </div>
 </template>
 
@@ -52,8 +60,24 @@ export default {
   methods: {
     changePage(page) {
       this.page = page;
+      this.$store.commit("SET_PAGE", page);
       this.$router.push({ name: `${page}` }).catch(() => {});
     },
+    doLogout() {
+      localStorage.clear();
+      this.$store.commit("SET_LOGIN", false);
+      this.$router.push({ name: "home" }).catch(() => {});
+    },
+  },
+  computed: {
+    isLoggedIn() {
+      return this.$store.state.isLogin;
+    },
+  },
+  created() {
+    if (localStorage.getItem("access_token")) {
+      this.$store.commit("SET_LOGIN", true);
+    }
   },
 };
 </script>

@@ -4,12 +4,14 @@ import axios from 'axios'
 
 Vue.use(Vuex)
 
-const baseUrl = "http://localhost:3000"
+const baseUrl = "http://localhost:5000"
 
 export default new Vuex.Store({
   state: {
     school: [],
-    qrCode: ""
+    qrCode: "",
+    isLogin: false,
+    isPage: "home"
   },
   getters: {
   },
@@ -19,6 +21,12 @@ export default new Vuex.Store({
     },
     QR_CODE(state, payload) {
       state.qrCode = payload
+    },
+    SET_LOGIN(state, payload) {
+      state.isLogin = payload
+    },
+    SET_PAGE(state, payload) {
+      state.isPage = payload
     }
   },
   actions: {
@@ -53,6 +61,25 @@ export default new Vuex.Store({
           method: 'get'
         })
         ctx.commit('QR_CODE', res.data.qrcode)
+      } catch (err) {
+        console.log(err.response);
+      }
+    },
+    async login(ctx, payload) {
+      try {
+        const res = await axios({
+          url: `${baseUrl}/login`,
+          method: 'post',
+          data: {
+            email: payload.email,
+            password: payload.password
+          }
+        })
+        const token = res.data.token
+        if(token) {
+          localStorage.setItem("access_token", token)
+          ctx.commit('SET_LOGIN', true)
+        }
       } catch (err) {
         console.log(err.response);
       }

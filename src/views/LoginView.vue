@@ -8,6 +8,7 @@
             <span class="label-text">Email</span>
           </label>
           <input
+            v-model="inputLogin.email"
             type="email"
             placeholder="Type here"
             class="input input-bordered input-primary w-full max-w-xs"
@@ -18,13 +19,16 @@
             <span class="label-text">Password</span>
           </label>
           <input
+            v-model="inputLogin.password"
             type="password"
             placeholder="Type here"
             class="input input-bordered input-primary w-full max-w-xs"
           />
         </div>
         <div class="card-actions justify-end">
-          <button class="btn btn-primary">Submit</button>
+          <button @click.prevent="doLogin" class="btn btn-primary">
+            Submit
+          </button>
         </div>
       </div>
     </div>
@@ -34,6 +38,20 @@
 <script>
 export default {
   name: "LoginView",
+  data() {
+    return {
+      inputLogin: {
+        email: "",
+        password: "",
+      },
+    };
+  },
+  methods: {
+    async doLogin() {
+      await this.$store.dispatch("login", this.inputLogin);
+      this.$router.push("/");
+    },
+  },
 };
 </script>
 

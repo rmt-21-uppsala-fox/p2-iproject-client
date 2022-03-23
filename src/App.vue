@@ -4,7 +4,7 @@
       <input id="my-drawer" type="checkbox" class="drawer-toggle" />
       <div class="drawer-content">
         <!-- Dashboard bar here -->
-        <div class="navbar bg-base-100">
+        <div v-if="isPage === 'dashboard'" class="navbar bg-base-100">
           <div class="flex-1">
             <label
               for="my-drawer"
@@ -58,7 +58,7 @@
           </div>
         </div>
         <nav>
-          <NavBar />
+          <NavBar v-if="isPage !== 'dashboard'" />
         </nav>
         <section>
           <router-view />
@@ -95,7 +95,7 @@
           <li>
             <div class="card card-compact w-50 bg-base-100 shadow-xl">
               <div class="card-body">
-                <li class="hover-bordered">
+                <li @click="changePage('home')" class="hover-bordered">
                   <a>
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -171,6 +171,18 @@ export default {
   components: {
     HFooter,
     NavBar,
+  },
+  computed: {
+    isPage() {
+      return this.$store.state.isPage;
+    },
+  },
+  methods: {
+    changePage(page) {
+      this.page = page;
+      this.$store.commit("SET_PAGE", page);
+      this.$router.push({ name: `${page}` }).catch(() => {});
+    },
   },
 };
 </script>
