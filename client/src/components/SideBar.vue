@@ -8,7 +8,7 @@
       </h1>
       <ul>
         <li
-          class="flex space-x-2 mt-10 cursor-pointer hover:text-[#EC5252] duration-150"
+          class="flex space-x-2 mt-10 cursor-pointer text-gray-400 hover:text-[#EC5252] duration-150"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -27,7 +27,7 @@
           <span class="font-semibold" @click="GoToHome">Home</span>
         </li>
         <li
-          class="flex space-x-2 mt-10 cursor-pointer hover:text-[#EC5252] duration-150"
+          class="flex space-x-2 mt-10 cursor-pointer text-gray-400 hover:text-[#EC5252] duration-150"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -43,10 +43,12 @@
               d="M16 4v12l-4-2-4 2V4M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
             />
           </svg>
-          <span class="font-semibold" @click="GoToUpcoming">All Courses</span>
+          <span class="font-semibold" @click="GoToUpcoming"
+            >Next Week Release</span
+          >
         </li>
         <li
-          class="flex space-x-2 mt-10 cursor-pointer hover:text-[#EC5252] duration-150"
+          class="flex space-x-2 mt-10 cursor-pointer text-gray-400 hover:text-[#EC5252] duration-150"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -66,10 +68,10 @@
               d="M12 14l9-5-9-5-9 5 9 5zm0 0l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14zm-4 6v-7.5l4-2.222"
             />
           </svg>
-          <span class="font-semibold">My Course</span>
+          <span class="font-semibold" @click="GoToCollection">My Course</span>
         </li>
         <li
-          class="flex space-x-2 mt-10 cursor-pointer hover:text-[#EC5252] duration-150"
+          class="flex space-x-2 mt-10 cursor-pointer text-gray-400 hover:text-[#EC5252] duration-150"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -88,7 +90,7 @@
           <span class="font-semibold">Profile</span>
         </li>
         <li
-          class="flex space-x-2 mt-10 cursor-pointer hover:text-[#EC5252] duration-150"
+          class="flex space-x-2 mt-10 cursor-pointer text-gray-400 hover:text-[#EC5252] duration-150"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -107,7 +109,7 @@
           <span class="font-semibold">Setthing</span>
         </li>
         <button
-          class="w-full mt-10 bg-[#EC5252] rounded-full py-1.5 text-white"
+          class="w-full mt-10 bg-[#EC5252] rounded-full py-1.5 text-gray-400"
         >
           Learn
         </button>
@@ -129,6 +131,13 @@ export default {
     async GoToHome() {
       try {
         this.$router.push(`/`);
+      } catch (err) {
+        console.log(err);
+      }
+    },
+    async GoToCollection() {
+      try {
+        this.$router.push(`/collection`);
       } catch (err) {
         console.log(err);
       }

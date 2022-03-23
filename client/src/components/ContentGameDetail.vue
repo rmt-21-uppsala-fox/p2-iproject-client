@@ -4,7 +4,7 @@
       class="flex flex-col md:flex-row gap-11 py-10 px-5 bg-white rounded-md shadow-lg w-3/4 md:max-w-2xl"
     >
       <div class="text-indigo-500 flex flex-col justify-between">
-        <img :src="games.data.game.background_image" alt="" />
+        <img :src="getDetailGame.data.game.background_image" alt="" />
         <div>
           <small class="uppercase">choose size</small>
           <div class="flex flex-wrap md:flex-nowrap gap-1">
@@ -61,21 +61,25 @@
       </div>
       <div class="text-indigo-500">
         <small class="uppercase">{{
-          games.data.game.developers[0].name
+          getDetailGame.data.game.developers[0].name
         }}</small>
         <h3 class="uppercase text-black text-2xl font-medium">
-          {{ games.data.game.name }}
+          {{ getDetailGame.data.game.name }}
         </h3>
-        <h3 class="text-2xl font-semibold mb-7">{{ games.data.price }}</h3>
-        <small class="text-black">{{ games.data.game.description_raw }}.</small>
+        <h3 class="text-2xl font-semibold mb-7">
+          {{ getDetailGame.data.price }}
+        </h3>
+        <small class="text-black"
+          >{{ getDetailGame.data.game.description_raw }}.</small
+        >
         <div class="flex gap-0.5 mt-4">
-          <button
-            @click="buyTheGame(games.data.game.id)"
-            id="addToCartButton"
-            class="bg-indigo-600 hover:bg-indigo-500 focus:outline-none transition text-white uppercase px-8 py-3"
-          >
-            add to cart
-          </button>
+            <button
+            @click.prevent="buyTheGame"
+              id="addToCartButton"
+              class="bg-indigo-600 hover:bg-indigo-500 focus:outline-none transition text-white uppercase px-8 py-3"
+            >
+              add to cart
+            </button>
           <button
             id="likeButton"
             class="bg-indigo-600 hover:bg-indigo-500 focus:outline-none transition text-white uppercase p-3"
@@ -100,16 +104,65 @@
 </template>
 
 <script>
+import swal from 'sweetalert2';
 export default {
-  props: [`games`],
+  props: [`getDetailGame`],
   methods: {
-    async buyTheGame(data) {
+    async buyTheGame() {
       try {
-        // console.log(data);
-        this.$store.dispatch(`buyTheGame`, data);
+        window.snap.pay(this.purchasedGames, {
+          onSuccess: this.gameCollection,
+          onPending: function(){
+            swal.fire({
+              position: "top-end",
+              icon: "success",
+              title: "Wait a Second!",
+              showConfirmButton: false,
+              timer: 1500,
+            });
+          },
+          onError: function(){
+            swal.fire({
+              icon: 'error',
+              title: 'Your Payment Failed',
+            })
+          },
+          onClose: function(){
+            swal.fire({
+              position: "top-end",
+              icon: "success",
+              title: "you closed the popup without finishing the payment",
+              showConfirmButton: false,
+              timer: 1500,
+            });
+          }
+        })
       } catch (err) {
         console.log(err);
       }
+    },
+    async gameCollection(){
+      const data = {
+        background_image : this.getDetailGame.data.game.background_image,
+        gameId : this.getDetailGame.data.game.id,
+        name: this.getDetailGame.data.game.name,
+        price : this.getDetailGame.data.price,
+        description : this.getDetailGame.data.game.description_raw,
+      };
+      await this.$store.dispatch("addToCollection", data);
+      if (!this.gamesCollection) {
+        swal.fire(this.errorMsg);
+      } else {
+        this.$router.push("/");
+      }
+    }
+  },
+  computed: {
+    purchasedGames() {
+      return this.$store.state.purchasedGames;
+    },
+    gamesCollection() {
+      return this.$store.state.gamesCollection;
     },
   },
 };

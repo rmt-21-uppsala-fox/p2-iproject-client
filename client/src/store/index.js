@@ -9,6 +9,8 @@ export default new Vuex.Store({
     UpcomingGames: [],
     detailGame: [],
     isLogin: false,
+    purchasedGames: [],
+    gamesCollection: []
   },
   getters: {},
   mutations: {
@@ -24,16 +26,25 @@ export default new Vuex.Store({
       state.detailGame = payload;
     },
     IS_LOGIN(state, payload) {
-      console.log(payload);
+      // console.log(payload);
       state.isLogin = payload;
     },
+    GAME_PURCHASED(state, payload) {
+      state.purchasedGames = payload.data;
+    },
+    GAME_COLLECTION(state, payload) {
+      // console.log(payload)
+      state.gamesCollection = payload.data.Game;
+    }
   },
   actions: {
     async PopularGamesAYearAgo(context) {
       try {
+        const token = localStorage.getItem(`access_token`);
         const data = await axios({
           method: `get`,
           url: `http://localhost:3000/games`,
+          headers: { access_token: token },
         });
         // console.log(data);
         context.commit(`GAMES_A_YEAR_AGO`, data);
@@ -43,9 +54,11 @@ export default new Vuex.Store({
     },
     async UpcomingGames(context) {
       try {
+        const token = localStorage.getItem(`access_token`);
         const data = await axios({
           method: `get`,
           url: `http://localhost:3000/games/next-week`,
+          headers: { access_token: token },
         });
         // console.log(data);
         context.commit(`UPCOMING_GAMES`, data);
@@ -55,9 +68,11 @@ export default new Vuex.Store({
     },
     async getDataGame(context, payload) {
       try {
+        const token = localStorage.getItem(`access_token`);
         const data = await axios({
           method: `get`,
           url: `http://localhost:3000/games/${payload}`,
+          headers: { access_token: token },
         });
         // console.log(data);
         context.commit(`DETAIL_GAME`, data);
@@ -102,6 +117,59 @@ export default new Vuex.Store({
         console.log(err);
       }
     },
+    async buyTheGame(context, payload) {
+      try {
+        // console.log(payload)
+        const token = localStorage.getItem(`access_token`);
+        const data = await axios({
+          method: "POST",
+          url: `http://localhost:3000/order/transaction/${payload}`,
+          headers: { access_token: token },
+        });
+        console.log(data)
+        context.commit("GAME_PURCHASED", data);
+      } catch (err) {
+        console.log(err);
+      }
+    },
+    async addToCollection(context, payload) {
+      try {
+        console.log(payload)
+        const token = localStorage.getItem(`access_token`);
+        const id = localStorage.getItem(`id`)
+        const data = await axios({
+          method: "POST",
+          url: `http://localhost:3000/games/GamesCollection/${id}`,
+          data: {
+            gameId: payload.gameId,
+            name: payload.name,
+            price: payload.price,
+            background_image: payload.background_image,
+            released: payload.released, 
+            rating: payload.rating, 
+          },
+          headers : { access_token: token },
+        })
+        console.log(data)
+        context.commit("GAME_COLLECTION", data);
+      } catch (err) {
+        console.log(err)
+      }
+    },
+    async showGameCollection(context) {
+      try {
+        const token = localStorage.getItem(`access_token`);
+        const id = localStorage.getItem(`id`)
+        const data = await axios({
+          method: "GET",
+          url: `http://localhost:3000/games/GamesCollection/${id}`,
+          headers: { access_token: token },
+        })
+        context.commit("GAME_COLLECTION", data);
+      } catch (err) {
+        console.log(err)
+      }
+    }
   },
   modules: {},
 });

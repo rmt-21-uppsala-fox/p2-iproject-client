@@ -1,50 +1,14 @@
 <template>
   <div class="mx-6 grid grid-cols-2 gap-6 md:grid-cols-3 lg:grid-cols-4 mt-10">
     <div
-      v-for="game in games"
+      v-for="game in gameCollection"
       :key="game.id"
       class="max-w-md w-full rounded-t-md overflow-hidden bg-[#004445] shadow-lg rounded-xl p-6"
     >
       <div class="flex flex-col">
         <div>
           <div class="relative h-62 w-full mb-3">
-            <div class="absolute flex flex-col top-0 right-0 p-3">
-              <!-- <button
-                class="transition ease-in duration-300 bg-gray-800 hover:text-purple-500 shadow hover:shadow-md text-gray-500 rounded-full w-8 h-8 text-center p-1"
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  class="h-6 w-6"
-                  viewBox="0 0 20 20"
-                  fill="currentColor"
-                >
-                  <path
-                    fill-rule="evenodd"
-                    d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z"
-                    clip-rule="evenodd"
-                  />
-                </svg>
-              </button> -->
-              <button
-                v-if="isLogin"
-                class="transition ease-in duration-300 bg-gray-800 hover:text-purple-500 shadow hover:shadow-md text-gray-500 rounded-full w-8 h-8 text-center p-1"
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  class="h-6 w-6"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
-                  />
-                </svg>
-              </button>
-            </div>
+            
             <img
               :src="game.background_image"
               class="object-cover h-48 w-96 rounded-2xl"
@@ -98,23 +62,7 @@
 
 <script>
 export default {
-  props: [`games`],
-  methods: {
-    async gameDetail(data) {
-      try {
-        // console.log(data);
-        this.$store.dispatch(`buyTheGame`, data);
-        this.$store.dispatch("getDataGame", data);
-        this.$router.push(`game-detail`);
-      } catch (err) {
-        console.log(err);
-      }
-    },
-  },
-  computed: {
-    isLogin() {
-      return this.$store.state.isLogin;
-    },
-  },
+  props: [`gameCollection`],
+  
 };
 </script>
