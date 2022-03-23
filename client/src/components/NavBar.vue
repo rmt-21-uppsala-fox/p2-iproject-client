@@ -32,7 +32,12 @@
         @click="goToLogin"
         >Sign In</a
       >
-      <a class="link link-hover text-white px-5" v-if="!isLogin">Sign Up</a>
+      <a
+        class="link link-hover text-white px-5"
+        v-if="!isLogin"
+        @click="goToRegister"
+        >Sign Up</a
+      >
       <a class="link link-hover text-white pl-28" v-if="isLogin">Logout</a>
     </div>
   </nav>
@@ -48,7 +53,15 @@ export default {
         console.log(err);
       }
     },
+    async goToRegister() {
+      try {
+        this.$router.push(`/register`);
+      } catch (err) {
+        console.log(err);
+      }
+    },
   },
+
   computed: {
     isLogin() {
       return this.$store.state.isLogin;

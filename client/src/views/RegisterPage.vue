@@ -24,8 +24,8 @@
       <div class="flex justify-center self-center z-10">
         <div class="p-12 bg-white mx-auto rounded-2xl w-100">
           <div class="mb-4">
-            <h3 class="font-semibold text-2xl text-gray-800">Sign In</h3>
-            <p class="text-gray-500">Please sign in to your account.</p>
+            <h3 class="font-semibold text-2xl text-gray-800">Sign Up</h3>
+            <p class="text-gray-500">Please sign Up to your account.</p>
           </div>
           <form class="space-y-5" @submit.prevent="onSubmit">
             <div class="space-y-2">
@@ -50,6 +50,17 @@
                 class="w-full content-center text-base px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-green-400"
                 type="password"
                 placeholder="Enter your password"
+              />
+            </div>
+            <div class="space-y-2">
+              <label class="text-sm font-medium text-gray-700 tracking-wide"
+                >Username</label
+              >
+              <input
+                v-model="username"
+                class="w-full text-base px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-green-400"
+                type="text"
+                placeholder="Username"
               />
             </div>
             <div>
@@ -86,19 +97,22 @@ export default {
     return {
       email: "",
       password: "",
+      username: "",
     };
   },
   methods: {
     async onSubmit() {
       try {
-        await this.$store.dispatch("postLogin", {
+        await this.$store.dispatch("signUp", {
           email: this.email,
           password: this.password,
+          username: this.username,
         });
-        if (localStorage.getItem("access_token")) {
-          this.$router.push("/");
+        const access_token = localStorage.getItem("access_token");
+        if (access_token) {
+          this.$router.push({ name: "home" });
         } else {
-          this.$router.push("/login");
+          this.$router.push({ name: "login" });
         }
       } catch (err) {
         console.log(err);
