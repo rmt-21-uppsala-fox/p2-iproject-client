@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import axios from 'axios'
+import * as faceapi from 'face-api.js';
 
 Vue.use(Vuex)
 
@@ -18,6 +19,9 @@ export default new Vuex.Store({
   getters: {
     getCart(state) {
       return state.cart
+    },
+    getimagesUrl(state) {
+      return state.imagesUrl
     }
   },
   mutations: {
@@ -163,6 +167,39 @@ export default new Vuex.Store({
 
         console.log(response.data);
 
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    async initializeFaceRecognition(context) {
+      try {
+          await faceapi.nets.faceRecognitionNet.loadFromUri('/assets/models')
+          await faceapi.nets.faceLandmark68Net.loadFromUri('/assets/models')
+          await faceapi.nets.ssdMobilenetv1.loadFromUri('/assets/models')
+
+          await context.dispatch('fetchImages')
+
+          const images = context.getters.getimagesUrl
+
+          const labels = []
+          for (const key in images) {
+            labels.push(key)
+          }
+
+          Promise.all(labels.map(async (label) => {
+            const descriptions = []
+            for (let i = 0; i <= 1; i++) {
+
+              const img = await faceapi.fetchImage(images[label][i]);
+
+              const detections = await faceapi.detectSingleFace(img).withFaceLandmarks().withFaceDescriptor()
+              descriptions.push(detections.descriptor)
+            }
+            return new faceapi.LabeledFaceDescriptors(label, descriptions)
+          })).then((data) => {
+            context.commit('setLabeledDescriptors', data)
+            context.commit('setFaceRecognitionLoaded')
+          })
       } catch (error) {
         console.log(error);
       }

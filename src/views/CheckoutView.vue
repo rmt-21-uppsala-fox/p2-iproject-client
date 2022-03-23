@@ -36,8 +36,8 @@
                 <iframe :src="invoiceUrl" height="600" width="1100"></iframe>
             </b-modal>
 
-            <span v-show="showFaceRecognition" id="canvas" style="position: absolute; z-index: 2; left: 37.5%; top: 20%"></span>
-            <video v-show="showFaceRecognition" id="videoInput" style="position: absolute; z-index: 1 ; left: 37.5%; top: 20%" width="450" height="400" muted controls autoplay></video>
+            <span v-show="showFaceRecognition" id="canvas" style="position: fixed; z-index: 2; left: 37.5%; top: 20%"></span>
+            <video v-show="showFaceRecognition" id="videoInput" style="position: fixed; z-index: 1 ; left: 37.5%; top: 20%" width="450" height="400" muted controls autoplay></video>
 
         </div>
     </div>
