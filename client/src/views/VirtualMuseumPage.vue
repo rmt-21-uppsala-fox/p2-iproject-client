@@ -12,32 +12,31 @@
     <!-- x y z -->
     <!-- x = plane -->
     <!-- y = heigth -->
-    <!-- @click="callWikipedia(0)" -->
     <a-box
       @click="callWikipedia(0)"
       :src="museumImage0"
-      position="-18.5 3 -8.3"
+      position="-18.5 2 -8.3"
       rotation="0 70 0"
-      width="10"
-      height="6"
+      width="6.205"
+      height="5"
       depth="0.1"
     ></a-box>
     <a-box
       @click="callWikipedia(1)"
       :src="museumImage1"
-      position="-8.3 4 -19.8"
+      position="-8.3 3 -19.8"
       rotation="0 21 0"
-      width="10"
-      height="6"
+      width="7.28"
+      height="6.05"
       depth="0.1"
     ></a-box>
     <a-box
       @click="callWikipedia(2)"
       :src="museumImage2"
-      position="6.5 4 -19.5"
+      position="6.5 3 -19.5"
       rotation="0 -22 0"
-      width="5"
-      height="8"
+      width="12.5"
+      height="6.53"
       depth="0.1"
     ></a-box>
     <a-assets>
@@ -81,6 +80,7 @@ export default {
     async callWikipedia(id) {
       try {
         const response = await this.$store.dispatch(`callWikipedia`, id);
+        console.log(response);
         window.open(response.data.data);
       } catch (error) {
         console.log(error);
@@ -89,29 +89,33 @@ export default {
   },
   computed: {
     museumImage0() {
-      if (this.$store.state.museumData) {
-        return this.$store.state.museumData?.artObjects[0].webImage.url;
+      if (this.$store.state.image_0) {
+        return this.$store.state.image_0?.artObjects[0].webImage.url;
       } else {
         return console.log(``);
       }
     },
     museumImage1() {
-      if (this.$store.state.museumData) {
-        return this.$store.state.museumData?.artObjects[1].webImage.url;
+      if (this.$store.state.image_1) {
+        return this.$store.state.image_1?.artObjects[0].webImage.url;
       } else {
         return console.log(``);
       }
     },
     museumImage2() {
-      if (this.$store.state.museumData) {
-        return this.$store.state.museumData?.artObjects[2].webImage.url;
+      if (this.$store.state.image_2) {
+        return this.$store.state.image_2?.artObjects[0].webImage.url;
       } else {
         return console.log(``);
       }
     },
   },
   async created() {
-    await this.$store.dispatch("callRijksmuseum");
+    await this.$store.dispatch("callRijksmuseum", {
+      URL_0: "&imgonly=True&q=corpses+of",
+      URL_1: "&imgonly=True&q=night+watch",
+      URL_2: "&imgonly=True&q=fishing",
+    });
   },
 };
 </script>

@@ -4,13 +4,6 @@
   </div>
 </template>
 
-<script>
-export default {
-  name: "A-Frame",
-  
-};
-</script>
-
 <style>
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;

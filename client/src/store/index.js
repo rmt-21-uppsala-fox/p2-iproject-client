@@ -6,42 +6,71 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    museumData: "",
+    image_0: "",
+    image_1: "",
+    image_2: "",
+    image_3: "",
+    image_4: "",
+    image_5: "",
     wikipediaData: "",
   },
   getters: {
-    museumTitles(state) {
-      return state.museumData.artObjects.map((e) => e.title);
+    imageTitle_0(state) {
+      return state.image_0.artObjects[0].title;
+    },
+    imageTitle_1(state) {
+      return state.image_1.artObjects[0].title;
+    },
+    imageTitle_2(state) {
+      return state.image_2.artObjects[0].title;
     },
   },
   mutations: {
     SET_MUSEUM_DATA(state, payload) {
-      state.museumData = payload.data;
+      state.image_0 = payload.imageData_0;
+      state.image_1 = payload.imageData_1;
+      state.image_2 = payload.imageData_2;
+      state.image_3 = payload.imageData_3;
+      state.image_4 = payload.imageData_4;
+      state.image_5 = payload.imageData_5;
     },
     SET_WIKIPEDIA(state, payload) {
-      console.log(payload);
       state.wikipediaData = payload;
     },
   },
   actions: {
-    async callRijksmuseum(context) {
+    async callRijksmuseum(context, payload) {
       try {
         const response = await axios({
-          method: "get",
+          method: "post",
           url: "http://localhost:3000/paintings",
+          data: payload,
         });
         context.commit("SET_MUSEUM_DATA", response.data);
       } catch (error) {
-        console.log(error);
+        console.log(error.response);
       }
     },
     async callWikipedia(context, payload) {
       try {
-        console.log(context.getters.museumTitles[payload]);
+        let title;
+        switch (payload) {
+          case 0:
+            title = context.getters.imageTitle_0;
+            break;
+          case 1:
+            title = context.getters.imageTitle_1;
+            break;
+          case 2:
+            title = context.getters.imageTitle_2;
+            break;
+          default:
+            break;
+        }
         return await axios({
           method: "post",
           url: "http://localhost:3000/wikis",
-          data: { data: context.getters.museumTitles[payload] },
+          data: { title },
         });
       } catch (error) {
         console.log(error);
