@@ -1,7 +1,7 @@
 <template>
   <!-- component -->
-  <div class="container flex mt-10">
-    <div class="container signup mt-10">
+  <div class="container flex">
+    <div class="container signup">
       <div class="min-h-screen flex mb-4 row-signup items-center justify-center">
         <div class="w-3/5 h-12 row-right">
 
@@ -93,7 +93,10 @@ export default {
       try {
         const response = await this.$store.dispatch("loginHandler", this.user);
         localStorage.setItem("access_token", response.data.access_token);
-        this.$store.commit("FETCH_STATUS_LOGIN", true);
+        this.$store.commit("SET_STATUS_LOGIN", {
+          isLogin: true,
+          currentUser: this.user.username,
+        });
         this.$router.push({ name: "home" });
       } catch (error) {
         console.log(error);

@@ -26,7 +26,7 @@
                 data-wow-duration="1.3s"
                 data-wow-delay="0.8s"
               >Find recipe, recommendation recipe based on weather, and you can plan your meal</p>
-              <div>
+              <div v-if="!detailPage">
                 <input
                   class="wow fadeInUp w-full mb-3 rounded"
                   style="padding:6px"
@@ -76,6 +76,11 @@ import NavbarComponent from "./NarbarComponent.vue";
 export default {
   name: "HeaderComponent",
   components: { NavbarComponent },
+  computed: {
+    detailPage() {
+      return this.$store.state.detailPage;
+    },
+  },
 };
 </script>
 
