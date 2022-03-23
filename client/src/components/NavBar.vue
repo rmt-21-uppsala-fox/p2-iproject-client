@@ -38,7 +38,7 @@
         @click="goToRegister"
         >Sign Up</a
       >
-      <a class="link link-hover text-white pl-28" v-if="isLogin">Logout</a>
+      <a class="link link-hover text-white pl-28" @click="logout" v-if="isLogin">Logout</a>
     </div>
   </nav>
 </template>
@@ -56,6 +56,14 @@ export default {
     async goToRegister() {
       try {
         this.$router.push(`/register`);
+      } catch (err) {
+        console.log(err);
+      }
+    },
+    async logout() {
+      try {
+        await this.$store.dispatch(`logout`);
+        this.$router.push(`/`);
       } catch (err) {
         console.log(err);
       }
