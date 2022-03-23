@@ -49,7 +49,7 @@ import CustomNavbar from "@/components/CustomNavbar.vue";
 import DraggableDiv from "@/components/DragableDiv.vue";
 import Swal from "sweetalert2";
 export default {
-  name: "CreateRouteVue",
+  name: "EstimateCarbonPage",
   data() {
     return {
       cars: [],
@@ -92,7 +92,16 @@ export default {
           confirmButtonText: "Cool",
         });
       } catch (error) {
-        console.error(error.response);
+        if (error.response) {
+          Swal.fire({
+            title: "Something's Wrong",
+            text: error.response.message,
+            icon: "error",
+            confirmButtonText: "Cool",
+          });
+        } else {
+          console.error(error);
+        }
       }
     },
     async getCarModel() {
@@ -100,7 +109,16 @@ export default {
         const response = await this.$store.dispatch("getCarModel");
         this.cars = response.data;
       } catch (error) {
-        console.error(error);
+        if (error.response) {
+          Swal.fire({
+            title: "Something's Wrong",
+            text: error.response.message,
+            icon: "error",
+            confirmButtonText: "Cool",
+          });
+        } else {
+          console.error(error);
+        }
       }
     },
   },
