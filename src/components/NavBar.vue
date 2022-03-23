@@ -24,21 +24,21 @@
                 class="inline-block no-underline hover:text-black hover:underline py-2"
               >Home</router-link>
             </li>
-            <li v-if="isLogin">
+            <li>
               <router-link
-                to="/favorites"
+                to="/"
                 class="inline-block no-underline hover:text-black hover:underline py-2 px-4"
                 href="#"
-              >Favorites</router-link>
+              >Workshop</router-link>
             </li>
           </ul>
         </nav>
       </div>
 
       <div class="order-1 md:order-2 md:w-1/3 flex justify-center">
-        <a
+        <router-link
+          to="/"
           class="flex items-center tracking-wide no-underline hover:no-underline font-bold text-gray-800 text-xl"
-          href="#"
         >
           <img
             src="https://www.pikpng.com/pngl/m/20-204281_car-outline-logo-clipart-best-auto-logo-png.png"
@@ -48,7 +48,7 @@
             alt
           />
           FURAUTOPARTS
-        </a>
+        </router-link>
       </div>
 
       <div class="order-2 md:order-3 flex items-center md:w-1/3 justify-end" id="nav-content">
@@ -74,6 +74,18 @@
             v-else
             class="md:flex items-center justify-between text-base text-gray-700 pt-4 md:pt-0"
           >
+            <li>
+              <router-link
+                to="/mycart"
+                class="inline-block no-underline hover:text-black hover:underline py-2"
+              >Transaction</router-link>
+            </li>
+            <li>
+              <router-link
+                to="/mycart"
+                class="inline-block no-underline hover:text-black hover:underline py-2 px-4"
+              >My Cart</router-link>
+            </li>
             <li>
               <a
                 href="#"
