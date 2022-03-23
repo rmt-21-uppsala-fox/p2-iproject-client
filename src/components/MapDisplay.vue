@@ -225,10 +225,9 @@ export default {
       this.map.removeSource("route");
     },
   },
-  created() {
+  mounted() {
     this.showUserLocation();
   },
-  mounted() {},
 };
 </script>
 

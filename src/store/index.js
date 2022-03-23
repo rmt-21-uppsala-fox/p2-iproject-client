@@ -60,6 +60,13 @@ export default new Vuex.Store({
           year
         }
       })
+    },
+    sendResult: async function (context, payload) {
+      return await axios({
+        method: 'POST',
+        url: context.state.baseUrl + "/carbon/screenshot",
+        data: payload
+      })
     }
 
   }
