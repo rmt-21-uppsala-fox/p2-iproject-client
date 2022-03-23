@@ -1,5 +1,5 @@
 <template>
-<div id="page_login" class="index pt-4 mt-5">
+<div id="page_login" class="index pt-4 ">
     <div class="container">
         <div class="col-md-10 mx-md-auto">
             <div class="login-box bg-white pl-lg-5 pl-0">
@@ -11,14 +11,20 @@
                                 <div class="row">
                                     <div class="col-12">
                                         <div class="form-group position-relative">
+                                            <span class="zmdi zmdi-account"></span>
+                                            <input v-model="registerData.name" type="text" class="name form-control" placeholder="Name" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <div class="form-group position-relative">
                                             <span class="zmdi zmdi-email"></span>
-                                            <input v-model="registerData.email" type="email" class="email form-control" placeholder="Email Address">
+                                            <input v-model="registerData.email" type="email" class="email form-control" placeholder="Email Address" required>
                                         </div>
                                     </div>
                                     <div class="col-12">
                                         <div class="form-group position-relative">
                                             <span class="zmdi zmdi-key"></span>
-                                            <input v-model="registerData.password" type="password" class="password form-control" placeholder="Password">
+                                            <input v-model="registerData.password" type="password" class="password form-control" placeholder="Password" required>
                                         </div>
                                     </div>
                                     <div class="col-12">
@@ -31,11 +37,11 @@
                     </div>
                     <div class="col-md-6">
                         <div class="content text-center">
-                            <div class="border-bottom pb-4 mb-5">
-                                <h3>Already have an account?</h3>
+                            <div class="border-bottom pb-5 mb-5">
+                                <h5>Already have an account?</h5>
                                 <router-link to="/login" class="btn btn-outline-dark">Log in</router-link>
                             </div>
-                            <h5 class="mb-4 mt-n1">"Welcome to my humble abode!"</h5>
+                            <h5 class="mb-4 mt-n1">"Take control of your LYFE"</h5>
                         </div>
                     </div>
                 </div>
@@ -55,6 +61,7 @@ export default {
     data() {
         return {
             registerData: {
+                name: '',
                 email: '',
                 password: ''
             }
@@ -62,7 +69,8 @@ export default {
     },
     methods: {
         async doRegister() {
-            await this.$store.dispatch('doLogin', {
+            await this.$store.dispatch('doRegister', {
+                name: this.registerData.name,
                 email: this.registerData.email,
                 password: this.registerData.password
             })

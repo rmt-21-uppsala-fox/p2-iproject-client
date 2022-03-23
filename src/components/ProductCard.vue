@@ -9,8 +9,8 @@
 
         <div class="row" style="height:60px">
             <div class="col-7">
-                <p class="text-danger">Rp. {{productPackage.price}}</p>
-                <small style="text-decoration: line-through">Rp. 35.000</small>
+                <p class="text-danger">{{formattedPrice}}</p>
+                <small style="text-decoration: line-through">{{discountPrice}}</small>
             </div>
             <div class="col-5">
                 <i role="button" @click="addToCart(productPackage)" class="fa-solid fa-cart-plus fa-3x mt-2"></i>
@@ -29,6 +29,23 @@ export default {
             this.$store.commit('addToCart', productPackage)
         }
     },
+    computed: {
+        formattedPrice() {
+            return new Intl.NumberFormat('id-ID', {
+                style: 'currency',
+                currency: 'IDR',
+                minimumFractionDigits: 0
+            }).format(this.productPackage.price);
+        },
+        discountPrice() {
+            let markupPrice = this.productPackage.price + 50000
+            return new Intl.NumberFormat('id-ID', {
+                style: 'currency',
+                currency: 'IDR',
+                minimumFractionDigits: 0
+            }).format(markupPrice);
+        }
+    }
 }
 </script>
 

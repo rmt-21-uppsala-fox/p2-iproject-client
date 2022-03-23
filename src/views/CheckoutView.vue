@@ -1,6 +1,7 @@
 <template>
-<div class="row pt-3 ml-5">
+<div class="row pt-3 " style="margin-left: 7%; margin-top: 3%">
     <div class="col-8">
+        <h2 v-if="$store.state.cart.length < 1" class="p-5">Your cart is empty, please add some item into your cart</h2>
         <CheckoutCard v-for="productPackage in cart" :key="productPackage.id" :productPackage=productPackage></CheckoutCard>
     </div>
     <div class="col-4 border border-secondary rounded grid w-25">
@@ -14,7 +15,7 @@
             </div>
             <div class="col-6 ps-5">
                 <p v-if="cartTotalAmount === 0">Rp. 0</p>
-                <p v-else>Rp. {{cartTotalAmount}}</p>
+                <p v-else>{{cartTotalAmount}}</p>
             </div>
         </div>
 
@@ -59,6 +60,22 @@ export default {
         return {
             invoiceUrl: '',
             showFaceRecognition: false,
+        }
+    },
+    computed: {
+        cart() {
+            return this.$store.state.cart
+        },
+        cartTotalAmount() {
+            let totalAmount = 0
+            this.$store.state.cart.forEach((item) => {
+                totalAmount += item.price
+            })
+            return new Intl.NumberFormat('id-ID', {
+                style: 'currency',
+                currency: 'IDR',
+                minimumFractionDigits: 0
+            }).format(totalAmount);
         }
     },
     methods: {
@@ -129,19 +146,6 @@ export default {
             } catch (error) {
                 console.log(error);
             }
-        }
-    },
-    computed: {
-        cart() {
-            return this.$store.state.cart
-        },
-        cartTotalAmount() {
-            let totalAmount = 0
-            this.$store.state.cart.forEach((item) => {
-                totalAmount += item.price
-            })
-
-            return totalAmount
         }
     }
 }
