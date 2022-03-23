@@ -22,6 +22,7 @@
 
 <script>
 import ProductCard from '../components/ProductCard.vue'
+import * as faceapi from 'face-api.js';
 export default {
     name: 'HomeView',
     components: {
@@ -32,7 +33,30 @@ export default {
             return this.$store.state.packages
         }
     },
-    mounted(){
+    async created() {
+        if (!this.$store.state.faceRecognitionLoaded) {
+            await faceapi.nets.faceRecognitionNet.loadFromUri('/assets/models')
+            await faceapi.nets.faceLandmark68Net.loadFromUri('/assets/models')
+            await faceapi.nets.ssdMobilenetv1.loadFromUri('/assets/models')
+            this.$store.commit('setFaceApiLoaded')
+
+            const labels = ['Captain America', 'Tony Stark', 'Thor', 'Tommy']
+            Promise.all(labels.map(async (label) => {
+                const descriptions = []
+                for (let i = 1; i <= 2; i++) {
+                    const img = await faceapi.fetchImage(`/assets/labeled_images/${label}/${i}.jpg`)
+
+                    const detections = await faceapi.detectSingleFace(img).withFaceLandmarks().withFaceDescriptor()
+                    descriptions.push(detections.descriptor)
+                }
+                return new faceapi.LabeledFaceDescriptors(label, descriptions)
+            })).then((data) => {
+                this.$store.commit('setLabeledDescriptors', data)
+                this.$store.commit('setFaceRecognitionLoaded')
+            })
+        }
+    },
+    mounted() {
         this.$store.dispatch('fetchPackages')
     }
 }

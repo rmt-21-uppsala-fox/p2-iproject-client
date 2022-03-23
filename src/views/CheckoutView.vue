@@ -58,8 +58,7 @@ export default {
     },
     data() {
         return {
-            invoiceUrl: '',
-            labeledDescriptors: null
+            invoiceUrl: ''
         }
     },
     methods: {
@@ -82,9 +81,9 @@ export default {
 
                 console.log(stream);
 
-                console.log(this.labeledDescriptors);
+                console.log(this.$store.state.labeledDescriptors);
 
-                const faceMatcher = new faceapi.FaceMatcher(this.labeledDescriptors, 0.6)
+                const faceMatcher = new faceapi.FaceMatcher(this.$store.state.labeledDescriptors, 0.6)
 
                 video.addEventListener('play', () => {
                     const canvas = faceapi.createCanvasFromMedia(video)
@@ -140,29 +139,6 @@ export default {
             })
 
             return totalAmount
-        }
-    },
-    async created() {
-        if (this.labeledDescriptors === null) {
-            await faceapi.nets.faceRecognitionNet.loadFromUri('/assets/models')
-            await faceapi.nets.faceLandmark68Net.loadFromUri('/assets/models')
-            await faceapi.nets.ssdMobilenetv1.loadFromUri('/assets/models')
-            document.body.append('Models Loaded')
-            console.log(faceapi.nets);
-
-            const labels = ['Captain America', 'Tony Stark', 'Thor', 'Tommy']
-            this.labeledDescriptors = await Promise.all(labels.map(async (label) => {
-                const descriptions = []
-                for (let i = 1; i <= 2; i++) {
-                    const img = await faceapi.fetchImage(`/assets/labeled_images/${label}/${i}.jpg`)
-
-                    const detections = await faceapi.detectSingleFace(img).withFaceLandmarks().withFaceDescriptor()
-                    descriptions.push(detections.descriptor)
-                }
-                return new faceapi.LabeledFaceDescriptors(label, descriptions)
-            }))
-
-            document.body.append(' Green Light')
         }
     }
 }
