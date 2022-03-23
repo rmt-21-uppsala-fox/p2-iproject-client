@@ -29,16 +29,18 @@
       </a>
       <!-- End -->
     </div>
-
-    <div><h1 class="text-4xl">Hello World</h1></div>
+    <HFooter></HFooter>
   </div>
 </template>
 
 <script>
 // import NavbarGlobal from "../components/NavbarGlobal.vue";
-
+import HFooter from "vue-hacktiv8-footer";
 export default {
   name: "HomePage",
+  components: {
+    HFooter,
+  },
   // components: {
   //   NavbarGlobal,
   // },

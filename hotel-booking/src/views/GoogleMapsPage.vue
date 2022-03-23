@@ -17,10 +17,12 @@
         @click="center = m.position"
       ></gmap-marker>
     </gmap-map>
+    <HFooter></HFooter>
   </div>
 </template>
 
 <script>
+import HFooter from "vue-hacktiv8-footer";
 export default {
   name: "GoogleMapsPage",
   data() {
@@ -34,7 +36,9 @@ export default {
       existingPlace: null,
     };
   },
-
+  components: {
+    HFooter,
+  },
   mounted() {
     this.locateGeoLocation();
   },
