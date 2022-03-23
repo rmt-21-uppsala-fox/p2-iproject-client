@@ -2,10 +2,13 @@ import Vue from "vue";
 import Vuex from "vuex";
 import local from "../../apis/axios";
 import {
+	db,
+	collection,
 	auth,
 	createUserWithEmailAndPassword,
 	signInWithEmailAndPassword,
 } from "../../firebase/firebase-config";
+import { doc, setDoc } from "firebase/firestore";
 
 Vue.use(Vuex);
 
@@ -60,20 +63,42 @@ export default new Vuex.Store({
 					payload.email,
 					payload.password
 				);
-				console.log(response);
+				console.log(response.user.uid);
+				await setDoc(doc(db, "Users", response.user.uid), {
+					email: payload.email,
+					password: payload.password,
+				});
 				return response;
 			} catch (err) {
 				console.log(err);
 			}
 		},
+
 		async loginHandler(context, payload) {
+			const response = await signInWithEmailAndPassword(
+				auth,
+				payload.email,
+				payload.password
+			);
+			localStorage.setItem("uid", response.user.uid);
+			localStorage.setItem("token", response.user.accessToken);
+			return response;
+		},
+		async postFavorite(constext, id) {
+			const UserId = localStorage.getItem("uid");
+			console.log(`masuk`, id);
+			const bookmarkId = UserId + "here" + id;
+			const response = await setDoc(doc(db, "Favorites", bookmarkId), {
+				UserId,
+				MangaId: id,
+			});
+			return response;
+		},
+
+		async getFavorite() {
 			try {
-				const response = await signInWithEmailAndPassword(
-					auth,
-					payload.email,
-					payload.password
-				);
-				return response;
+				const UserId = localStorage.getItem("uid");
+				console.log(UserId);
 			} catch (err) {
 				console.log(err);
 			}

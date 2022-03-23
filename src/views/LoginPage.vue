@@ -48,12 +48,7 @@
 					>
 						Login
 					</button>
-					<a
-						type="submit"
-						class="w-full text-yellow-500 bg-red-500 hover:bg-sky-500 focus:ring-4 focus:ring-yellow-500 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-					>
-						Google Login
-					</a>
+
 					<div
 						class="text-sm text-center font-medium text-gray-500 dark:text-gray-300"
 					>
@@ -77,6 +72,11 @@
 						>
 					</div>
 				</form>
+				<Button
+					class="w-full text-white bg-blue-600 hover:bg-red-500 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+				>
+					Login with Facebook
+				</Button>
 			</div>
 		</div>
 	</div>
