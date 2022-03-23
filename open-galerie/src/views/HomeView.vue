@@ -45,29 +45,8 @@
           justify-content: space-around;
         "
       >
-        <div class="cardGallery">
-          <p>WalletID:</p>
-          <h4 style="word-break: break-all; white-space: normal">
-            0x1f3b538a75ae8758ddff25d3d2bf7ca64408f853
-          </h4>
-        </div>
-        <div class="cardGallery">
-          <p>WalletID:</p>
-          <h4 style="word-break: break-all; white-space: normal">
-            0x1f3b538a75ae8758ddff25d3d2bf7ca64408f853
-          </h4>
-        </div>
-        <div class="cardGallery">
-          <p>WalletID:</p>
-          <h4 style="word-break: break-all; white-space: normal">
-            0x1f3b538a75ae8758ddff25d3d2bf7ca64408f853
-          </h4>
-        </div>
-        <div class="cardGallery">
-          <p>WalletID:</p>
-          <h4 style="word-break: break-all; white-space: normal">
-            0x1f3b538a75ae8758ddff25d3d2bf7ca64408f853
-          </h4>
+        <div v-for="(item, i) in gallery" :key="i">
+          <GalleryCard :cardData="item" />
         </div>
       </div>
     </section>
@@ -94,17 +73,24 @@
 <script>
 // @ is an alias to /src
 import NewsCard from "../components/NewsCard.vue";
+import GalleryCard from "../components/GalleryCard.vue";
+
 export default {
   name: "HomeView",
   components: {
     NewsCard,
+    GalleryCard,
   },
   created() {
     this.$store.dispatch("getNews");
+    this.$store.dispatch("getGallery");
   },
   computed: {
     news() {
       return this.$store.state.news;
+    },
+    gallery() {
+      return this.$store.state.gallery;
     },
   },
 };
