@@ -20,8 +20,6 @@ export default {
     return {
       loading: false,
       location: "",
-      access_token:
-        "pk.eyJ1IjoibXNncm91bSIsImEiOiJjbDBvejR3b3Qwb2dyM29vN3oxczlxZWtiIn0.iokUpDxaIVuFlBR_zrw5Dw", // starting position [lng, lat]
       map: {},
       direction: {},
       draw: {},
@@ -30,6 +28,9 @@ export default {
   computed: {
     display() {
       return this.$store.state.display;
+    },
+    access_token() {
+      return this.$store.state.mapbox_token;
     },
   },
   methods: {
