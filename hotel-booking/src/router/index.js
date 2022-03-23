@@ -7,6 +7,7 @@ import RegisterPage from "../views/RegisterPage.vue";
 import GoogleMapsPage from "../views/GoogleMapsPage.vue";
 import MarkerGoogleMapsPage from "../views/MarkerGoogleMapsPage.vue";
 import SingleMarkerGoogleMaps from "../views/SingleMarkerGoogleMaps.vue";
+import PaymentPage from "../views/PaymentPage.vue";
 
 Vue.use(VueRouter);
 
@@ -44,6 +45,11 @@ const routes = [
     path: "/markermaps/:id",
     name: "SingleMarkerGoogleMaps",
     component: SingleMarkerGoogleMaps,
+  },
+  {
+    path: "/payment",
+    name: "PaymentPage",
+    component: PaymentPage,
   },
   {
     path: "/about",
