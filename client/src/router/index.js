@@ -5,6 +5,7 @@ import UpcomingGames from "../views/UpcomingReleasePage.vue";
 import GameDetail from "../views/GameDetail.vue";
 import LoginPage from "../views/LoginPage.vue";
 import RegisterPage from "../views/RegisterPage.vue";
+import GameCollection from "../views/GameCollection.vue";
 
 Vue.use(VueRouter);
 
@@ -33,6 +34,11 @@ const routes = [
     path: "/register",
     name: "RegisterPage",
     component: RegisterPage,
+  },
+  {
+    path: "/collection",
+    name: "GameCollection",
+    component: GameCollection,
   },
 ];
 

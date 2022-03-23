@@ -9,7 +9,10 @@
       <navbar></navbar>
       <!-- End Navbar -->
       <!-- Content -->
-      <content-game-detail v-bind:games="getDetailGame"></content-game-detail>
+      <content-game-detail
+        v-bind:buyTheGame="buyTheGame"
+        v-bind:getDetailGame="getDetailGame"
+      ></content-game-detail>
       <!-- End Content -->
     </main>
     <!-- End Body -->
@@ -30,9 +33,9 @@ export default {
     getDetailGame() {
       return this.$store.state.detailGame;
     },
-  },
-  created: function () {
-    this.$store.dispatch(`getDataGame`);
+    buyTheGame() {
+      return this.$store.state.purchasedGames;
+    },
   },
 };
 </script>
