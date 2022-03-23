@@ -184,7 +184,7 @@ export default {
 
         this.createDrawMap();
         this.map.on("draw.delete", this.removeRoute);
-      } catch (err) {
+      } catch (error) {
         if (error.response) {
           Swal.fire({
             title: "Something's Wrong",
