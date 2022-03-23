@@ -17,6 +17,7 @@
 							>Your email</label
 						>
 						<input
+							v-model="email"
 							type="email"
 							name="email"
 							id="email"
@@ -32,6 +33,7 @@
 							>Your password</label
 						>
 						<input
+							v-model="password"
 							type="password"
 							name="password"
 							id="password"
@@ -76,6 +78,26 @@
 <script>
 	export default {
 		name: "RegisterPage",
+		data() {
+			return {
+				email: "",
+				password: "",
+			};
+		},
+		methods: {
+			async registerHandler() {
+				try {
+					await this.$store.dispatch("registerHandler", {
+						email: this.email,
+						password: this.password,
+					});
+					this.$router.push("/login");
+				} catch (err) {
+					this.$router.push("/register");
+					console.log(err);
+				}
+			},
+		},
 	};
 </script>
 

@@ -4,7 +4,7 @@
 			<div
 				class="max-w-lg w-96 bg-white rounded-2xl border border-gray-200 shadow-2xl sm:p-6 lg:p-8 dark:bg-gray-800 dark:border-gray-700"
 			>
-				<form class="space-y-6 py-10" @submit.prevent="">
+				<form class="space-y-6 py-10" @submit.prevent="loginHandler">
 					<h5
 						class="text-5xl text-center font-black text-gray-900 dark:text-white"
 					>
@@ -17,6 +17,7 @@
 							>Your email</label
 						>
 						<input
+							v-model="email"
 							type="email"
 							name="email"
 							id="email"
@@ -32,6 +33,7 @@
 							>Your password</label
 						>
 						<input
+							v-model="password"
 							type="password"
 							name="password"
 							id="password"
@@ -83,6 +85,26 @@
 <script>
 	export default {
 		name: "LoginPage",
+		data() {
+			return {
+				email: "",
+				password: "",
+			};
+		},
+		methods: {
+			async loginHandler() {
+				try {
+					await this.$store.dispatch("loginHandler", {
+						email: this.email,
+						password: this.password,
+					});
+					this.$router.push("/");
+				} catch (err) {
+					this.$router.push("/login");
+					console.log(err);
+				}
+			},
+		},
 	};
 </script>
 

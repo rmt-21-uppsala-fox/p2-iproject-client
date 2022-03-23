@@ -7,7 +7,7 @@
 			<router-link href="#" class="flex items-center" to="/">
 				<span
 					class="self-center text-3xl font-black italic font-serif whitespace-nowrap text-yellow-500 hover:text-red-500"
-					>Anime Stream</span
+					>Manga Encyclopedia</span
 				>
 			</router-link>
 			<button

@@ -1,6 +1,6 @@
 <template>
 	<!-- detail -->
-	<section class="text-gray-700 body-font overflow-hidden">
+	<section class="body-font overflow-hidden">
 		<div class="container px-5 py-24 mx-auto">
 			<div class="lg:w-4/5 mx-auto flex flex-wrap">
 				<img
@@ -15,7 +15,7 @@
 					>
 						back Home
 					</router-link>
-					<h1 class="text-gray-900 text-3xl title-font font-medium mb-1">
+					<h1 class="text-white text-3xl title-font font-medium mb-1">
 						{{ mangaById.attributes.titles.en_jp }}
 					</h1>
 					<div class="flex mb-4">
@@ -68,7 +68,7 @@
 						{{ mangaById.attributes.description }}
 					</p>
 					<div class="flex">
-						<span class="title-font font-medium text-2xl text-gray-900">
+						<span class="title-font font-medium text-2xl text-red-500">
 							{{ mangaById.attributes.averageRating }}
 						</span>
 						<router-link

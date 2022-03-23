@@ -42,6 +42,7 @@
 <script>
 	import NavigationBar from "../components/NavigationBar.vue";
 	import MangaCard from "../components/MangaCard.vue";
+	import { auth } from "../../firebase/firebase-config";
 	export default {
 		name: "HomePage",
 		components: {
@@ -60,6 +61,7 @@
 		},
 		created() {
 			this.getAllManga();
+			console.log(auth.currentUser);
 		},
 	};
 </script>

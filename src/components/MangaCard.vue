@@ -16,7 +16,7 @@
 					<a
 						class="no-underline hover:underline text-yellow-500 font-bold"
 						href="#"
-						@click.prevent=""
+						@click.prevent="goToDetailPage"
 					>
 						{{ manga.attributes.titles.en_jp }}
 					</a>
