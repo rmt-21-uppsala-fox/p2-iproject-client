@@ -1,13 +1,13 @@
 <template>
     <div class="grid-3x3 w-4/6">
         <novel-component
-            v-for="novel in novels"
-            :key="novel.id"
+            v-for="(novel, i) in novels"
+            :key="i"
             :novel="novel"
         ></novel-component>
         <novel-component
-            v-for="bookmark in bookmarks"
-            :key="bookmark.id"
+            v-for="(bookmark, i) in bookmarks"
+            :key="i"
             :novel="bookmark"
             :bookmark="bookmark"
         ></novel-component>

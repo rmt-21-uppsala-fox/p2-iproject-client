@@ -38,4 +38,18 @@ const router = new VueRouter({
     routes,
 });
 
+router.beforeEach((to, from, next) => {
+    const token = localStorage.getItem('access_token');
+    console.log(token);
+    const unauthorizedPage = ['LoginView', 'RegisterView'];
+    const authRequired = ['BookmarkView'];
+    if (!token && authRequired.includes(to.name)) {
+        return next('/login');
+    }
+    if (token && unauthorizedPage.includes(to.name)) {
+        return next('/');
+    } else {
+        next();
+    }
+});
 export default router;

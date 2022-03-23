@@ -12,6 +12,7 @@ import {
     collection,
     doc,
     getDocs,
+    query,
     setDoc,
     Timestamp,
     where,
@@ -141,8 +142,7 @@ export default new Vuex.Store({
                 });
                 swal('Success', 'Bookmark Success', 'success');
             } catch (error) {
-                console.log(error);
-                // swal('Error!', error.response, 'error');
+                swal('Error!', error.response, 'error');
             }
         },
 
@@ -156,12 +156,16 @@ export default new Vuex.Store({
                         )}`,
                     },
                 });
-                const res = await getDocs(
-                    collection(db, 'bookmark'),
-                    where('userId', '==', uid)
+
+                const bookmarks = await getDocs(
+                    query(
+                        collection(db, 'bookmark'),
+                        where('userId', '==', uid)
+                    )
                 );
+
                 const bookmarkList = [];
-                res.docs.forEach(async (item) => {
+                bookmarks.docs.forEach(async (item) => {
                     const reses = await local.get(
                         `/novel/title/${item.data().link.split('/')[4]}`
                     );
@@ -169,6 +173,7 @@ export default new Vuex.Store({
                 });
                 commit('setBookmarked', bookmarkList);
             } catch (error) {
+                console.log(error);
                 swal('Error!', error.response.data.msg, 'error');
             }
         },
