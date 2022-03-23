@@ -94,6 +94,14 @@ export default new Vuex.Store({
         console.log(err);
       }
     },
+    async logout(context) {
+      try {
+        localStorage.clear();
+        context.commit("IS_LOGIN", false);
+      } catch (err) {
+        console.log(err);
+      }
+    },
   },
   modules: {},
 });
