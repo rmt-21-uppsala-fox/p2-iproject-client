@@ -7,7 +7,10 @@
       <li class="list-group-item list-group-item-secondary"><a>Ayu</a></li>
       <li class="list-group-item list-group-item-secondary"><a>Karina</a></li> -->
       <li @click.prevent="getAllMessage(item.User.id)" v-for="item in friends" :key="item.withId" class="list-group-item list-group-item-secondary"><a class="nav-link text-start" href="">{{item.User.name}}</a></li>
+    <p v-if="friends.length === 0" class="text-center text-muted mt-5"  >You don't have any friend yet</p>
+    <p v-if="friends.length === 0" class="text-center text-muted"  >invite someone</p>
   </ul>
+  
 </div>
 </div>
 </template>

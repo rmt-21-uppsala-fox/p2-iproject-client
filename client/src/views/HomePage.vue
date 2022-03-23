@@ -11,6 +11,7 @@
               <textarea class="w-100 form-control"></textarea>
               </div>
           <PostCard v-for="item in posts" :key="item.id" :data="item"></PostCard>
+          <h1 v-if="posts.length === 0" class="text-muted mt-5">There is no post to show</h1>
         </div>
         <div class="col-3"></div>
       </div>
@@ -29,8 +30,9 @@ export default {
     PostCard,
   },
   created() {
-    this.$store.dispatch("getAllRelations", this.UserId);
-    this.$store.dispatch("getAllPosts", this.UserId);
+    this.$store.dispatch("getAllRelations");
+    this.$store.dispatch("getAllPosts");
+    this.$store.dispatch("fetchNameAndId");
   },
   computed: {
     posts() {
