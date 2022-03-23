@@ -39,9 +39,14 @@ export default {
   },
   methods: {
     async doLogin(userData) {
-      const {email, password} = userData
-      const data = {email, password}
-      await this.$store.dispatch("doLogin", data)
+      const { email, password } = userData;
+      const data = { email, password };
+      const error = await this.$store.dispatch("doLogin", data);
+      if (!error) {
+        this.$router.push("/");
+      } else {
+        console.log(error); //swal error disini
+      }
     },
   },
 };

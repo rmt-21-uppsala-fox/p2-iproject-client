@@ -22,6 +22,7 @@ export default {
   },
   created() {
     this.$store.dispatch("fetchAll");
+    this.$store.dispatch("loginCheck")
   },
 };
 </script>

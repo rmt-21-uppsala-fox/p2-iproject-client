@@ -34,8 +34,18 @@ import ReusableLoginRegisterForm from "@/components/ReusableLoginRegisterForm.vu
 export default {
   name: "RegisterPage",
   methods: {
-    doRegister(userData) {
-      console.log(userData);
+    async doRegister(userData) {
+      if (!userData.profilePict) {
+        userData.profilePict =
+          "https://ichef.bbci.co.uk/news/976/cpsprodpb/16620/production/_91408619_55df76d5-2245-41c1-8031-07a4da3f313f.jpg";
+      }
+      const error = await this.$store.dispatch("doRegister", userData);
+      if (error) {
+        console.log(error); //swal error disini
+      } else {
+        //swal success here
+        this.$router.push("/login");
+      }
     },
   },
   components: {
