@@ -127,18 +127,19 @@
 </template>
 
 <script>
+import Swal from "sweetalert2";
 export default {
   name: "Details",
   created() {
-    this.getMovie();
-    this.getMoviePrice();
-    this.isPurchased();
+    // this.getMovie();
+    // this.getMoviePrice();
+    // this.isPurchased();
   },
   methods: {
-    async isPurchased() {
-      const imdbId = this.$route.params.imdbId;
-      this.$store.dispatch("isPurchased", imdbId);
-    },
+    // async isPurchased() {
+    //   const imdbId = this.$route.params.imdbId;
+    //   this.$store.dispatch("isPurchased", imdbId);
+    // },
     async getMovie() {
       const imdbId = this.$route.params.imdbId;
       this.$store.dispatch("getMovie", imdbId);
@@ -147,33 +148,53 @@ export default {
       const imdbId = this.$route.params.imdbId;
       this.$store.dispatch("getMoviePrice", imdbId);
     },
+    async addToPurchased() {
+      const payload = {
+        imdbId: this.$route.params.imdbId,
+        title: this.movie.title,
+        synopsis: this.movie.plot,
+        imageUrl: this.movie.image,
+        trailerUrl: this.trailer,
+      };
+      console.log(payload, "INI payload");
+      await this.$store.dispatch("addToPurchased", payload);
+
+      if (!this.purchaseSuccess) {
+        Swal.fire(this.errorMsg);
+      } else {
+        this.$router.push("/purchased");
+      }
+      // .then(()=> {
+      //   this.$router.push('/purchased')
+      // })
+      // .catch(err =>{
+      //   Swal.fire(err)
+      //   console.log(err, "INI ERROR")
+      // })
+    },
     async postPayToken(type) {
       const imdbId = this.$route.params.imdbId;
       const payload = {
         imdbId: imdbId,
         type: type,
       };
-      this.$store.dispatch("postPayToken", payload).then(() => {
-        console.log(this.payToken);
-        window.snap.pay(this.payToken, {
-          onSuccess: function (result) {
-            console.log("success");
-            console.log(result);
-          },
-          onPending: function (result) {
-            console.log("pending");
-            console.log(result);
-          },
-          onError: function (result) {
-            console.log("error");
-            console.log(result);
-          },
-          onClose: function () {
-            console.log(
-              "customer closed the popup without finishing the payment"
-            );
-          },
-        });
+      await this.$store.dispatch("postPayToken", payload);
+      console.log(this.payToken);
+      window.snap.pay(this.payToken, {
+        onSuccess: this.addToPurchased,
+        onPending: function (result) {
+          console.log("pending");
+          console.log(result);
+        },
+        onError: function (result) {
+          console.log("error");
+          console.log(result);
+        },
+        onClose: function () {
+          console.log(
+            "customer closed the popup without finishing the payment"
+          );
+        },
       });
     },
   },
@@ -196,6 +217,15 @@ export default {
     },
     payToken() {
       return this.$store.state.paymentToken;
+    },
+    trailer() {
+      return this.$store.state.price.trailer;
+    },
+    errorMsg() {
+      return this.$store.state.errorMsg;
+    },
+    purchaseSuccess() {
+      return this.$store.state.purchaseSuccess;
     },
   },
 };

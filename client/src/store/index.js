@@ -18,7 +18,9 @@ export default new Vuex.Store({
     genres: [],
     movie: {},
     price: {},
-    paymentToken: ''
+    paymentToken: '',
+    purchaseSuccess: false,
+    errorMsg: ''
   },
   mutations: {
     SET_MOVIES(state, movies) {
@@ -35,6 +37,13 @@ export default new Vuex.Store({
     },
     SET_PRICE(state, price) {
       state.price = price
+    },
+    SET_PURCHASE_SUCCESS(state, status) {
+      state.purchaseSuccess = status
+    },
+    SET_ERR_MSG(state, error) {
+      state.errorMsg = error
+
     },
     SET_USER_DATA(state, payload) {
       state.userData = payload
@@ -219,6 +228,41 @@ export default new Vuex.Store({
       } catch (error) {
         console.log(error)
         Swal.fire(error.response.data.message)
+        
+        console.log(error.response.data.message)
+      }
+    },
+    async addToPurchased(context, payload) {
+      try {
+        const body= {
+          
+          title: payload.title,
+          synopsis: payload.synopsis,
+          imageUrl: payload.imageUrl,
+          trailerUrl: payload.trailerUrl
+        }
+        console.log(body, payload.imdbId, "INI BODY PAYMENT")
+        const response = await axios.post(`${LOCAL_URL}/movies/purchased/${payload.imdbId}`, body, {
+          headers: {
+            access_token: localStorage.access_token
+          }
+        })
+
+         
+        
+        
+        console.log(response.data, "INI HASIL ADD ")
+        //  context.commit("SET_PAYMENT_TOKEN", response.data.token)
+        //  console.log(this.state.paymentToken, "INI STATE PAYMENT TOKEN")
+        context.commit("SET_PURCHASE_SUCCESS", true)
+        
+        
+         Swal.fire(`Movie Succesfully purchased`)
+      } catch (error) {
+        console.log(error)
+        context.commit("SET_PURCHASE_SUCCESS", false)
+        //Swal.fire(error.response.data.message)
+        context.commit("SET_ERR_MSG", error.response.data.message)
         
         console.log(error.response.data.message)
       }

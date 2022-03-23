@@ -25,8 +25,18 @@
 
 <script>
 export default {
-    name: "SearchResult"
-}
+    name: "SearchResult",
+
+    created() {
+      this.searchMovies()
+    },
+
+    methods: {
+      async searchMovies() {
+        await this.$store.dispatch("searchMovies")
+      }
+    }
+    }
 </script>
 
 <style>
