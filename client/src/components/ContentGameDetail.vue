@@ -70,6 +70,7 @@
         <small class="text-black">{{ games.data.game.description_raw }}.</small>
         <div class="flex gap-0.5 mt-4">
           <button
+            @click="buyTheGame(games.data.game.id)"
             id="addToCartButton"
             class="bg-indigo-600 hover:bg-indigo-500 focus:outline-none transition text-white uppercase px-8 py-3"
           >
@@ -101,5 +102,15 @@
 <script>
 export default {
   props: [`games`],
+  methods: {
+    async buyTheGame(data) {
+      try {
+        // console.log(data);
+        this.$store.dispatch(`buyTheGame`, data);
+      } catch (err) {
+        console.log(err);
+      }
+    },
+  },
 };
 </script>
