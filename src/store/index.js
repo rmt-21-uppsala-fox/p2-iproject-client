@@ -130,6 +130,23 @@ export default new Vuex.Store({
                 // swal('Error!', error.response, 'error');
             }
         },
+        getBookmark: async ({ commit }) => {
+            try {
+                console.log(`masuk ke get bookmark`);
+                const uid = localStorage.getItem('uid');
+                const res = await getDocs(
+                    collection(db, 'bookmark'),
+                    where('userId', '==', uid)
+                );
+                const bookmarkList = [];
+                res.docs.forEach((item) => {
+                    bookmarkList.push(item.data());
+                });
+                commit('setBookmarked', bookmarkList);
+            } catch (error) {
+                swal('Error!', error.response.data.msg, 'error');
+            }
+        },
     },
 
     modules: {},
