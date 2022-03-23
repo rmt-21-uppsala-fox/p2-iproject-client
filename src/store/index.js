@@ -9,10 +9,12 @@ export default new Vuex.Store({
   state: {
     products: [],
     myCart: [],
+    payments: [],
     isLogin: false,
     pageCount: 0,
     category: "",
-    qrCode: "",
+    paymentUrl: "",
+    amount: "",
     paramsGOAuth: {
       client_id:
         "386702520020-7grsgt23c6eurmll5lt73j8h6itu41d8.apps.googleusercontent.com",
@@ -35,8 +37,14 @@ export default new Vuex.Store({
     SET_CATEGORY(state, payload) {
       state.category = payload;
     },
-    SET_QRCODE(state, payload) {
-      state.qrCode = payload;
+    FETCH_PAYMENTS(state, payload) {
+      state.payments = payload;
+    },
+    SET_PAYMENTURL(state, payload) {
+      state.paymentUrl = payload;
+    },
+    SET_AMOUNT(state, payload) {
+      state.amount = payload;
     },
   },
   actions: {
@@ -113,6 +121,44 @@ export default new Vuex.Store({
         });
       }
     },
+    async fetchPayments(context) {
+      try {
+        const { data } = await local({
+          url: "/payments",
+          method: "GET",
+          headers: {
+            access_token: localStorage.access_token,
+          },
+        });
+        context.commit("FETCH_PAYMENTS", data);
+      } catch (error) {
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: `${error.response.data.message}!`,
+        });
+      }
+    },
+    async fetchPaymentById(context, payload) {
+      try {
+        const { data } = await local({
+          url: `/payments/${payload}`,
+          method: "GET",
+          headers: {
+            access_token: localStorage.access_token,
+          },
+        });
+        context.commit("FETCH_PAYMENTS", data.Transaction.DetailTransactions);
+        context.commit("SET_PAYMENTURL", data.invoiceUrl);
+        context.commit("SET_AMOUNT", data.amount);
+      } catch (error) {
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: `${error.response.data.message}!`,
+        });
+      }
+    },
     loginHandler(context, payload) {
       return local({
         url: "/login",
@@ -145,6 +191,15 @@ export default new Vuex.Store({
         },
         data: {
           quantity: payload.quantity,
+        },
+      });
+    },
+    addPayment() {
+      return local({
+        url: `/payments`,
+        method: "POST",
+        headers: {
+          access_token: localStorage.access_token,
         },
       });
     },
