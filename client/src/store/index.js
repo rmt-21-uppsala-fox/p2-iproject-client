@@ -24,7 +24,7 @@ export default new Vuex.Store({
     chatMessages: []
   },
   mutations: {
-    SUCKET_MESSAGESFROMSERVER(state, messages) {
+    SOCKET_MESSAGESFROMSERVER(state, messages) {
       state.chatMessages = messages
     },
     SET_MOVIES(state, movies) {
@@ -291,12 +291,13 @@ export default new Vuex.Store({
     sendMessage(_, payload) {
       this._vm.$socket.client.emit("sendMessageToServer", {
         user: localStorage.username,
-        message: payload.trim()
+        message: payload.message.trim(),
+        room: payload.room
 
       })
     },
     socket_messagesFromServer(context, payload) {
-      context.commit("SUCKET_MESSAGESFROMSERVER", payload)
+      context.commit("SOCKET_MESSAGESFROMSERVER", payload)
     }
 
     

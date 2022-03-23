@@ -161,6 +161,7 @@ export default {
     this.getMoviePrice();
     // this.isPurchased();
     this.setChatUser()
+    this.sendMessage()
   },
   data() {
     return {
@@ -174,7 +175,10 @@ export default {
       this.$store.dispatch("setChatUser", payload);
     },
     sendMessage() {
-      const payload =  this.message
+      const payload =  {
+        message: this.message,
+        room: this.$route.params.imdbId
+      }
       console.log(payload, "INI MESSAGE")
       this.$store.dispatch("sendMessage", payload);
       this.message = ''
