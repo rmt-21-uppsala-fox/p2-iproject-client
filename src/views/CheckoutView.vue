@@ -4,7 +4,7 @@
         <CheckoutCard v-for="productPackage in cart" :key="productPackage.id" :productPackage=productPackage></CheckoutCard>
     </div>
     <div class="col-4 border border-secondary rounded grid w-25">
-        <h3>Checkout</h3>
+        <h3 class="mt-4">Checkout</h3>
         <br>
         <CheckoutItems v-for="productPackage in cart" :key="productPackage.id" :productPackage=productPackage></CheckoutItems>
 
@@ -23,7 +23,7 @@
                 <button v-if="$store.state.cart.length > 0" v-b-modal.modal-2 type="button" @click="faceRecognition" class="btn btn-outline-success btn-sm"><i class="fa-solid fa-face-grin-beam fa-xl"></i> Face Payment</button>
             </div>
             <div class="col-6">
-                <b-button v-if="$store.state.ableToPay && $store.state.cart.length > 0" v-b-modal.modal-1 type="button" @click="doXenditPay" class="btn btn-outline-primary btn-sm">Xendit Pay</b-button>
+                <button v-if="$store.state.ableToPay && $store.state.cart.length > 0" v-b-modal.modal-1 type="button" @click="doXenditPay" class="btn btn-primary btn-sm">Xendit Pay</button>
             </div>
         </div>
 
@@ -35,8 +35,8 @@
                 <iframe :src="invoiceUrl" height="600" width="1100"></iframe>
             </b-modal>
 
-            <span id="canvas" style="position: absolute; z-index: 2; left: 37.5%; top: 20%"></span>
-            <video v-show="showWebCam" id="videoInput" style="position: absolute; z-index: 1 ; left: 37.5%; top: 20%" width="450" height="400" muted controls autoplay></video>
+            <span v-show="showFaceRecognition" id="canvas" style="position: absolute; z-index: 2; left: 37.5%; top: 20%"></span>
+            <video v-show="showFaceRecognition" id="videoInput" style="position: absolute; z-index: 1 ; left: 37.5%; top: 20%" width="450" height="400" muted controls autoplay></video>
 
         </div>
     </div>
@@ -58,7 +58,7 @@ export default {
     data() {
         return {
             invoiceUrl: '',
-            showWebCam: false,
+            showFaceRecognition: false,
         }
     },
     methods: {
@@ -67,7 +67,7 @@ export default {
         },
         async faceRecognition() {
             try {
-                this.showWebCam = true
+                this.showFaceRecognition = true
                 const video = this.$el.querySelector('video')
                 const canvasElem = this.$el.querySelector('#canvas')
                 let detectedUserName = []
@@ -116,12 +116,13 @@ export default {
 
                     setTimeout(() => {
                         clearInterval(interval)
-                        this.showWebCam = false
+                        this.showFaceRecognition = false
+
                         tracks[0].stop;
                         if (detectedUserName.includes(localStorage.currentUserName)) {
                             this.$store.commit('setAbleToPay')
                         } else {
-                            alert('Face not recognized')
+                            alert('Not Authorized')
                         }
                     }, 3000);
                 })

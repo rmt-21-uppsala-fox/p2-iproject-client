@@ -50,14 +50,16 @@ export default new Vuex.Store({
         const {
           access_token,
           name,
-          id
+          id,
+          email
         } = response.data
 
         localStorage.setItem('access_token', access_token)
         localStorage.setItem('currentUserName', name)
         localStorage.setItem('currentUserId', id)
+        localStorage.setItem('currentUserEmail', email)
         
-        context.commit('setCurrentUser', {id, name})
+        context.commit('setCurrentUser', {id, name, email})
       } catch (error) {
         console.log(error);
       }
@@ -89,24 +91,17 @@ export default new Vuex.Store({
         console.log(error)
       }
     },
-    async doXenditPay({
-      getters
-    }) {
+    async doXenditPay({getters}) {
       try {
         let data = {
-          "external_id": "invoice-1",
+          "external_id": `invoice-${new Date().getTime()}`,
           "amount": 0,
           "customer": {
-            "given_names": "Tommy",
-            "email": "tomthedeveloper11@gmail.com",
-            "mobile_number": "08123234586",
-            "address": {
-              "city": "Medan",
-              "country": "Indonesia"
-            }
+            "given_names": localStorage.currentUserName,
+            "email": localStorage.currentUserEmail,
           },
           "items": [],
-          "description": "Invoice Demo #123",
+          "description": `Invoice Demo #${new Date().getTime()}`,
         }
         const cartItems = getters.getCart
 
