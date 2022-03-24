@@ -7,8 +7,19 @@
           <div class="subforum-title">
             <h1>General Information</h1>
           </div>
+          <div class="search-box">
+          <div>
+            <select name="" id="">
+              <option value="Everything">Everything</option>
+              <option value="Titles">Titles</option>
+              <option value="Descriptions">Descriptions</option>
+            </select>
+            <input type="text" v-model="search" name="q" placeholder="search ..." />
+            <button><i class="fa fa-search"></i></button>
+          </div>
+        </div>
           <news-page
-            v-for="news in news"
+            v-for="news in filteredNews"
             :key="news.title"
             :news="news"
           ></news-page>
@@ -46,6 +57,11 @@ import NewsPage from "@/components/NewsPage.vue";
 import Navbar from '../components/navbar.vue';
 export default {
   name: "HomeView",
+  data(){
+    return {
+      search:''
+    }
+  },
   components: {
     NewsPage,
     Navbar
@@ -67,6 +83,11 @@ export default {
     news() {
       return this.$store.state.news;
     },
+    filteredNews(){
+      return this.news.filter((news) =>{
+        return news.title.match(this.search)
+      })
+    }
   },
 };
 </script>

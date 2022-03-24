@@ -8,7 +8,8 @@ export default new Vuex.Store({
     isLogin: false,
     news: [],
     playerRank:[],
-    matches:[]
+    matches:[],
+    search:''
   },
   getters: {
   },
@@ -28,11 +29,11 @@ export default new Vuex.Store({
   },
   actions: {
     loginHandler(context, payload){
-      return axios.post('http://localhost:3000/login', payload)
+      return axios.post('https://cs-forum-kevin.herokuapp.com/login', payload)
     },
     async fetchNews(context){
       try {
-        const {data} = await axios.get('http://localhost:3000/news', {
+        const {data} = await axios.get('https://cs-forum-kevin.herokuapp.com/news', {
           headers:{
           access_token: localStorage.getItem('access_token')
           }
@@ -44,7 +45,7 @@ export default new Vuex.Store({
     },
     async fetchPlayerRank(context){
       try {
-        const {data} = await axios.get('http://localhost:3000/playerRank', {
+        const {data} = await axios.get(' /playerRank', {
           headers:{
           access_token: localStorage.getItem('access_token')
           }
@@ -56,7 +57,7 @@ export default new Vuex.Store({
     },
     async fetchMatches(context){
       try {
-        const {data} = await axios.get('http://localhost:3000/matches', {
+        const {data} = await axios.get('https://cs-forum-kevin.herokuapp.com/matches', {
           headers:{
           access_token: localStorage.getItem('access_token')
           }

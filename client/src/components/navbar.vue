@@ -36,19 +36,7 @@
             </div>
           </div>
         </nav>
-        <!--SearchBox Section-->
 
-        <div class="search-box">
-          <div>
-            <select name="" id="">
-              <option value="Everything">Everything</option>
-              <option value="Titles">Titles</option>
-              <option value="Descriptions">Descriptions</option>
-            </select>
-            <input type="text" name="q" placeholder="search ..." />
-            <button><i class="fa fa-search"></i></button>
-          </div>
-        </div>
       </header>
     </body>
 </template>
