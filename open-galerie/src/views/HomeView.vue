@@ -9,15 +9,17 @@
           width: 100%;
         "
       >
-        <div>
+        <div
+          style="display: flex; flex-direction: column; justify-content: center"
+        >
           <img src="../assets/logo.png" alt="" style="width: 400px" />
           <p style="font-size: larger; font-weight: bolder; margin-left: 20px">
-            Virtual NFT Galllery, for everyone...
+            Virtual NFT Gallery, for everyone...
           </p>
         </div>
         <div>
           <div class="cardCustom">
-            <h1>Create your own gallery</h1>
+            <h1>Create your own gallery 🎨</h1>
             <form
               style="display: flex; flex-direction: column"
               @submit.prevent="addGallery"
@@ -50,7 +52,8 @@
           display: flex;
           flex-direction: row;
           flex-wrap: wrap;
-          justify-content: space-around;
+          justify-content: center;
+          gap: 10px;
         "
       >
         <div v-for="(item, i) in gallery" :key="i">
@@ -66,7 +69,7 @@
           display: flex;
           flex-direction: row;
           flex-wrap: wrap;
-          justify-content: space-around;
+          justify-content: center;
           gap: 10px;
         "
       >
@@ -75,6 +78,7 @@
         </div>
       </div>
     </section>
+    <HFooter></HFooter>
   </div>
 </template>
 
@@ -82,6 +86,7 @@
 // @ is an alias to /src
 import NewsCard from "../components/NewsCard.vue";
 import GalleryCard from "../components/GalleryCard.vue";
+import HFooter from "vue-hacktiv8-footer";
 import swal from "sweetalert";
 
 export default {
@@ -94,6 +99,7 @@ export default {
   components: {
     NewsCard,
     GalleryCard,
+    HFooter,
   },
   methods: {
     async addGallery() {
@@ -130,6 +136,7 @@ body {
   font-family: "Prompt", sans-serif;
   color: white;
   background: #202731;
+  background: #5800ff;
 }
 
 * {
@@ -160,6 +167,7 @@ section {
 .pink {
   background: #5800ff;
   padding-top: 0px;
+  margin-bottom: 40px;
 }
 .dark {
   background: #0f0f10;
@@ -197,6 +205,7 @@ section {
   margin: 40px;
   padding: 10px 30px;
   flex-wrap: wrap;
+  cursor: pointer;
 }
 
 .customButton {
@@ -253,6 +262,7 @@ input[type="text"] {
   transition: 0.3s;
   border-radius: 15px;
   overflow: hidden;
+  height: 350px;
 }
 
 /* On mouse-over, add a deeper shadow */
