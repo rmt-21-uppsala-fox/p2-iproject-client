@@ -28,25 +28,25 @@
         background-attachment: fixed;
       "
     ></div>
-
+    <!-- Mini banner -->
     <div
       id="content4"
-      class="grid place-content-center relative z-0 bg-red-100"
-      style="width: 100%; height: 50vh"
+      class="grid place-content-center relative z-0 bg-blue-900"
+      style="width: 100%; height: 20vh"
     >
       <div
         data-aos="fade-zoom-in"
         data-aos-offset="200"
         data-aos-easing="ease-in-sine"
         data-aos-duration="600"
-        class="w-screen py-10 bg-red-200"
+        class="w-screen py-10 bg-blue-500"
       >
         <div class="text-center">
           <div class="">
-            <h1 class="font-serif text-3xl font-bold">
+            <h1 class="font-serif text-white text-4xl font-bold">
               Hello and welcome to Rijksmuseum's virtual gallery
             </h1>
-            <p class="font-serif text-xl py-6">
+            <p class="font-serif text-white text-2xl py-6">
               Currently, The Rijksmuseum's artworks that are displayed on our
               virtual museum can be seen below
             </p>
@@ -58,12 +58,12 @@
     <div id="content5" class="carousel h-screen w-full">
       <div id="slide1" class="carousel-item relative w-full">
         <img :src="museumImage0" class="w-full object-contain" />
-        <img
+        <!-- <img
           class="mr-5 absolute w-70 h-70 right-0 bottom-0"
           src="icons8-museum-64.png"
           alt=""
           srcset=""
-        />
+        /> -->
         <div
           class="absolute flex justify-between transform -translate-y-1/2 left-5 right-5 top-1/2"
         >
@@ -95,22 +95,21 @@
     <div
       id="content6"
       class="justify-between flex relative z-0 bg-red-100"
-      style="width: 100%; height: 100vh"
+      style="width: 100%; height: 20vh"
     >
       <aside
-        class="h-full w-1/2 text-center bg-red-200 flex flex-col justify-center items-center"
+        class="w-1/2 text-center bg-blue-900 flex flex-col justify-center items-center"
       >
-        <h1 class="font-serif text-5xl font-bold">Come in!</h1>
-        <p class="font-serif py-6 text-xl">
-          Besides are all the features that you can use related to Rijksmuseum's
-          artworks
+        <h1 class="font-serif text-5xl text-white font-bold">Come in!</h1>
+        <p class="font-serif py-6 text-white text-xl">
+          Click on the button below to start the tour!
         </p>
+        <router-link to="/museum">
+          <button class="btn glass">Start the virtual tour</button>
+        </router-link>
       </aside>
 
-      <div class="flex flex-col gap-20 items-center justify-center">
-        <router-link to="/museum">
-          <img src="icons8-museum-64.png" alt="" srcset="" />
-        </router-link>
+      <div class="flex flex-row items-center justify-center gap-10">
         <form
           class="flex gap-2"
           @submit.prevent="submit"
@@ -119,26 +118,14 @@
           <label for="file-upload">
             <img src="icons8-museum-64.png" alt="" srcset="" />
           </label>
-          <!-- @change="upload"  -->
-          <input
-            class="hidden"
-            @input="handleChangeImg"
-            id="file-upload"
-            type="file"
-          />
+
+          <!-- @input="handleChangeImg" -->
+          <input class="hidden" @change="upload" id="file-upload" type="file" />
           <button>
             <img src="icons8-museum-64.png" alt="" srcset="" />
           </button>
         </form>
-
-        <router-link to="/museum">
-          <img src="icons8-museum-64.png" alt="" srcset="" />
-        </router-link>
-        <router-link to="/museum">
-          <img src="icons8-museum-64.png" alt="" srcset="" />
-        </router-link>
       </div>
-      <!-- Icons -->
     </div>
     <img :src="userImage" />
     <HFooter></HFooter>
@@ -167,17 +154,17 @@ export default {
       try {
         const formData = new FormData();
         formData.append("file", this.image);
-        const labelsData = await this.$store.dispatch("upload", formData);
-        // console.log(labelsData);
+        const imageData = await this.$store.dispatch("upload", formData);
+        console.log(imageData);
 
-        const blob = new Blob([labelsData], {
+        const blob = new Blob([imageData], {
           type: "application/octet-binary",
         });
 
         console.log(blob);
         const imageURL = URL.createObjectURL(blob);
         console.log(imageURL);
-        this.userImage = labelsData;
+        this.userImage = imageData;
       } catch (error) {
         console.log(error);
         // console.log(error.response.data.message);
@@ -188,14 +175,6 @@ export default {
         this.isBlur = true;
       } else {
         this.isBlur = false;
-      }
-    },
-    handleChangeImg(e) {
-      console.log(e.target.files);
-      if (e.target.files.length) {
-        const file = e.target.files[0];
-        this.userImage = URL.createObjectURL(file);
-        this.$store.commit("SET_USER_FILE", this.userImage);
       }
     },
   },

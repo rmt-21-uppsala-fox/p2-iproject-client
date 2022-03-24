@@ -2,6 +2,8 @@ import Vue from "vue";
 import Vuex from "vuex";
 import axios from "axios";
 
+const URL_Heroku = "https://mubuyo.herokuapp.com/"
+
 Vue.use(Vuex);
 
 export default new Vuex.Store({
@@ -55,7 +57,7 @@ export default new Vuex.Store({
       try {
         const response = await axios({
           method: "post",
-          url: "http://localhost:3000/paintings",
+          url: URL_Heroku + "paintings",
           data: payload,
         });
         context.commit("SET_MUSEUM_DATA", response.data);
@@ -67,7 +69,7 @@ export default new Vuex.Store({
       try {
         const response = await axios({
           method: "post",
-          url: "http://localhost:3000/wikis",
+          url: URL_Heroku + "wikis",
         });
         context.commit("SET_WIKIPEDIA0", response.data.data0)
         context.commit("SET_WIKIPEDIA1", response.data.data1)
@@ -80,11 +82,12 @@ export default new Vuex.Store({
     },
     async upload(context, payload) {
       const response = await axios.post(
-        "http://localhost:3000/upload",
+        URL_Heroku
+        // "http://localhost:3000/" 
+        + "upload",
         payload
       );
-      console.log(response);
-      context.commit("SET_USER_FILE", response.data);
+      context.commit("SET_USER_FILE", response.data.url);
       return response.data;
     },
   },

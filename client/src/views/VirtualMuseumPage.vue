@@ -46,7 +46,7 @@
       depth="0.1"
     ></a-box>
     <a-box
-      :src="userFile"
+      :src="userImage"
       position="5.821 3 14.010"
       rotation="0 25 0"
       width="6.205"
@@ -143,6 +143,9 @@ export default {
       } else {
         return console.log(``);
       }
+    },
+    userImage() {
+      return this.$store.state.userFile
     },
     wiki0() {
       return this.$store.state.wikipediaData0;
