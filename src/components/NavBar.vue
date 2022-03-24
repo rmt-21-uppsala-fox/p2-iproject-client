@@ -29,7 +29,7 @@
                 to="/"
                 class="inline-block no-underline hover:text-black hover:underline py-2 px-4"
                 href="#"
-              >Workshop</router-link>
+              >News</router-link>
             </li>
           </ul>
         </nav>
