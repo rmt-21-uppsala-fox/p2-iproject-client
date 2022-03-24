@@ -60,14 +60,14 @@ export default new Vuex.Store({
   actions: {
     async doRegister(context, registerData) {
       try {
-        await axios.post('http://localhost:3000/register', registerData)
+        await axios.post('https://lyfe-tomthedeveloper11.herokuapp.com/register', registerData)
       } catch (error) {
         console.log(error)
       }
     },
     async doLogin(context, loginData) {
       try {
-        const response = await axios.post('http://localhost:3000/login', loginData)
+        const response = await axios.post('https://lyfe-tomthedeveloper11.herokuapp.com/login', loginData)
 
         const {
           access_token,
@@ -94,7 +94,7 @@ export default new Vuex.Store({
     async fetchPackages(context) {
       try {
 
-        const response = await axios.get('http://localhost:3000/packages', {
+        const response = await axios.get('https://lyfe-tomthedeveloper11.herokuapp.com/packages', {
           headers: {
             'access_token': localStorage.access_token
           }
@@ -107,7 +107,7 @@ export default new Vuex.Store({
     },
     async fetchImages(context) {
       try {
-        const response = await axios.get('http://localhost:3000/currentUserImagesUrl', {
+        const response = await axios.get('https://lyfe-tomthedeveloper11.herokuapp.com/currentUserImagesUrl', {
           headers: {
             'access_token': localStorage.access_token
           }
@@ -144,7 +144,7 @@ export default new Vuex.Store({
           })
         });
 
-        const response = await axios.post('http://localhost:3000/xenditPay', data, {
+        const response = await axios.post('https://lyfe-tomthedeveloper11.herokuapp.com/xenditPay', data, {
           headers: {
             'access_token': localStorage.access_token
           }
@@ -157,7 +157,7 @@ export default new Vuex.Store({
     },
     async uploadToImgBB(context, base64) {
       try {
-        const response = await axios.post('http://localhost:3000/uploadToImgBB', {
+        const response = await axios.post('https://lyfe-tomthedeveloper11.herokuapp.com/uploadToImgBB', {
           img: base64
         }, {
           headers: {
