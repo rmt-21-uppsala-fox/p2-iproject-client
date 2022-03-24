@@ -7,8 +7,8 @@
             <h3 class="mb-5">Thanks for your order!</h3>
             <v-row class="text-left h-100" justify="center" align="center">
               <v-card class="transaction-detail">
-                <h5 class="my-2 mx-5">Order ID: {{ this.orderName }}</h5>
-                <h5 class="my-2 mx-5">Payment Status: {{ this.paymentStatus }}</h5>
+                <h5 class="my-2 mx-5">Order ID: {{ localStorage.getItem('orderName') }}</h5>
+                <h5 class="my-2 mx-5">Payment Status: Paid</h5>
               </v-card>
             </v-row>
             <v-btn
