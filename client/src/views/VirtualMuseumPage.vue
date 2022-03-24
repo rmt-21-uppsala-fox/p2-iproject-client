@@ -87,6 +87,7 @@
       position="1 1 1"
       @click.prevent="back"
       title="Back"
+      color="red"
       image="#homeThumbnail"
     ></a-box>
   </a-scene>

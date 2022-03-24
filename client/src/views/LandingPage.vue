@@ -94,11 +94,11 @@
     </div>
     <div
       id="content6"
-      class="justify-between flex relative z-0 bg-red-100"
+      class="flex justify-between relative bg-blue-100"
       style="width: 100%; height: 20vh"
     >
       <aside
-        class="w-1/2 text-center bg-blue-900 flex flex-col justify-center items-center"
+        class="w-1/2 p-5 text-center bg-blue-900 flex flex-col justify-center items-center"
       >
         <h1 class="font-serif text-5xl text-white font-bold">Come in!</h1>
         <p class="font-serif py-6 text-white text-xl">
@@ -109,7 +109,7 @@
         </router-link>
       </aside>
 
-      <div class="flex flex-row items-center justify-center gap-10">
+      <div class="flex flex-row">
         <form
           class="flex gap-2"
           @submit.prevent="submit"
@@ -127,7 +127,6 @@
         </form>
       </div>
     </div>
-    <img :src="userImage" />
     <HFooter></HFooter>
   </div>
 </template>
