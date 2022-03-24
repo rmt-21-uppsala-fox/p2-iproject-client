@@ -79,9 +79,7 @@ export default {
   },
   methods: {
     async userLogin() {
-      console.log(this.user.email,'dapet');
       try {
-        console.log(this.user.password ,'masuk');
         const result = await this.$store.dispatch(
           "loginUser",
           this.user

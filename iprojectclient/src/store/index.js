@@ -4,7 +4,7 @@ import axios from 'axios'
 import swal from 'sweetalert'
 
 Vue.use(Vuex)
-const baseUrl = `http://localhost:3000`
+const baseUrl = `https://iproject21.herokuapp.com`
 
 export default new Vuex.Store({
   state: {

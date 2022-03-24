@@ -82,7 +82,6 @@ export default {
   },
   methods: {
     findEdaman: function () {
-      console.log(`masuk function`);
       this.$store.dispatch("getEdamanMenu", this.queryMenu);
       this.$store.dispatch("getNutritionixList", this.queryMenu);
     },
