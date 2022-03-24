@@ -2,11 +2,11 @@
   <!-- component -->
   <div class="container flex">
     <div class="container signup">
-      <div class="min-h-screen flex mb-4 row-signup items-center justify-center">
+      <div class="min-h-screen flex mb-4 row-signup mt-10">
         <div class="w-3/5 h-12 row-right">
 
           <div class="text-dig">
-            <h1 class="w-full text-base sm:text-lg md:text-xl text-center lg:text-2xl xl:text-5xl">
+            <h1 class="w-full text-base sm:text-lg md:text-xl text-center lg:text-2xl xl:text-5xl mb-10">
               LoginPage
             </h1>
             <div class="text-center mb-4 w-3/5">
@@ -17,11 +17,14 @@
             </div>
           </div>
         </div>
-        <div class="w-2/5  h-12 row-left">
+        <div class="w-2/5 h-12 row-left">
           <div class="text-singup mb-8">
             <h2 class="">
               Join us for free
             </h2>
+            <router-link to="/register">
+              Register if you dont have an account
+            </router-link>
           </div>
           <div class="form-signup-dig">
             <div class="w-full max-w-xs">
@@ -61,7 +64,7 @@
                 </div>
                 <div class="flex items-center justify-between">
                   <button
-                    class="bg-blue-800 hover:bg-blue-dark font-bold w-full h-12 py-2 px-4  rounded focus:outline-none focus:shadow-outline"
+                    class="bg-blue-400 hover:bg-blue-dark font-bold w-full h-12 py-2 px-4  rounded focus:outline-none focus:shadow-outline"
                     type="submit"
                   >
                     Sign In
