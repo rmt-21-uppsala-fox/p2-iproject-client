@@ -153,6 +153,27 @@ export default new Vuex.Store({
       } catch (err) {
         console.log(err);
       }
+    },
+    async postDataKib(ctx, payload) {
+      try {
+        await axios({
+          url: `${baseUrl}/kib/post`,
+          method: "post",
+          headers: {
+            access_token: localStorage.getItem("access_token")
+          },
+          data: {
+            name: payload.name,
+            type: payload.type,
+            date: payload.date,
+            originOfFounds: payload.originOfFounds,
+            price: payload.price,
+          }
+        })
+        console.log("sukses posting data");
+      } catch (err) {
+        console.log(err);
+      }
     }
   },
   modules: {

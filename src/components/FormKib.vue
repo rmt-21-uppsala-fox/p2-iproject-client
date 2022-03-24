@@ -70,7 +70,7 @@
             />
           </div>
           <div class="card-actions justify-end">
-            <button class="btn btn-primary">Save</button>
+            <button @click="postData" class="btn btn-primary">Save</button>
           </div>
         </div>
       </div>
@@ -124,14 +124,20 @@ export default {
         price: ""
       },
       dropzoneOptions: {
-        url: "http://localhost:5000/multer",
+        url: "http://localhost:5000/kib/multer",
         thumbnailWidth: 150,
         maxFilesize: 0.5,
-        headers: { "My-Awesome-Header": "header value" },
+        headers: { "access_token": localStorage.getItem("access_token") },
         dictDefaultMessage: "<i class='fa fa-cloud-upload'></i>UPLOAD DATA",
       },
     };
   },
+  methods: {
+    async postData() {
+      await this.$store.dispatch("postDataKib", this.userInput);
+      this.$store.commit("SET_DASHBOARD_PAGE", "datalist")
+    },
+  }
 };
 </script>
 
