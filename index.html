@@ -6,55 +6,331 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.tailwindcss.com"></script>
-    <title>RePost</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.0/css/all.min.css"
+        integrity="sha512-10/jx2EXwxxWqCLX/hHth/vu2KY3jCF70dCQB8TSgNjbCVAC/8vai53GfMDrO2Emgwccf2pJqxct9ehpzG+MTw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <title>KitaBantu</title>
+    <style>
+        input::-webkit-outer-spin-button,
+        input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+    </style>
 </head>
 
 <body>
-    <div class="container mx-auto grid grid-cols-12 ">
-        <div class="left-bar bg-green-400 col-span-3 flex flex-col justify-between gap-y-11 h-screen">
-            <div class="logo bg-red-300 flex justify-center">
-                <h1 class="px-9 py-2 font-semibold text-xl bg-blue-200 inline-block rounded-full">RePost</h1>
+    <header class="hidden bg-blue-400 text-white sticky top-0">
+        <div class="container mx-auto flex flex-row px-4 sm:p-0 py-5">
+            <div class=" mr-5 my-auto">
+                <span class="text-2xl font-semibold">KitaBantu</span>
             </div>
-            <div class="profile flex flex-row bg-yellow-400 pl-2 w-56 py-2 rounded-full mx-auto cursor-pointer">
-                <img class="w-10 h-10 object-cover rounded-full my-auto"
-                    src="https://images6.fanpop.com/image/photos/32400000/deva-pain-pein-master-32420672-1280-720.jpg"
-                    alt="">
-                <div class="profile-name ml-2">
-                    <h1 class="font-medium text-slate-500 leading-none">Renes</h1>
-                    <span class="">@renesdwir</span>
-                </div>
-            </div>
-            <div class="navbar bg-cyan-500 ">
-                <div class="home text-center bg-yellow-400">
-                    <h1
-                        class="bg-white inline-block pl-6 pr-20 text-lg font-bold  rounded-full py-3 hover:bg-slate-300 cursor-pointer">
-                        Home</h1>
-                </div>
-                <div class="profile text-center">
-                    <h1
-                        class="bg-white inline-block pl-6 pr-20 text-lg font-bold  rounded-full py-3 hover:bg-slate-300 cursor-pointer">
-                        Profile</h1>
-                </div>
-                <div class="search text-center">
-                    <h1
-                        class="bg-white inline-block pl-6 pr-20 text-lg font-bold  rounded-full py-3 hover:bg-slate-300 cursor-pointer">
-                        Search</h1>
-                </div>
-            </div>
-            <div class="text-center">
-                <button
-                    class="px-5 py-2.5 rounded-full bg-black text-white font-medium inline-block w-fit">Logout</button>
-            </div>
+            <form action="" class="w-full my-auto ">
+                <input type="search" class="text-lg py-1 px-4 rounded-full text-slate-800 w-full"
+                    placeholder="Cari dan bantu ...">
+            </form>
         </div>
-        <div class="main  bg-blue-300 col-span-6">
-            <div class="w-32 h-32 bg-green-300"></div>
-        </div>
-        <div class="right-bar bg-yellow-300 col-span-3">
-            <div class="news w-20 h-10 bg-green-400">
+    </header>
 
+    <main class="hidden container mx-auto px-4 sm:p-0 ">
+        <!-- card -->
+        <div class="card bg-white rounded-lg shadow-xl mt-4 cursor-pointer">
+            <img class="rounded-t-lg" src="https://media.suara.com/pictures/970x544/2019/12/10/39854-banjir.jpg" alt="">
+            <div class="caption px-2 py-3 truncate">
+                <span class="text-lg font-semibold">Banjir bandang di sana, bantu dan tolong
+                    saudara kita yang
+                    ada disana</span>
+                <div class="progressbar w-full bg-slate-200 rounded-full h-3">
+                    <div class="bg-blue-400 rounded-full h-3" style="width: 25%;"></div>
+                </div>
+                <div class="donation flex flex-row justify-between">
+                    <span>Rp 3.000.000,00</span>
+                    <span>Rp 12.000.000,00</span>
+                </div>
+            </div>
+        </div>
+        <!-- endcard -->
+        <!-- card -->
+        <div class="card bg-white rounded-lg shadow-xl mt-4">
+            <img class="rounded-t-lg" src="https://media.suara.com/pictures/970x544/2019/12/10/39854-banjir.jpg" alt="">
+            <div class="caption px-2 py-3 truncate">
+                <span class="text-lg font-semibold">Banjir bandang di sana, bantu dan tolong
+                    saudara kita yang
+                    ada disana</span>
+                <div class="progressbar w-full bg-slate-200 rounded-full h-3">
+                    <div class="bg-blue-400 rounded-full h-3" style="width: 25%;"></div>
+                </div>
+                <div class="donation flex flex-row justify-between">
+                    <span>Rp 3.000.000,00</span>
+                    <span>Rp 12.000.000,00</span>
+                </div>
+            </div>
+        </div>
+        <!-- endcard -->
+        <!-- card -->
+        <div class="card bg-white rounded-lg shadow-xl mt-4">
+            <img class="rounded-t-lg" src="https://media.suara.com/pictures/970x544/2019/12/10/39854-banjir.jpg" alt="">
+            <div class="caption px-2 py-3 truncate">
+                <span class="text-lg font-semibold">Banjir bandang di sana, bantu dan tolong
+                    saudara kita yang
+                    ada disana</span>
+                <div class="progressbar w-full bg-slate-200 rounded-full h-3">
+                    <div class="bg-blue-400 rounded-full h-3" style="width: 25%;"></div>
+                </div>
+                <div class="donation flex flex-row justify-between">
+                    <span>Rp 3.000.000,00</span>
+                    <span>Rp 12.000.000,00</span>
+                </div>
+            </div>
+        </div>
+        <!-- endcard -->
+        <!-- card -->
+        <div class="card bg-white rounded-lg shadow-xl mt-4">
+            <img class="rounded-t-lg" src="https://media.suara.com/pictures/970x544/2019/12/10/39854-banjir.jpg" alt="">
+            <div class="caption px-2 py-3 truncate">
+                <span class="text-lg font-semibold">Banjir bandang di sana, bantu dan tolong
+                    saudara kita yang
+                    ada disana</span>
+                <div class="progressbar w-full bg-slate-200 rounded-full h-3">
+                    <div class="bg-blue-400 rounded-full h-3" style="width: 25%;"></div>
+                </div>
+                <div class="donation flex flex-row justify-between">
+                    <span>Rp 3.000.000,00</span>
+                    <span>Rp 12.000.000,00</span>
+                </div>
+            </div>
+        </div>
+        <!-- endcard -->
+    </main>
+
+    <!-- navbar -->
+    <div class="hidden navbar grid grid-cols-12 h-16 sticky bottom-0 bg-white border-t-2">
+        <div
+            class="col-span-4  text-slate-500 cursor-pointer text-center flex flex-col justify-center hover:bg-slate-300">
+            <i class="fa-solid fa-folder-plus"></i>
+            Galang Dana
+        </div>
+        <div
+            class="col-span-4  text-slate-500 cursor-pointer text-center flex flex-col justify-center hover:bg-slate-300">
+            <i class="fa-solid fa-clock-rotate-left"></i>
+            Donasi Saya
+        </div>
+        <div
+            class="col-span-4  text-slate-500 cursor-pointer text-center flex flex-col justify-center hover:bg-slate-300">
+            <i class="fa-solid fa-user"></i>
+            Akun
+        </div>
+    </div>
+    <!-- end navbar -->
+
+    <!-- detailpage -->
+    <main class="hidden">
+        <img class="relative" src="https://media.suara.com/pictures/970x544/2019/12/10/39854-banjir.jpg" alt="">
+        <div class="absolute top-3 left-3 text-xl cursor-pointer text-slate-700  ">
+            <i class="fa-solid fa-arrow-left bg-white rounded-full px-2 py-2 bg-opacity-50"></i>
+        </div>
+        <div class="container mx-auto px-4 sm:p-0">
+            <div class="caption py-3">
+                <span class="text-xl font-semibold">Banjir bandang di sana, bantu dan tolong
+                    saudara kita yang
+                    ada disana</span> <br>
+                <span>300 Donasi</span>
+                <div class="progressbar w-full bg-slate-200 rounded-full h-3 mt-5">
+                    <div class="bg-blue-400 rounded-full h-3" style="width: 25%;"></div>
+                </div>
+                <div class="donation flex flex-row justify-between mt-5">
+                    <span>Rp 3.000.000,00</span>
+                    <span>Rp 12.000.000,00</span>
+                </div>
+            </div>
+            <button
+                class="px-4 py-2 bg-blue-400 rounded-md text-white font-bold tracking-wide hover:bg-blue-500 trasition duration-300">Donasi
+                sekarang</button>
+            <div class="description mt-7">
+                <h1 class="text-xl font-semibold mb-2">Cerita</h1>
+                <p class="text-justify ">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Minus omnis
+                    blanditiis
+                    maiore accusantium neque veniam aliquam ab facere quos molestiae nostrum quam incidunt delectus,
+                    iste eius, recusandae
+                    doloremque necessitatibus architecto obcaecati tenetur veritatis suscipit iusto aspernatur. Suscipit
+                    dignissimos ea, dolorum eius ducimus, sint eligendi inventore praesentium cupiditate, voluptatibus
+                    deserunt molestias?</p>
+            </div>
+            <div class="author my-7">
+                <h1 class="text-xl font-semibold mb-4">Informasi Penggalangan Dana</h1>
+                <div class="card border-2 p-4 rounded">
+                    <span class="font-medium">Penggalang Dana</span>
+                    <div class="flex flex-row mt-5">
+                        <img class="w-14 h-14 object-cover mr-5"
+                            src="https://cdn-2.tstatic.net/makassar/foto/bank/images/ghozali-everday.jpg" alt="">
+                        <div class="name">
+                            <h1 class="font-semibold">Bang Jago <i class="fa-solid fa-circle-check text-blue-600"></i>
+                            </h1>
+                            <span class="text-xs text-slate-600 tracking-wide">Bang Jago</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- loginpage -->
+    <div class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 flex flex-col hidden">
+        <h1 class="mx-auto font-bold text-2xl ">Sign In Form</h1>
+        <span class="mx-auto text-slate-400 mb-5">Let's sign in your account</span>
+        <div class="mb-4">
+            <label class="block text-grey-darker text-sm font-bold mb-2" for="username">
+                Email
+            </label>
+            <input class="shadow appearance-none border rounded w-full py-2 px-3 text-grey-darker" id="username"
+                type="text" placeholder="your@email.com">
+        </div>
+        <div class="mb-6">
+            <label class="block text-grey-darker text-sm font-bold mb-2" for="password">
+                Password
+            </label>
+            <input class="shadow appearance-none border border-red rounded w-full py-2 px-3 text-grey-darker mb-3"
+                id="password" type="password" placeholder="******************">
+            <p class="text-red text-xs italic">Please choose a password.</p>
+        </div>
+        <div class="flex items-center justify-center">
+            <button class="hover:bg-blue-500 bg-blue-400 hover:bg-blue-dark text-white font-bold py-2 px-4 rounded"
+                type="button">
+                Sign In
+            </button>
+        </div>
+        <div class="flex items-center justify-center mt-5">
+            <p>Dont have an account yet? <a class="underline text-blue-700">Sign up</a> here</p>
+        </div>
+    </div>
+    <!-- loginpage end -->
+    <!-- registerpage -->
+    <div class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 flex flex-col hidden">
+        <h1 class="mx-auto font-bold text-2xl ">Sign Up Form</h1>
+        <span class="mx-auto text-slate-400 mb-5">Let's sign up your account</span>
+        <div class="mb-4">
+            <label class="block text-grey-darker text-sm font-bold mb-2" for="username">
+                Email
+            </label>
+            <input class="shadow appearance-none border rounded w-full py-2 px-3 text-grey-darker" id="username"
+                type="text" placeholder="your@email.com">
+        </div>
+        <div class="mb-4">
+            <label class="block text-grey-darker text-sm font-bold mb-2" for="username">
+                Your Image
+            </label>
+            <input class="shadow appearance-none border rounded w-full py-2 px-3 text-grey-darker" id="username"
+                type="text" placeholder="your imageUrl">
+        </div>
+        <div class="mb-6">
+            <label class="block text-grey-darker text-sm font-bold mb-2" for="password">
+                Password
+            </label>
+            <input class="shadow appearance-none border border-red rounded w-full py-2 px-3 text-grey-darker mb-3"
+                id="password" type="password" placeholder="******************">
+            <p class="text-red text-xs italic">Please choose a password.</p>
+        </div>
+        <div class="flex items-center justify-center">
+            <button class="hover:bg-blue-500 bg-blue-400 hover:bg-blue-dark text-white font-bold py-2 px-4 rounded"
+                type="button">
+                Sign Up
+            </button>
+        </div>
+        <div class="flex items-center justify-center mt-5">
+            <p>Already have an account yet? <a class="underline text-blue-700">Sign in</a> here</p>
+        </div>
+    </div>
+    <!-- registerpage end -->
+
+    <!-- form galangdana-->
+    <div class="hidden container mx-auto px-4">
+        <div class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 flex flex-col border-2">
+            <h1 class="mx-auto font-bold text-2xl ">Form Galang Dana</h1>
+            <span class="mx-auto text-slate-400 mb-5"></span>
+            <div class="mb-4">
+                <label class="block text-grey-darker text-sm font-bold mb-2" for="username">
+                    Judul
+                </label>
+                <input class="shadow appearance-none border rounded w-full py-2 px-3 text-grey-darker" id="username"
+                    type="text" placeholder="masukkan judul di sini">
+            </div>
+            <div class="mb-4">
+                <label class="block text-grey-darker text-sm font-bold mb-2" for="username">
+                    Foto
+                </label>
+                <input class="shadow appearance-none border rounded w-full py-2 px-3 text-grey-darker" id="username"
+                    type="text" placeholder="Foto untuk penggalangan dana">
+            </div>
+            <div class="mb-4">
+                <label class="block text-grey-darker text-sm font-bold mb-2" for="username">
+                    Target dana yang dibutuhkan
+                </label>
+                <input class="shadow appearance-none border rounded w-full py-2 px-3 text-grey-darker" id="username"
+                    type="number" placeholder="jumlah dana yang dibutuhkan">
+            </div>
+            <div class="mb-4">
+                <label class="block text-grey-darker text-sm font-bold mb-2" for="username">
+                    Rekening anda
+                </label>
+                <input class="shadow appearance-none border rounded w-full py-2 px-3 text-grey-darker" id="username"
+                    type="number" placeholder="masukkan rekening anda">
+            </div>
+            <div class="mb-4">
+                <label class="block text-grey-darker text-sm font-bold mb-2" for="username">
+                    Cerita
+                </label>
+                <textarea class="shadow appearance-none border rounded w-full py-2 px-3 text-grey-darker" id="username"
+                    type="" placeholder="ceritakan atau deskripsikan kebutuhan dana"></textarea>
+            </div>
+            <div class="flex items-center justify-center">
+                <button class="hover:bg-blue-500 bg-blue-400 hover:bg-blue-dark text-white font-bold py-2 px-4 rounded"
+                    type="button">
+                    Galang Dana Sekarang
+                </button>
             </div>
         </div>
     </div>
+    <!--end form galangdana-->
+
+    <!-- detail account -->
+    <div class="container px-4 relative">
+        <span class="absolute top-5 bg-slate-100  px-2 rounded">Back</span>
+        <p class="text-center mt-5 my-8 font-semibold text-xl">Your Account</p>
+        <p class="my-5">Nama: bangjago</p>
+        <button class="px-4 py-2 bg-red-300 text-white font-semibold rounded-md">logout</button>
+    </div>
+    <!-- detail account -->
+
+    <!-- mydonation -->
+    <div class="container px-4 relative">
+        <span class="absolute top-5 bg-slate-100 px-2 rounded">Back</span>
+        <h1 class="text-center mb-8 pt-10 font-semibold">Riwayat donasi saya</h1>
+        <div class="card border-2 flex flex-row justify-between mb-4">
+            <div class="left">
+                <p>22/12/2022</p>
+                <p>Rp. 10,000,00</p>
+            </div>
+            <div class="status bg-yellow-100 my-auto px-2">
+                pending
+            </div>
+            <div class="right my-auto ">
+                <p class="my-auto">Bantu sesama</p>
+            </div>
+        </div>
+        <div class="card border-2 flex flex-row justify-between">
+            <div class="left">
+                <p>22/12/2022</p>
+                <p>Rp. 10,000,00</p>
+            </div>
+            <div class="status bg-yellow-100 my-auto px-2">
+                pending
+            </div>
+            <div class="right my-auto ">
+                <p class="my-auto">Bantu sesama</p>
+            </div>
+        </div>
+    </div>
+    <!-- mydonation -->
 </body>
 
 </html>
