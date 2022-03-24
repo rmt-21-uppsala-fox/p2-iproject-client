@@ -4,7 +4,6 @@ import HomePage from "../views/HomePage.vue";
 import LoginPage from "../views/LoginPage.vue";
 import RegisterPage from "../views/RegisterPage.vue";
 import ProductView from "../views/ProductView.vue";
-import FavoriteView from "../views/FavoriteView.vue";
 
 Vue.use(VueRouter);
 
@@ -18,11 +17,6 @@ const routes = [
         path: "",
         name: "Product",
         component: ProductView,
-      },
-      {
-        path: "favorites",
-        name: "favorites",
-        component: FavoriteView,
       },
     ],
   },
@@ -40,6 +34,11 @@ const routes = [
     path: "/products/:id",
     name: "detail",
     component: () => import("../views/DetailProduct.vue"),
+  },
+  {
+    path: "/workshops/:id",
+    name: "workshopdetail",
+    component: () => import("../views/DetailWorkshop.vue"),
   },
   {
     path: "/mycart",

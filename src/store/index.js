@@ -15,6 +15,7 @@ export default new Vuex.Store({
     category: "",
     paymentUrl: "",
     amount: "",
+    workshop: "",
     paramsGOAuth: {
       client_id:
         "386702520020-7grsgt23c6eurmll5lt73j8h6itu41d8.apps.googleusercontent.com",
@@ -45,6 +46,9 @@ export default new Vuex.Store({
     },
     SET_AMOUNT(state, payload) {
       state.amount = payload;
+    },
+    SET_WORKSHOP(state, payload) {
+      state.workshop = payload;
     },
   },
   actions: {
@@ -77,6 +81,22 @@ export default new Vuex.Store({
         });
         context.commit("FETCH_PRODUCTS", data);
         context.commit("SET_CATEGORY", data.Category.name);
+        context.commit("SET_WORKSHOP", data.Workshop.name);
+      } catch (error) {
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: `${error.response.data.message}!`,
+        });
+      }
+    },
+    async fetchWorkshopById(context, payload) {
+      try {
+        const { data } = await local({
+          url: `/workshops/${payload}`,
+          method: "GET",
+        });
+        context.commit("SET_WORKSHOP", data);
       } catch (error) {
         Swal.fire({
           icon: "error",
