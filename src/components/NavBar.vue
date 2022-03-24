@@ -52,16 +52,19 @@
 </template>
 
 <script>
+import swal from "sweetalert";
 export default {
   name: "NavBar",
-  data() {
-    return {
-      isLogin: localStorage.getItem("access_token") ? true : false,
-    };
+  computed: {
+    isLogin() {
+      return this.$store.state.isLogin;
+    },
   },
   methods: {
     logout() {
       localStorage.clear();
+      this.$store.commit("SET_ISLOGIN", false);
+      swal("Why are you leaving?", "Come back again, okay..", "success");
       this.$router.push("/login");
     },
   },

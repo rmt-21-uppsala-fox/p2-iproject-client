@@ -2,6 +2,7 @@ import router from "@/router";
 import axios from "axios";
 import Vue from "vue";
 import Vuex from "vuex";
+import swal from "sweetalert";
 
 Vue.use(Vuex);
 
@@ -44,6 +45,7 @@ export default new Vuex.Store({
     currentuser: "",
     vids: [],
     favLeague: "",
+    isLogin: false,
   },
   getters: {},
   mutations: {
@@ -80,6 +82,9 @@ export default new Vuex.Store({
     },
     SET_FAV(state, payload) {
       state.favLeague = payload;
+    },
+    SET_ISLOGIN(state, payload) {
+      state.isLogin = payload;
     },
   },
   actions: {
@@ -235,8 +240,10 @@ export default new Vuex.Store({
         });
         console.log(response.data);
         router.push("/login");
+        swal("Welcome", "Success register", "success");
       } catch (err) {
         console.log(err);
+        swal("Error", err.message, "error");
       }
     },
     async login(context, payload) {
@@ -255,29 +262,32 @@ export default new Vuex.Store({
         localStorage.setItem("id", response.data.id);
         let name = localStorage.getItem("name");
         context.commit("SET_CURRENTUSER", name);
+        context.commit("SET_ISLOGIN", true);
+        swal("Welcome", "Success login", "success");
         if (this.state.favLeague != "") {
           router.push("/landing");
         } else router.push("/");
       } catch (err) {
         console.log(err);
+        swal("Error", err.message, "error");
       }
     },
     async googleSignIn(context, payload) {
       try {
         let googleUser = payload;
         const id_token = googleUser.getAuthResponse().id_token;
-        const response = await axios.post(
-          "https://restaurant-app-c1-ph2.herokuapp.com/pub/authGoogle",
-          { id_token }
-        );
+        const response = await axios.post("https://localhost:3000/authGoogle", {
+          id_token,
+        });
         localStorage.setItem("access_token", response.data.access_token);
         localStorage.setItem("name", response.data.name);
         localStorage.setItem("id", response.data.id);
-        // swal("Welcome", "Success login", "success");
+        context.commit("SET_ISLOGIN", true);
+        swal("Welcome", "Success login", "success");
         router.push("/landing");
       } catch (err) {
         console.log(err);
-        // swal("Error", err.message, "error");
+        swal("Error", err.message, "error");
       }
     },
   },
