@@ -26,7 +26,8 @@
                 </svg>
               </button> -->
               <button
-                v-if="isLogin"
+              v-if="isLogin"
+              @click.prevent="addToWishlist(game.id)"
                 class="transition ease-in duration-300 bg-gray-800 hover:text-purple-500 shadow hover:shadow-md text-gray-500 rounded-full w-8 h-8 text-center p-1"
               >
                 <svg

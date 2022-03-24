@@ -63,7 +63,7 @@ export default {
     async logout() {
       try {
         await this.$store.dispatch(`logout`);
-        this.$router.push(`/`);
+        this.$router.push(`/login`);
       } catch (err) {
         console.log(err);
       }
@@ -72,7 +72,11 @@ export default {
 
   computed: {
     isLogin() {
-      return this.$store.state.isLogin;
+      if(localStorage.getItem`access_token`) {
+        return true;
+      } else {
+        return false
+      }
     },
   },
 };

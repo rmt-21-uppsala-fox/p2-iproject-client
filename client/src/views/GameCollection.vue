@@ -15,7 +15,7 @@
       <filter-component></filter-component>
       <!-- End Filter -->
       <!-- Content -->
-      <card-collection v-bind:gameCollection="gameCollection"></card-collection>
+      <card-collection v-bind:gamesCollection="gamesCollection"></card-collection>
       <!-- End Content -->
     </main>
     <!-- End Body -->
@@ -37,7 +37,7 @@ export default {
     CardCollection,
   },
   computed: {
-    gameCollection() {
+    gamesCollection() {
       return this.$store.state.gamesCollection;
     },
   },
