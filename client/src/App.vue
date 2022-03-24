@@ -1,5 +1,5 @@
 <template>
-  <div id="app" style="background-color:black;">
+  <div id="app" style="background-color: black">
     <nav class="row shadow-sm">
       <router-link class="col cursor" to="/">Home</router-link> |
       <router-link class="col cursor" to="/photos">Galery</router-link>
@@ -7,17 +7,22 @@
       <router-link v-if="!isLogin" class="col-2 cursor" to="/login">Login / Register</router-link>
       <a v-if="isLogin" @click.prevent="logoutHandler" class="col-2 cursor" to="/login">Logout</a>
     </nav>
-    <router-view/>
+    <router-view />
+    <HFooter></HFooter>
   </div>
 </template>
 
 <script>
+import HFooter from "vue-hacktiv8-footer";
 export default {
+  components: {
+    HFooter,
+  },
   methods: {
     logoutHandler() {
       localStorage.clear();
       this.$store.commit("SET_ISLOGIN", false);
-      this.$router.push('/login')
+      this.$router.push("/login");
     },
   },
   computed: {

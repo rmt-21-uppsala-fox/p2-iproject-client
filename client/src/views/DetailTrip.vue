@@ -41,12 +41,15 @@ export default {
   name: "DetailTrip",
   data() {
     return {
+        
       target: "in",
     };
   },
   methods: {
     fetchTripByid() {
+    this.target = "in"
       this.$store.dispatch("fetchTripByid", this.$route.params.id);
+      
     },
     async XenditPay(price) {
       this.invoiceUrl = await this.$store.dispatch("xenditPay", price);
@@ -69,7 +72,7 @@ export default {
   },
   created() {
     this.fetchTripByid();
-
+    console.log("test detail");
     if (localStorage.getItem("access_token")) {
       this.$store.commit("SET_ISLOGIN", true);
     } else {

@@ -2,23 +2,24 @@
   <div style="width: 100%">
     <img style="width: 100%" v-animate="'slide-up'" src="@/assets/main-banner.jpg" alt="" />
 
-    <div class="container">
+    <div class="container" style="margin-top:150px">
+      <h2 style="margin-top:20px; margin-bottom:30px">Lest begin your trip with us!!</h2>
       <carousel style="margin: auto" :autoplay="true" :nav="false">
-        <img @click.prevent="fetchTripByid" class="img" v-for="trip in trips" :key="trip.id" :src="trip.imgUrl" />
+        <img class="img" v-for="trip in trips" :key="trip.id" :src="trip.imgUrl" />
       </carousel>
       <p style="margin-left: 40px; color: white">felis minim in id sed augue aliquet irure vehicula. euismod veniam, aenean quis, quis, fermentum. nec, malesuada vulputate mi. eget, dapibus eget, molestie nostrud pretium elit. mollis tempor pharetra, veniam,</p>
 
-      <h2 style="margin-top=20px">Choose your trip</h2>
-      <div class="row">
-        <div class="col" v-for="trip in trips" :key="trip.id">
-          <img class="imgCircle" :src="trip.imgUrl" />
+      <div class="row" style="margin-top:120px; justify-content:center; margin-bottom:120px">
+      <h2 style="margin-top:20px; margin-bottom:30px" >Choose your plan</h2>
+        <div class="col-2" v-for="trip in trips" :key="trip.id">
+          <img @click.prevent="fetchTripByid(trip.id)" class="imgCircle" :src="trip.imgUrl" />
           <div>
-            <a @click.prevent="fetchTripByid(trip.id)">{{ trip.id }}</a>
+            <a @click.prevent="fetchTripByid(trip.id)">{{ trip.name }}</a>
           </div>
         </div>
       </div>
 
-      <div class="row" style="margin-bottom: 120px">
+      <div class="row" style="margin-bottom: 140px">
         <div class="col-7"><img style="width: 100%" src="@/assets/side-banner.jpg" alt="" /></div>
         <div class="col-5">
           <h1 style="padding-top: 250px; text-weight: bolder">LIFE OF ADVENTURE</h1>
@@ -28,7 +29,8 @@
 
       <div class="row">
         <div class="col textHome">Photos of An Adventure</div>
-        <div class="col textHome2">See more >></div>
+         <router-link class="col textHome2" to="/photos">See more >></router-link>
+        <!-- <div class="col textHome2">See more >></div> -->
       </div>
       <div class="row g-3" style="flex-wrap: wrap; margin-bottom: 120px">
         <div class="col" v-for="data in photosHome" :key="data.id">
@@ -101,9 +103,18 @@ body {
 }
 .imgCircle {
   /* vertical-align: middle; */
-  width: 120px;
+  width: 150px;
   /* margin: 0 35px; */
-  height: 120px;
+  height: 150px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+.imgCircle:hover {
+  /* vertical-align: middle; */
+  cursor: pointer;
+  width: 180px;
+  /* margin: 0 35px; */
+  height: 180px;
   border-radius: 50%;
   object-fit: cover;
 }
@@ -249,7 +260,7 @@ p {
   transition-timing-function: ease-in;
 }
 .slide-up {
-  transform: translateY(0);
+  transform: translateY(100);
 }
 
 .slide-up.animate-active {

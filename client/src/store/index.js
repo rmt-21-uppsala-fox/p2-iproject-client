@@ -11,7 +11,7 @@ export default new Vuex.Store({
     photosHome: [],
     trip: [],
     tripById: {},
-    translate: {},
+    translate: "press the translate :)",
   },
   mutations: {
     SET_ISLOGIN(stage, payload) {
@@ -66,13 +66,13 @@ export default new Vuex.Store({
     },
     async fetchTripByid(context, id) {
       try {
-        console.log(id, " id");
+        // console.log(id, " id");
         const response = await local.get(`/trip/${id}`, {
           headers: {
             access_token: localStorage.access_token,
           },
         });
-        console.log(response.data, "dari by id");
+        // console.log(response.data, "dari by id");
         context.commit("FETCH_TRIP_BY_ID", response.data);
       } catch (err) {
         console.log(err);
@@ -89,7 +89,7 @@ export default new Vuex.Store({
             },
           }
         );
-        console.log(response.data);
+        // console.log(response.data);
         window.open(response.data);
       } catch (err) {
         console.log(err);
@@ -104,7 +104,7 @@ export default new Vuex.Store({
               access_token: localStorage.access_token,
             },
           });
-          console.log(response.data.data.translations.translatedText,"INI RESPONE TRANSLATE")
+          // console.log(response.data.data.translations.translatedText,"INI RESPONE TRANSLATE")
           context.commit("FETCH_TRANSLATE", response.data.data.translations.translatedText);
       } catch (err) {
         console.log(err);

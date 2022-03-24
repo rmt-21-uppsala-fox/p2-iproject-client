@@ -24,16 +24,10 @@ const routes = [
     component: PhotosPage
   },
   {
-    path: '/detail',
+    path: '/detail/:id',
     name: 'DetailTrip',
     component: DetailTrip
   },
-  // {
-  //   path: '/photos',
-  //   name: 'PhotosPage',
-  //   component: PhotosPage
-  // },
-
 ]
 
 const router = new VueRouter({
