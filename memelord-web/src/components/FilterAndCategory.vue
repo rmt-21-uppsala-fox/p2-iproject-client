@@ -8,7 +8,9 @@
     />
     <button class="btn btn-dark mb-3 form-control">🔎 Search Title</button>
     <br />
-    <button class="btn btn-dark mb-3 form-control">📜 New Post</button>
+    <router-link to="/newpost">
+      <button class="btn btn-dark mb-3 form-control">📜 New Post</button>
+    </router-link>
     <br />
     <button class="btn btn-dark mb-3 form-control">🤡 Memes</button>
     <br />

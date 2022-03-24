@@ -1,5 +1,5 @@
 <template>
-  <div class="form-control bg-black text-white">
+  <div class="bg-black text-white">
     <div class="row mb-5" v-for="item in postData" :key="item.id">
       <div class="col-3">
         <h2 v-html="item.caption"></h2>

@@ -1,15 +1,20 @@
 import Vue from "vue";
 import Vuex from "vuex";
 import axios from "@/api/axios";
+import meme from "@/api/imgFlip";
+import prev from "@/api/imgFlipPrev";
 
 Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
+    imgFlipAPI: [],
     postData: [],
     isLogin: false,
     userId: 0,
     username: "",
+    imgPreview: "",
+    categoryData: [],
   },
   getters: {},
   mutations: {
@@ -24,6 +29,15 @@ export default new Vuex.Store({
     },
     USERID_COMMIT(state, data) {
       state.userId = data;
+    },
+    IMGFLIP_DATA(state, data) {
+      state.imgFlipAPI = data;
+    },
+    COMMIT_PREVIEW(state, data) {
+      state.imgPreview = data;
+    },
+    CATEGORY_DATA(state, data) {
+      state.categoryData = data;
     },
   },
   actions: {
@@ -81,6 +95,55 @@ export default new Vuex.Store({
         });
       } catch (error) {
         return error.response.data.message;
+      }
+    },
+    async fetchPreview(context, option) {
+      try {
+        const { data } = await prev({
+          method: "post",
+          data: option,
+        });
+        console.log(data, "<<<<<<<<<<<<<<");
+        context.commit("COMMIT_PREVIEW", data.url);
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    async fetchAPI(context) {
+      const { data } = await meme({
+        method: "get",
+      });
+      let data2 = [];
+      data.data.memes.forEach((el) => {
+        if (el.box_count === 2) {
+          data2.push(el);
+        }
+      });
+      context.commit("IMGFLIP_DATA", data2);
+    },
+    async fetchCategories(context) {
+      const { data } = await axios({
+        method: "get",
+        url: "/meme/category",
+      });
+      context.commit("CATEGORY_DATA", data);
+    },
+    async UploadImage(context, data) {
+      try {
+        let formData = new FormData();
+        formData.append("caption", data.caption);
+        formData.append("file", data.file);
+        formData.append("categoryId", data.categoryId);
+        let config = {
+          headers:{access_token: localStorage.access_token,}, 
+          header: {
+            "Content-Type": "multipart/form-data",
+          },
+        };
+
+        await axios.post("/meme/upload", formData, config);
+      } catch (error) {
+        return error
       }
     },
   },

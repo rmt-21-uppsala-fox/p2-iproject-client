@@ -2,15 +2,18 @@
   <div id="app" class="container1">
     <NavigationBar></NavigationBar>
     <router-view />
+    <HFooter></HFooter>
   </div>
 </template>
 
 <script>
+import HFooter from "vue-hacktiv8-footer";
 import NavigationBar from "@/components/NavigationBar.vue";
 export default {
   name: "app",
   components: {
     NavigationBar,
+    HFooter,
   },
 };
 </script>

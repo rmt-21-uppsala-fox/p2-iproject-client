@@ -15,7 +15,9 @@
           <button class="btn btn-dark mb-3 form-control">🏡 Home</button>
         </router-link>
         <br />
+        <router-link to="/newpost">
         <button class="btn btn-dark mb-3 form-control">📜 New Post</button>
+        </router-link>
         <br />
         <button class="btn btn-dark mb-3 form-control">🤡 Memes</button>
         <br />
