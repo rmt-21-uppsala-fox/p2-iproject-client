@@ -18,7 +18,7 @@
             </div>
         </div>
         <div v-if="currentUserImages">
-        <hr class="mt-3">
+            <hr class="mt-3">
             <p>Take a look at your gallery</p>
             <p>↓</p>
         </div>
@@ -69,6 +69,7 @@ export default {
             reader.onload = async () => {
                 await this.$store.dispatch('uploadToImgBB', reader.result)
                 await this.$store.dispatch('fetchImages')
+                await this.$store.dispatch('initializeFaceRecognition')
             }
             reader.onerror = async (error) => {
                 console.log('Error: ', error);

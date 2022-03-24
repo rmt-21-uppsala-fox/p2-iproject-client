@@ -14,7 +14,6 @@
 
 <script>
 import ProductCard from '../components/ProductCard.vue'
-import * as faceapi from 'face-api.js';
 export default {
     name: 'HomeView',
     components: {
@@ -26,31 +25,7 @@ export default {
         }
     },
     async created() {
-        if (!this.$store.state.faceRecognitionLoaded) {
-            await faceapi.nets.faceRecognitionNet.loadFromUri('/assets/models')
-            await faceapi.nets.faceLandmark68Net.loadFromUri('/assets/models')
-            await faceapi.nets.ssdMobilenetv1.loadFromUri('/assets/models')
-        
-            await this.$store.dispatch('fetchImages')
-
-            const images = this.$store.state.imagesUrl
-
-            const labels = ['Tony Stark', localStorage.currentUserName]
-            Promise.all(labels.map(async (label) => {
-                const descriptions = []
-                for (let i = 0; i <= 1; i++) {
-                    
-                    const img = await faceapi.fetchImage(images[label][i]);
-
-                    const detections = await faceapi.detectSingleFace(img).withFaceLandmarks().withFaceDescriptor()
-                    descriptions.push(detections.descriptor)
-                }
-                return new faceapi.LabeledFaceDescriptors(label, descriptions)
-            })).then((data) => {
-                this.$store.commit('setLabeledDescriptors', data)
-                this.$store.commit('setFaceRecognitionLoaded')
-            })
-        }
+        await this.$store.dispatch('initializeFaceRecognition')
     },
     mounted() {
         this.$store.dispatch('fetchPackages')

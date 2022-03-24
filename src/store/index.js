@@ -1,6 +1,8 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import axios from 'axios'
+import * as faceapi from 'face-api.js';
+import Swal from 'sweetalert2'
 
 Vue.use(Vuex)
 
@@ -18,6 +20,9 @@ export default new Vuex.Store({
   getters: {
     getCart(state) {
       return state.cart
+    },
+    getimagesUrl(state) {
+      return state.imagesUrl
     }
   },
   mutations: {
@@ -32,6 +37,10 @@ export default new Vuex.Store({
     },
     addToCart(state, payload) {
       state.cart.push(payload)
+    },
+    clearCartAndAbleToPay(state) {
+      state.cart = []
+      state.ableToPay = false
     },
     setFaceRecognitionLoaded(state) {
       state.faceRecognitionLoaded = true
@@ -56,14 +65,18 @@ export default new Vuex.Store({
   actions: {
     async doRegister(context, registerData) {
       try {
-        await axios.post('http://localhost:3000/register', registerData)
+        await axios.post('https://lyfe-tomthedeveloper11.herokuapp.com/register', registerData)
       } catch (error) {
-        console.log(error)
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'Please check your inputs'
+        })
       }
     },
     async doLogin(context, loginData) {
       try {
-        const response = await axios.post('http://localhost:3000/login', loginData)
+        const response = await axios.post('https://lyfe-tomthedeveloper11.herokuapp.com/login', loginData)
 
         const {
           access_token,
@@ -84,13 +97,17 @@ export default new Vuex.Store({
         })
         context.commit('setIsLoggedIn')
       } catch (error) {
-        console.log(error);
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'Please check your inputs'
+        })
       }
     },
     async fetchPackages(context) {
       try {
 
-        const response = await axios.get('http://localhost:3000/packages', {
+        const response = await axios.get('https://lyfe-tomthedeveloper11.herokuapp.com/packages', {
           headers: {
             'access_token': localStorage.access_token
           }
@@ -98,12 +115,12 @@ export default new Vuex.Store({
         response.data.sort((a, b) => a.id > b.id ? 1 : -1);
         context.commit('setPackages', response.data)
       } catch (error) {
-        console.log(error)
+        console.log(error);
       }
     },
     async fetchImages(context) {
       try {
-        const response = await axios.get('http://localhost:3000/currentUserImagesUrl', {
+        const response = await axios.get('https://lyfe-tomthedeveloper11.herokuapp.com/imagesUrl', {
           headers: {
             'access_token': localStorage.access_token
           }
@@ -111,12 +128,12 @@ export default new Vuex.Store({
 
         context.commit('setImagesUrl', response.data)
       } catch (error) {
-        console.log(error)
+        this.$toast.error(error.response.data, {
+          position: 'top-right'
+        });
       }
     },
-    async doXenditPay({
-      getters
-    }) {
+    async doXenditPay(context) {
       try {
         let data = {
           "external_id": `invoice-${new Date().getTime()}`,
@@ -128,7 +145,7 @@ export default new Vuex.Store({
           "items": [],
           "description": `Invoice Demo #${new Date().getTime()}`,
         }
-        const cartItems = getters.getCart
+        const cartItems = context.getters.getCart
 
         cartItems.forEach((item) => {
           data.amount += item.price
@@ -140,31 +157,68 @@ export default new Vuex.Store({
           })
         });
 
-        const response = await axios.post('http://localhost:3000/xenditPay', data, {
+        const response = await axios.post('https://lyfe-tomthedeveloper11.herokuapp.com/xenditPay', data, {
           headers: {
             'access_token': localStorage.access_token
           }
         })
+        context.commit('clearCartAndAbleToPay')
 
         return response.data
       } catch (error) {
-        console.log(error)
+        this.$toast.error(error.response.data, {
+          position: 'top-right'
+        });
       }
     },
     async uploadToImgBB(context, base64) {
       try {
-        const response = await axios.post('http://localhost:3000/uploadToImgBB', {
+        await axios.post('https://lyfe-tomthedeveloper11.herokuapp.com/uploadToImgBB', {
           img: base64
         }, {
           headers: {
             'access_token': localStorage.access_token
           }
         })
-
-        console.log(response.data);
-
       } catch (error) {
-        console.log(error);
+        this.$toast.error(error.response.data, {
+          position: 'top-right'
+        });
+      }
+    },
+    async initializeFaceRecognition(context) {
+      try {
+        await faceapi.nets.faceRecognitionNet.loadFromUri('/assets/models')
+        await faceapi.nets.faceLandmark68Net.loadFromUri('/assets/models')
+        await faceapi.nets.ssdMobilenetv1.loadFromUri('/assets/models')
+
+        await context.dispatch('fetchImages')
+
+        const images = context.getters.getimagesUrl
+
+        const labels = []
+        for (const key in images) {
+          labels.push(key)
+        }
+
+        Promise.all(labels.map(async (label) => {
+          const descriptions = []
+          for (let i = 0; i <= 1; i++) {
+
+            const img = await faceapi.fetchImage(images[label][i]);
+
+            const detections = await faceapi.detectSingleFace(img).withFaceLandmarks().withFaceDescriptor()
+            descriptions.push(detections.descriptor)
+          }
+          return new faceapi.LabeledFaceDescriptors(label, descriptions)
+        })).then((data) => {
+          context.commit('setLabeledDescriptors', data)
+          context.commit('setFaceRecognitionLoaded')
+        })
+      } catch (error) {
+        this.$toast.error(error.response.data, {
+          position: 'top-right'
+        });
       }
     },
   },
