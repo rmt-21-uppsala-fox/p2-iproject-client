@@ -1,7 +1,7 @@
 <template>
   <div>
     <mapbox
-      access-token="pk.eyJ1IjoiYWxpenRhMjciLCJhIjoiY2wxM2xnNTI3MGZ6czNqczY1c2UwYWlxZiJ9.AA6ABgKLKQt2Xt4QvfOokg"
+      access-token="pk.eyJ1IjoiYWxpenRhMjciLCJhIjoiY2wxM2wzNHFzMDI0ajNjdWs1a2pya3plciJ9.DvN5_4ZKto6V8gtXT2szgQ"
       :map-options="{
         style: 'mapbox://styles/alizta27/cl13q1zlg005i14p2j8nk1syu',
         center: [122.545108, -4.005283],
