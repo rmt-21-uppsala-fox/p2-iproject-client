@@ -30,6 +30,12 @@
 <script>
 export default {
     name: "SummaryPage",
+    methods: {
+      sendReceipt() {
+        localStorage.clear()
+        this.$router.push('/')
+      }
+    },
     computed: {
     orderName() {
       return this.$store.state.orderName;
