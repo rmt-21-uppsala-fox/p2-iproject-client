@@ -28,7 +28,7 @@ export default {
         addToCart(productPackage) {
             this.$store.commit('addToCart', productPackage)
             this.$toast.success('Item added to your cart!', {
-                position: 'top-right'
+                position: 'bottom-right'
             });
         }
     },

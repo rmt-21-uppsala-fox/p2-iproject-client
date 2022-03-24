@@ -1,7 +1,7 @@
 <template>
 <div class="row border border-secondary rounded my-4 grid" style="width: 900px">
     <div class="col-3 p-3">
-        <img class="card-img-top" :src="productPackage.imgUrl">
+        <img class="card-img-top" :src="productPackage.imgUrl" height="130px" style="object-fit: scale-down">
     </div>
     <div class="col-6 text-left ">
         <p v-text="productPackage.name"></p>

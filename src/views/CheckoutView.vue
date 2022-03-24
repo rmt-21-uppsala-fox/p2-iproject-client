@@ -4,7 +4,7 @@
         <h2 v-if="$store.state.cart.length < 1" class="p-5">Your cart is empty, please add some item into your cart</h2>
         <CheckoutCard v-for="productPackage in cart" :key="productPackage.id" :productPackage=productPackage></CheckoutCard>
     </div>
-    <div class="col-4 border border-secondary rounded grid w-25">
+    <div class="col-4 border border-secondary rounded grid w-25 h-100">
         <h3 class="mt-4">Checkout</h3>
         <br>
         <CheckoutItems v-for="productPackage in cart" :key="productPackage.id" :productPackage=productPackage></CheckoutItems>
@@ -19,7 +19,7 @@
             </div>
         </div>
 
-        <div class="row mb-3">
+        <div class="row mb-3" style="display:grid, place-items: center;">
             <div class="col-6 text-nowrap">
                 <button v-if="$store.state.cart.length > 0" v-b-modal.modal-2 type="button" @click="faceRecognition" class="btn btn-outline-success btn-sm"><i class="fa-solid fa-face-grin-beam fa-xl"></i> Face Payment</button>
             </div>
@@ -48,6 +48,7 @@
 <script>
 import CheckoutCard from '../components/CheckoutCard.vue'
 import CheckoutItems from '../components/CheckoutItems.vue'
+import Swal from 'sweetalert2'
 
 import * as faceapi from 'face-api.js';
 export default {
@@ -139,12 +140,20 @@ export default {
                         if (detectedUserName.includes(localStorage.currentUserName)) {
                             this.$store.commit('setAbleToPay')
                         } else {
-                            alert('Not Authorized')
+                            Swal.fire({
+                                imageUrl: 'https://i.kym-cdn.com/entries/icons/original/000/002/144/You_Shall_Not_Pass!_0-1_screenshot.jpg',
+                                imageWidth: 500,
+                                imageHeight: 300,
+                                imageAlt: 'Custom image',
+                                confirmButtonText: 'OK :(',
+                            })
                         }
                     }, 3000);
                 })
             } catch (error) {
-                console.log(error);
+                this.$toast.error(error, {
+                    position: 'bottom-right'
+                });
             }
         }
     }
