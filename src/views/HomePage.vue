@@ -25,7 +25,7 @@
 					Previous
 				</a>
 				<a
-					@click.prevent="nextPage"
+					@click.prevent="nextPage(Math.ceil(50870 / 18) - 1)"
 					class="inline-flex items-center py-2 px-4 text-sm font-medium text-yellow-500 bg-white rounded-lg border border-gray-300 hover:bg-red-500 hover:text-yellow-500 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white italic font-serif"
 				>
 					Next
@@ -43,7 +43,8 @@
 		name: "HomePage",
 		data() {
 			return {
-				page: 1,
+				page: 0,
+				endpage: null,
 			};
 		},
 		components: {
@@ -55,14 +56,16 @@
 				this.$store.dispatch("getAllManga");
 			},
 			previousPage() {
-				if (this.page > 1) {
+				if (this.page >= 1) {
 					this.page -= 1;
 				}
+				this.$store.dispatch("getAllManga", { page: this.page });
 			},
 			nextPage(val) {
 				if (this.page < val) {
 					this.page += 1;
 				}
+				this.$store.dispatch("getAllManga", { page: this.page });
 			},
 		},
 		computed: {

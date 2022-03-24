@@ -34,11 +34,13 @@ export default new Vuex.Store({
 		},
 	},
 	actions: {
-		async getAllManga(context) {
+		async getAllManga(context, payload) {
 			try {
+				console.log(payload);
 				const response = await local({
 					method: "GET",
 					url: `/manga`,
+					params: payload,
 					headers: {
 						Content_Type: "application/vnd.api+json",
 					},
