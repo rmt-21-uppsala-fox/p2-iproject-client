@@ -14,10 +14,10 @@
         </div>
         <div class="col-7">
           <div class="mb-3">
-              <form action="">
-                  <textarea class="w-100 form-control mb-1"></textarea>
+              <form @submit.prevent="post" >
+                  <textarea v-model="desc" class="w-100 form-control mb-1"></textarea>
                   <div class="d-flex flex-row">
-                      <input type="file" class="form-control me-1">
+                      <input  @change="previewFiles" type="file" class="form-control me-1">
                   <button type="submit" class="btn btn-primary">Post</button>
                   </div>
               </form>
@@ -41,6 +41,11 @@ export default {
     SideBar,
     PostCard,
   },
+  data(){
+    return{
+      desc:''
+    }
+  },
   created() {
     this.$store.dispatch("getAllRelations");
     this.$store.dispatch("getAllPosts");
@@ -55,8 +60,22 @@ export default {
     },
     users(){
       return this.$store.state.users
-    }
+    },
+    
+    // post(){
+
+    // }
   },
+  methods:{
+    previewFiles(e){
+      // console.log(e.target.files);
+      this.$store.commit('CHANGE_POSTIMG',e.target.files[0])
+      // console.log(this.$store.state.postImg);
+    },
+    post(){
+      this.$store.dispatch('uploadImg',this.desc)
+    }
+  }
 };
 </script>
 
