@@ -6,19 +6,16 @@
                 :bookmarks="bookmarks"
             ></all-novel>
         </div>
-        <footer-component></footer-component>
     </div>
 </template>
 
 <script>
 import AllNovel from '@/components/AllNovel.vue';
-import FooterComponent from '@/components/Footer.vue';
 
 export default {
     name: 'BookmarkView',
     components: {
         AllNovel,
-        FooterComponent,
     },
     computed: {
         bookmarks() {

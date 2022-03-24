@@ -26,9 +26,13 @@ export default new Vuex.Store({
         novelToRead: [],
         bookmarked: [],
         apiNovels: [],
+        isLogin: false,
     },
     getters: {},
     mutations: {
+        isLogin(state, payload) {
+            state.isLogin = payload;
+        },
         setAllNovels(state, novels) {
             state.allNovel = novels;
         },
@@ -59,6 +63,7 @@ export default new Vuex.Store({
                 localStorage.setItem('access_token', res.user.accessToken);
                 localStorage.setItem('email', email);
                 localStorage.setItem('uid', res.user.uid);
+                context.commit('isLogin', true);
                 swal('Success', 'Register Success', 'success');
             } catch (error) {
                 swal('Error', error.response.data.msg, 'error');
@@ -73,11 +78,11 @@ export default new Vuex.Store({
                     email,
                     password
                 );
-                console.log(res);
+
                 localStorage.setItem('access_token', res.user.accessToken);
                 localStorage.setItem('email', email);
                 localStorage.setItem('uid', res.user.uid);
-
+                context.commit('isLogin', true);
                 swal('Success', 'Register Success', 'success');
                 console.log(res.user.email, res.user.accessToken);
             } catch (error) {
@@ -115,10 +120,12 @@ export default new Vuex.Store({
                         link.split('/')[3]
                     }/chapter-${chapter}`;
                 }
+                console.log(url);
                 const { data } = await local.get(url);
                 commit('setNovelToRead', { data, url });
             } catch (error) {
-                swal('Error!', error.response.data.msg, 'error');
+                console.log(error);
+                swal('Error!', error, 'error');
             }
         },
 
@@ -174,7 +181,7 @@ export default new Vuex.Store({
                 commit('setBookmarked', bookmarkList);
             } catch (error) {
                 console.log(error);
-                swal('Error!', error.response.data.msg, 'error');
+                swal('Error!', error, 'error');
             }
         },
 

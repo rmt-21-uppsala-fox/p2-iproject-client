@@ -2,10 +2,12 @@
     <div>
         <article class="post">
             <div class="post__container mx-auto bg-gray-700 mt-20">
-                <span id="top" class="post__category">Happy Reading</span>
+                <span id="top" class="post__category text-orange-500"
+                    >Happy Reading</span
+                >
                 <div class="post__content">
                     <header>
-                        <time class="post__time">Jan 27 2022</time>
+                        <time class="post__time">{{ new date() }}</time>
                         <h1 class="post__header">
                             <span></span>
                         </h1>
@@ -22,18 +24,13 @@
                 </div>
             </div>
         </article>
-        <footer-component></footer-component>
     </div>
 </template>
 
 <script>
-import FooterComponent from '@/components/Footer.vue';
-
 export default {
     name: 'NovelChapterView',
-    components: {
-        FooterComponent,
-    },
+    components: {},
     data() {
         return {
             page: 1,
@@ -43,6 +40,8 @@ export default {
         novel() {
             // tombol kasih id pake scroll to
             document.documentElement.scrollIntoView({ behavior: 'smooth' });
+            // scroll to top
+            window.scrollTo(0, 0);
             return this.$store.state.novelToRead;
         },
     },

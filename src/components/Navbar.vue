@@ -59,6 +59,11 @@ export default {
             this.$router.push('/login');
         },
     },
+    computed: {
+        isLogin() {
+            return this.$store.state.isLogin;
+        },
+    },
 };
 </script>
 
