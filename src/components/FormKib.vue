@@ -100,6 +100,7 @@
               </div>
             </div>
           </vue-dropzone>
+          <button @click="downloadTmp" class="btn btn-outline btn-warning">Download Template</button>
         </div>
       </div>
     </div>
@@ -135,8 +136,12 @@ export default {
   methods: {
     async postData() {
       await this.$store.dispatch("postDataKib", this.userInput);
+      this.$toasted.success("Success post data!");
       this.$store.commit("SET_DASHBOARD_PAGE", "datalist")
     },
+    downloadTmp() {
+      window.open("http://localhost:5000/kib/template.csv");
+    }
   }
 };
 </script>

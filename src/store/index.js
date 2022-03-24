@@ -52,7 +52,8 @@ export default new Vuex.Store({
         let data = res.data.dataSekolah
         ctx.commit('SET_SCHOOL_DATA', data)
       } catch (err) {
-        console.log(err);
+        let msg = err.response.data
+        Vue.toasted.error(msg);
       }
     },
     async getSchoolDataPage(ctx, payload) {
@@ -64,7 +65,8 @@ export default new Vuex.Store({
         let data = res.data.dataSekolah
         ctx.commit('SET_SCHOOL_DATA', data)
       } catch (err) {
-        console.log(err);
+        let msg = err.response.data
+        Vue.toasted.error(msg);
       }
     },
     async getSchoolDataPageOption(ctx) {
@@ -76,7 +78,8 @@ export default new Vuex.Store({
         let data = res.data.dataSekolah
         ctx.commit('SET_SCHOOL_DATA', data)
       } catch (err) {
-        console.log(err);
+        let msg = err.response.data
+        Vue.toasted.error(msg);
       }
     },
     async generateQrCode(ctx) {
@@ -87,7 +90,8 @@ export default new Vuex.Store({
         })
         ctx.commit('QR_CODE', res.data.qrcode)
       } catch (err) {
-        console.log(err.response);
+        let msg = err.response.data
+        Vue.toasted.error(msg);
       }
     },
     async login(ctx, payload) {
@@ -106,7 +110,8 @@ export default new Vuex.Store({
           ctx.commit('SET_LOGIN', true)
         }
       } catch (err) {
-        console.log(err.response);
+        let msg = err.response.data
+        Vue.toasted.error(msg);
       }
     },
     async registerUser(ctx, payload) {
@@ -124,7 +129,8 @@ export default new Vuex.Store({
         ctx.commit("SET_REGIS", true)
         console.log(res.data.message);
       } catch (err) {
-        console.log(err);
+        let msg = err.response.data
+        Vue.toasted.error(msg);
       }
     },
     async getDataList(ctx) {
@@ -138,7 +144,8 @@ export default new Vuex.Store({
         })
         ctx.commit("SET_DATA_KIB", res.data.kib)
       } catch (err) {
-        console.log(err);
+        let msg = err.response.data
+        Vue.toasted.error(msg);
       }
     },
     async deleteKib(ctx, payload) {
@@ -152,7 +159,8 @@ export default new Vuex.Store({
         })
         ctx.dispatch("getDataList")
       } catch (err) {
-        console.log(err);
+        let msg = err.response.data
+        Vue.toasted.error(msg);
       }
     },
     async postDataKib(ctx, payload) {
@@ -173,7 +181,8 @@ export default new Vuex.Store({
         })
         console.log("sukses posting data");
       } catch (err) {
-        console.log(err);
+        let msg = err.response.data
+        Vue.toasted.error(msg);
       }
     }
   },

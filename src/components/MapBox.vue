@@ -1,11 +1,11 @@
 <template>
   <div>
     <mapbox
-      access-token="pk.eyJ1IjoiYWxpenRhMjciLCJhIjoiY2wxM2xnNTI3MGZ6czNqczY1c2UwYWlxZiJ9.AA6ABgKLKQt2Xt4QvfOokg"
+      access-token="pk.eyJ1IjoiYWxpenRhMjciLCJhIjoiY2wxM2wzNHFzMDI0ajNjdWs1a2pya3plciJ9.DvN5_4ZKto6V8gtXT2szgQ"
       :map-options="{
-        style: 'mapbox://styles/mapbox/light-v9',
-        center: [-96, 37.8],
-        zoom: 3,
+        style: 'mapbox://styles/alizta27/cl13q1zlg005i14p2j8nk1syu',
+        center: [122.545108, -4.005283],
+        zoom: 15,
       }"
       :geolocate-control="{
         show: true,
@@ -39,22 +39,11 @@ export default {
                 type: 'Feature',
                 geometry: {
                   type: 'Point',
-                  coordinates: [-4.005283, 122.545108],
+                  coordinates: [122.545108, -4.005283],
                 },
                 properties: {
-                  title: 'Mapbox DC',
+                  title: 'Kantor',
                   icon: 'monument',
-                },
-              },
-              {
-                type: 'Feature',
-                geometry: {
-                  type: 'Point',
-                  coordinates: [-4.005283, 122.545108],
-                },
-                properties: {
-                  title: 'Mapbox SF',
-                  icon: 'harbor',
                 },
               },
             ],
