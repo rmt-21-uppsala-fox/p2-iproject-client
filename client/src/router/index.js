@@ -3,17 +3,18 @@ import VueRouter from 'vue-router'
 import LandingView from '../views/LandingView'
 import LoginSpotifyView from '../views/LoginSpotifyView'
 import LoginView from '../views/LoginView'
+import RegisterView from '../views/RegisterView'
 
 Vue.use(VueRouter)
 
 const routes = [
   {
-    path: '/loginSpotify',
+    path: '/',
     name: 'LoginSpotify',
     component: LoginSpotifyView
   },
   {
-    path: '/',
+    path: '/dashboard',
     name: 'LandingPage',
     component:LandingView
   },
@@ -21,6 +22,10 @@ const routes = [
     path: '/login',
     name: 'Login',
     component:LoginView
+  },{
+    path: '/register',
+    name: 'register',
+    component:RegisterView
   },
 ]
 

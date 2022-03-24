@@ -2,17 +2,20 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import axios from 'axios'
 import SpotifyWebApi from 'spotify-web-api-node'
+import Swal from 'sweetalert2'
 
 Vue.use(Vuex)
 const url = `http://localhost:3000`
 export default new Vuex.Store({
   state: {
     isLogin: false,
-    artistImage: '',
     track: null,
     playing: false,
     trackTime: 0,
-    isPreLogin:false
+    isPreLogin:false,
+    regis:false,
+    dataSong:[],
+    lirik:""
   },
   getters: {
   },
@@ -22,78 +25,83 @@ export default new Vuex.Store({
     },
     ISPRELOGIN(state){
       state.isPreLogin = true
+    },
+    AFTERREGIS(state, payload) {
+      state.isRegister = payload
+    },
+    SONGLIST(state, payload){
+      state.dataSong = payload
+    },
+    LIRIK(state, payload){
+      state.lirik = payload
     }
   },
   actions: {
-    audioTimeUpdated() {
-      let amountPlayed = (this.track.currentTime / this.track.duration) * 100;
-
-      this.trackTime = amountPlayed;
-    },
-    addListeners() {
-      this.track.addEventListener(
-        'timeupdate',
-        this.audioTimeUpdated,
-        false
-      );
-    },
-    // handleClick(item) {
-    //   let phoneScreen = document.querySelector('.c-phone__screen');
-
-    //   phoneScreen.scrollTop = 0;
-
-    //   this.artistImage = item.images[0].url;
-
-    //   this.fetchTrack(item.id);
-    // },
-    async prelogin(context, payload){
+    async regis(context, payload) {
       try {
-        await axios.post(`${url}/prelogin`, {email:payload})
-        context.commit(`PRELOGIN`)
+        await axios.post(`${url}/register`, { password: payload.password, email: payload.email })
+        context.commit('AFTERREGIS', true)
       } catch (error) {
         console.log(error)
+        Swal.fire({
+          text: `${error}`,
+        })
+      }
+    },
+    async prelogin(context, payload){
+      try {
+        const response = await axios.post(`${url}/prelogin`, {email:payload.email, password:payload.password})
+        localStorage.setItem('access_tokenCustom', response.data.access_tokenCustom)
+        context.commit(`ISPRELOGIN`)
+      } catch (error) {
+        console.log(error)
+        Swal.fire({
+          text: `${error}`,
+        })
       }
     },
     async login(context, payload) {
       try {
+        console.log('test', payload)
         const response = await axios.post(`${url}/login`, { code:payload })
         localStorage.setItem('access_token', response.data.access_token)
-        context.commit('LOGIN')
+        if(localStorage.access_token){
+          context.commit('LOGIN')
+        }
       } catch (error) {
         console.log(error)
+        Swal.fire({
+          text: `${error}`,
+        })
       }
     },
-    pauseTrack() {
-        if (this.track) {
-          this.track.pause();
-          this.playing = false;
-        }
-      },
-  
-      playTrack() {
-        if (this.track) {
-          this.track.play();
-          this.playing = true;
-        }
-      },
-    
     async player(context, payload) {
       try {
         const access_token = localStorage.access_token
         const spotifyApi = new SpotifyWebApi({clientId:`19049e5d8ae6427c901e89b1599da589`})
         spotifyApi.setAccessToken(access_token)
         const response = await spotifyApi.searchTracks(`${payload}`, { limit : 3, offset : 0 })
-        console.log(response)
-
-        let audioObject = new Audio(response.body.tracks.items[0].preview_url);
-  
+        console.log(response.body.tracks.items)
+        context.commit('SONGLIST', response.body.tracks.items)
+      } catch (error) {
+        console.log(error)
+        Swal.fire({
+          text: `${error}`,
+        })
+      }
+    },
+    async playsong(context, payload){
+      try {
+        let audioObject = new Audio(payload.preview_url);
         audioObject.play();
-  
-        this.playing = true;
-  
-        this.track = audioObject;
-  
-        this.addListeners();
+      } catch (error) {
+        console.log(error)
+      }
+    },
+    async getLyric(context, payload){
+      try {
+        const response = await axios.get(`${url}/lyric?artist=${payload.artists[0].name}&track=${payload.name}`)
+        context.commit('LIRIK', response.data.lirik.lyrics)
       } catch (error) {
         console.log(error)
       }

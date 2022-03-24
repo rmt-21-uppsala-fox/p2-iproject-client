@@ -18,84 +18,71 @@
         style="
           background-color: rgb(247, 244, 244);
           height: 70vh;
-          width: 30%;
+          width: 50%;
           display: flex;
           flex-direction: column;
           justify-content: center;
           align-items: center;
         "
       >
-        <h3 class="fw-normal">Login</h3>
-        <form
-          class="form"
-          style="
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
-          "
-          @submit.prevent="login"
-        >
+        <h3>Register</h3>
+        <form class="form" @submit.prevent="register">
+          <label class="mt-2">email: </label>
           <input
             type="text"
             name="email"
-            id="email"
-            placeholder="email"
-            class="mt-4"
-            v-model="dataLogin.email"
+            id="emailRegister"
+            v-model="regis.email"
           /><br />
+          <label class="mt-2 mb-2">password: </label>
           <input
             type="password"
             name="password"
-            id="password"
-            placeholder="password"
-            class="mt-2"
-            v-model="dataLogin.password"
-          /><br />
-          <button type="submit" class="btn btn-primary mt-2">Sign In</button>
+            id="passwordRegister"
+            v-model="regis.password"
+          /><br /><br />
+          <button class="btn btn-primary">Register</button>
         </form>
-        <button @click="pindahRoute" class="btn btn-success mt-2">
-          Register
-        </button>
       </div>
     </div>
     <HFooter> </HFooter>
   </div>
 </template>
 
-
 <script>
 import HFooter from "vue-hacktiv8-footer";
 export default {
-  name: "LoginView",
+  name: "RegisterPage",
   components: { HFooter },
   data() {
     return {
-      dataLogin: {
+      regis: {
+        username: "",
+        address: "",
+        phoneNumber: "",
         email: "",
         password: "",
       },
     };
   },
   methods: {
-    async login() {
-      await this.$store.dispatch("prelogin", this.dataLogin);
-      if (this.isPreLogin) {
-        this.router.push("/loginSpotify");
+    async register() {
+      await this.$store.dispatch("regis", this.regis);
+      if (this.isRegis) {
+        this.$router.push("/login");
       }
-    },
-    pindahRoute() {
-      this.$router.push("/register");
     },
   },
   beforeCreate() {
     if (localStorage.access_token) {
       this.$router.push("/dashboard");
+    } else if (localStorage.access_tokenCustom) {
+      this.$router.push("/");
     }
   },
   computed: {
-    isPreLogin() {
-      return this.$store.state.isPreLogin;
+    isRegis() {
+      return this.$store.state.isRegister;
     },
   },
 };
