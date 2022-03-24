@@ -135,6 +135,7 @@ export default {
   methods: {
     async postData() {
       await this.$store.dispatch("postDataKib", this.userInput);
+      this.$toasted.success("Success post data!");
       this.$store.commit("SET_DASHBOARD_PAGE", "datalist")
     },
   }
