@@ -5,6 +5,7 @@ import FormPage from '../views/FormPage.vue'
 import MenuView from '../views/MenuView.vue'
 import DetailMenu from '../views/DetailMenu.vue'
 import PaymentPage from '../views/PaymentPage.vue'
+import SummaryPage from '../views/SummaryPage.vue'
 
 Vue.use(VueRouter)
 
@@ -42,6 +43,11 @@ const routes = [
     path: '/payment',
     name: 'payment',
     component: PaymentPage,
+  },
+  {
+    path: '/summary',
+    name: 'summary',
+    component: SummaryPage,
   },
 ]
 

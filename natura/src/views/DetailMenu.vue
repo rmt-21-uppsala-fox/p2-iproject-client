@@ -2,7 +2,7 @@
   <v-container class="h-100 ">
     <v-row class="container-detail ">
         <v-img
-        :src="`http://localhost:3000/${dataMenu.image}`"      
+        :src="`https://natura-iproject.herokuapp.com/${dataMenu.image}`"      
         class="white--text align-end menu-poster"
         height="100%"
         width="100%"

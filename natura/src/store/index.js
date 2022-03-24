@@ -57,6 +57,7 @@ export default new Vuex.Store({
     async createOrder (context, payload) {
       try {
         const { data } = await axios.post('/neworder', payload)
+        localStorage.setItem("orderName", data.orderName)
         context.commit("SET_ORDER_NAME", data.orderName)
       } catch (error) {
         console.log(error.response.data)

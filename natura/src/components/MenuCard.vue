@@ -7,7 +7,7 @@
     >
     
       <v-img
-        :src="`http://localhost:3000/${menu.image}`"
+        :src="`https://natura-iproject.herokuapp.com/${menu.image}`"
         class="white--text align-end menu-img"
         height="100px"
         width="100px"
