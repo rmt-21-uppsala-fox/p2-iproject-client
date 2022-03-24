@@ -1,9 +1,9 @@
 <template>
-  <div class="home">
+  <div class="home" style="height: 600vh">
     <div class="container">
       <div class="row">
         <div class="col" v-for="data in photos" :key="data.id">
-          <img v-animate="'slide-up'" v-lazy="data.src.portrait" alt="" />
+          <img class="shadow-sm" v-animate="'slide-up'" v-lazy="data.src.portrait" alt="" />
         </div>
       </div>
     </div>
