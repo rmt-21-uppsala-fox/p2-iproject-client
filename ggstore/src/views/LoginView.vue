@@ -58,17 +58,18 @@
     components: {},
     methods: {
       async signIn() {
-        try {
-          await this.$store.dispatch("signIn", {
-            email: this.email,
-            password: this.password,
-          });
-          if (this.$store.state.isSignedIn) {
-            this.$router.push("/");
-          }
-        } catch (err) {
-          console.log(err);
+        await this.$store.dispatch("signIn", {
+          email: this.email,
+          password: this.password,
+        });
+        if (this.isSignIn) {
+          this.$router.push("/");
         }
+      },
+    },
+    computed: {
+      isSignIn() {
+        return this.$store.state.isSignedIn;
       },
     },
   };

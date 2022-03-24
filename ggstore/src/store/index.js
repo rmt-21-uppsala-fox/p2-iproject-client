@@ -7,7 +7,7 @@ import { firebase, auth } from "../../firebase/firebase";
 Vue.use(Vuex);
 
 const REST = axios.create({
-  baseURL: "http://localhost:3000",
+  baseURL: "https://ggstore-iproject-andrizal.herokuapp.com",
 });
 
 export default new Vuex.Store({
