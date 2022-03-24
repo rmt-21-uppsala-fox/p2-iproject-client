@@ -5,9 +5,11 @@
         <h2 v-html="item.caption"></h2>
         <br />
         <p v-html="item.Category.name">Category</p>
-        <button class="btn btn-dark mt-3" @click="postDetail(item.id)">
-          Show Details
-        </button>
+        <router-link to="/showdetail">
+          <button class="btn btn-dark mt-3" @click="postDetail(item.id)">
+            Show Details
+          </button>
+        </router-link>
       </div>
       <div class="col-4">
         <img id="postImg" :src="item.imgUrl" alt="" />
@@ -20,9 +22,10 @@
 export default {
   name: "PostSection",
   methods: {
-    // postDetail(postId){
-    // this is for post detail
-    // }
+    postDetail(postId) {
+      this.$store.commit("POST_ID", postId);
+      localStorage.postId = postId;
+    },
   },
   computed: {
     postData() {

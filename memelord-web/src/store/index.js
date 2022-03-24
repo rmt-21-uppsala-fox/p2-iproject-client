@@ -8,6 +8,8 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
+    postId: 0,
+    postDetail: [],
     imgFlipAPI: [],
     postData: [],
     isLogin: false,
@@ -38,6 +40,12 @@ export default new Vuex.Store({
     },
     CATEGORY_DATA(state, data) {
       state.categoryData = data;
+    },
+    POST_DETAIL(state, data) {
+      state.postDetail = data;
+    },
+    POST_ID(state, data) {
+      state.postId = data;
     },
   },
   actions: {
@@ -128,6 +136,52 @@ export default new Vuex.Store({
       });
       context.commit("CATEGORY_DATA", data);
     },
+    async fetchPostDetail(context, postId) {
+      if (!postId) {
+        postId = localStorage.postId;
+      }
+      const { data } = await axios({
+        method: "get",
+        url: `/meme/post/${postId}`,
+      });
+      console.log(data);
+      context.commit("POST_DETAIL", data);
+    },
+    async doComment(context, comment) {
+      try {
+        const postId = localStorage.postId;
+        await axios({
+          method: "post",
+          url: `/meme/post/${postId}`,
+          headers: {
+            access_token: localStorage.access_token,
+          },
+          data: {
+            comment: comment,
+          },
+        });
+      } catch (error) {
+        return error;
+      }
+    },
+    async editComment(context, payload) {
+      try {
+        const postId = localStorage.getItem("postId");
+        const { comment, commentId } = payload;
+        const respond = await axios({
+          method: "patch",
+          url: `/meme/post/${postId}`,
+          data: {
+            comment,
+            commentId,
+          },
+          headers: { access_token: localStorage.access_token },
+        });
+        console.log(respond);
+      } catch (error) {
+        console.log(error);
+      }
+    },
     async UploadImage(context, data) {
       try {
         let formData = new FormData();
@@ -135,7 +189,7 @@ export default new Vuex.Store({
         formData.append("file", data.file);
         formData.append("categoryId", data.categoryId);
         let config = {
-          headers:{access_token: localStorage.access_token,}, 
+          headers: { access_token: localStorage.access_token },
           header: {
             "Content-Type": "multipart/form-data",
           },
@@ -143,7 +197,7 @@ export default new Vuex.Store({
 
         await axios.post("/meme/upload", formData, config);
       } catch (error) {
-        return error
+        return error;
       }
     },
   },

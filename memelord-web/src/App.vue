@@ -15,6 +15,9 @@ export default {
     NavigationBar,
     HFooter,
   },
+  created() {
+    this.$store.dispatch("loginCheck");
+  },
 };
 </script>
 
