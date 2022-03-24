@@ -62,6 +62,7 @@
                 </span>
                 <h3>
                   <a
+                    @click.prevent="gotoDetail(recipe.recipe.uri)"
                     href="javascript:void(0)"
                     class="
                         font-semibold
@@ -110,6 +111,12 @@ export default {
       const RecipeId = params.split("#")[1];
       console.log(RecipeId);
       this.$store.dispatch("createRecipes", RecipeId);
+    },
+    gotoDetail(params) {
+      const RecipeId = params.split("#")[1];
+      this.$store.dispatch("fetchDetailReciped", RecipeId);
+      this.$store.commit("SET_DETAIL_PAGE", true);
+      this.$router.push({ name: "detail-recipe" });
     },
   },
   created: function () {
