@@ -43,9 +43,9 @@ export default {
     },
     computed: {
         novel() {
-            document.getElementById('top').scrollIntoView({
-                behavior: 'smooth',
-            });
+            // document.getElementById('top').scrollIntoView({
+            //     behavior: 'smooth',
+            // });
             return this.$store.state.novelToRead;
         },
     },
