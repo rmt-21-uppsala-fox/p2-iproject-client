@@ -2,7 +2,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import axios from 'axios'
 Vue.use(Vuex)
-let baseUrl = "http://localhost:3000"
+let baseUrl = "https://whatoeat-iproject.herokuapp.com"
 export default new Vuex.Store({
   state: {
     currentUser: "",
@@ -40,6 +40,13 @@ export default new Vuex.Store({
         username: payload.username,
         password: payload.password
       })
+    },
+    async registerHandler(context, payload) {
+      try {
+        return await axios.post(`${baseUrl}/register`, payload)
+      } catch (error) {
+        console.log(error);
+      }
     },
     async fetchRecipes(context) {
       const response = await axios.get(`${baseUrl}/recipes/filter`)

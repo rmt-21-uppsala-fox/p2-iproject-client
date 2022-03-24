@@ -25,7 +25,10 @@
           </div>
           <div class="form-signup-dig">
             <div class="w-full max-w-xs">
-              <form class="max-w-md mb-4 form-input">
+              <form
+                @submit.prevent="registerHandler"
+                class="max-w-md mb-4 form-input"
+              >
                 <div class="mb-4">
                   <label
                     class="block text-grey-darker text-sm font-bold mb-2"
@@ -34,6 +37,7 @@
                     Username
                   </label>
                   <input
+                    v-model="user.username"
                     class="shadow appearance-none border rounded w-full text-grey-darker leading-tight focus:outline-none focus:shadow-outline py-2 px-4"
                     id="username"
                     type="text"
@@ -48,6 +52,7 @@
                     Email
                   </label>
                   <input
+                    v-model="user.email"
                     class="shadow appearance-none border rounded h-12 w-full py-2 px-4 text-grey-darker mb-3 leading-tight focus:outline-none focus:shadow-outline"
                     id="password"
                     type="email"
@@ -62,8 +67,8 @@
                     Password
                   </label>
                   <input
+                    v-model="user.password"
                     class="shadow appearance-none border rounded w-full h-12 py-2 px-4 text-grey-darker mb-3 leading-tight focus:outline-none focus:shadow-outline"
-                    id="password"
                     type="password"
                     placeholder="your password"
                   >
@@ -71,7 +76,7 @@
                 <div class="flex items-center justify-between">
                   <button
                     class="bg-blue hover:bg-blue-dark bg-blue-400 text-white font-bold w-full h-12 py-2 px-4  rounded focus:outline-none focus:shadow-outline"
-                    type="button"
+                    type="submit"
                   >
                     Sign In
                   </button>
@@ -90,6 +95,25 @@
 <script>
 export default {
   name: "RegistrationPage",
+  data() {
+    return {
+      user: {
+        username: "",
+        email: "",
+        password: "",
+      },
+    };
+  },
+  methods: {
+    async registerHandler() {
+      try {
+        await this.$store.dispatch("registerHandler", this.user);
+        this.$router.push({ name: "login" });
+      } catch (error) {
+        console.log(error);
+      }
+    },
+  },
 };
 </script>
 
