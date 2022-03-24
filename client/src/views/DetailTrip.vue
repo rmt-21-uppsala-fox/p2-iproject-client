@@ -27,7 +27,6 @@
             </div>
             </form>
 
-
             <div v-if="target === 'in'" class="row colorWhite mb-5" style="padding-left: 10px; margin-top: 10px">{{ detailTrip.description }}</div>
              <div v-if="target === 'en'" class="row colorWhite mb-5" style="padding-left: 10px; margin-top: 10px">{{ getTranslate }}</div>
           </div>
