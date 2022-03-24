@@ -47,7 +47,12 @@
       </div>
       <div class="container flex flex-col pt-4 px-4">
         <div class="flex flex-col w-full md:w-3/4 mt-4">
-          <p class="font-bold text-gray-900 text-lg">Description</p>
+          <p class="font-bold text-gray-900 text-lg">Workshop Name</p>
+          <router-link
+            :to="`/workshops/${products.WorkshopId}`"
+            class="mt-2 hover:text-gray-900"
+          >{{workshop}}</router-link>
+          <p class="font-bold text-gray-900 text-lg mt-4">Description</p>
           <p class="mt-2">{{products.description}}.</p>
         </div>
       </div>
@@ -72,6 +77,9 @@ export default {
     };
   },
   computed: {
+    workshop() {
+      return this.$store.state.workshop;
+    },
     products() {
       return this.$store.state.products;
     },
