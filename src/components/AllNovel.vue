@@ -33,7 +33,7 @@ export default {
 .grid-3x3 {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    grid-template-rows: repeat(3, 1fr);
+    /* grid-template-rows: repeat(3, 1fr); */
     justify-items: center;
     grid-gap: 2rem;
 }

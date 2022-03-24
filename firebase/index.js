@@ -24,10 +24,4 @@ const auth = getAuth(app);
 // const database = getDatabase(app);
 const db = getFirestore(app);
 
-export {
-    auth,
-    // database,
-    db,
-    signInWithEmailAndPassword,
-    createUserWithEmailAndPassword,
-};
+export { auth, db, signInWithEmailAndPassword, createUserWithEmailAndPassword };

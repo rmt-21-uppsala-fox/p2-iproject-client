@@ -78,11 +78,11 @@
         </div>
         <div class="grid" v-else>
             <div
-                class="w-full bg-red-50 rounded-lg border border-gray-200 shadow-md dark:bg-white-400"
+                class="w-full rounded-lg border border-gray-200 shadow-md dark:bg-white-400"
             >
                 <a href="#" @click.prevent="readNovel">
                     <img
-                        class="h-60 mx-auto bg-cover object-cover"
+                        class="w-full mx-auto bg-cover object-cover"
                         :src="novel.imgContent"
                         alt=""
                     />

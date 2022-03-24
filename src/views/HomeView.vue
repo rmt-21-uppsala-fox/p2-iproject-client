@@ -149,12 +149,12 @@
             </div>
 
             <!-- product card -->
-            <div class="flex w-4/6 mx-auto justify-between">
+            <div class="flex w-4/6 mx-auto justify-between mb-20">
                 <all-novel :novels="novels"></all-novel>
                 <div class="flex flex-col ml-10 w-1/3 gap-2">
                     <div
-                        v-for="apiNovel in apiNovels"
-                        :key="apiNovel"
+                        v-for="(apiNovel, i) in apiNovels"
+                        :key="i"
                         class="grid gap-2 mb-2"
                     >
                         <div
@@ -162,8 +162,8 @@
                         >
                             <a href="#">
                                 <img
-                                    class="h-60 mx-auto bg-cover object-cover"
-                                    src="https://api.lorem.space/image/book?w=150&h=200&hash=8B7BCDC2"
+                                    class="h-60 mx-auto bg-cover object-cover h-32"
+                                    src="https://api.lorem.space/image/book?w=100&h=128&hash=8B7BCDC2"
                                     alt=""
                                 />
                             </a>
@@ -172,21 +172,21 @@
                                     Title: {{ apiNovel.title }}
                                 </h2>
                                 <div class="flex flex-wrap">
-                                    <p class="font-normal">
+                                    <p class="font-normal text-sm">
                                         release : {{ apiNovel.release_count }}
                                     </p>
                                 </div>
                                 <div class="flex flex-wrap">
-                                    <p class="mb-3 font-normal">
+                                    <p class="mb-3 font-normal text-sm">
                                         rating : {{ apiNovel.rating }}
                                     </p>
                                 </div>
                                 <div
-                                    class="flex flex-wrap"
+                                    class="flex flex-wrap text-sm"
                                     v-html="
                                         apiNovel.description
                                             .split(' ')
-                                            .slice(0, 20)
+                                            .slice(0, 10)
                                             .join(' ') + '...'
                                     "
                                 ></div>
@@ -195,8 +195,6 @@
                     </div>
                 </div>
             </div>
-
-            <footer-component class="mt-20"></footer-component>
         </div>
     </div>
 </template>
@@ -204,15 +202,11 @@
 <script>
 // @ is an alias to /src
 import AllNovel from '@/components/AllNovel.vue';
-import FooterComponent from '@/components/Footer.vue';
-
-// import ApiNovel from '@/components/ApiNovel.vue';
 
 export default {
     name: 'HomeView',
     components: {
         AllNovel,
-        FooterComponent,
     },
     data() {
         return {
