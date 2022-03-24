@@ -57,7 +57,7 @@ export default new Vuex.Store({
         const token = localStorage.getItem(`access_token`);
         const data = await axios({
           method: `get`,
-          url: `https://iproject-hacktiv8.herokuapp.com/next-month`,
+          url: `https://iproject-hacktiv8.herokuapp.com/games/next-month`,
           headers: { access_token: token },
         });
         // console.log(data);
@@ -71,7 +71,7 @@ export default new Vuex.Store({
         const token = localStorage.getItem(`access_token`);
         const data = await axios({
           method: `get`,
-          url: `https://iproject-hacktiv8.herokuapp.com/${payload}`,
+          url: `https://iproject-hacktiv8.herokuapp.com/games/${payload}`,
           headers: { access_token: token },
         });
         // console.log(data);
@@ -123,7 +123,7 @@ export default new Vuex.Store({
         const token = localStorage.getItem(`access_token`);
         const data = await axios({
           method: "POST",
-          url: `https://iproject-hacktiv8.herokuapp.com/${payload}`,
+          url: `https://iproject-hacktiv8.herokuapp.com/order/transaction/${payload}`,
           headers: { access_token: token },
         });
         // console.log(data)
@@ -139,7 +139,7 @@ export default new Vuex.Store({
         const id = payload.gameId
         const data = await axios({
           method: "POST",
-          url: `https://iproject-hacktiv8.herokuapp.com/${id}`,
+          url: `https://iproject-hacktiv8.herokuapp.com/games/GamesCollection/${id}`,
           data: {
             gameId: payload.gameId,
             name: payload.name,
@@ -162,7 +162,7 @@ export default new Vuex.Store({
         const id = localStorage.getItem(`id`)
         const data = await axios({
           method: "GET",
-          url: `https://iproject-hacktiv8.herokuapp.com/${id}`,
+          url: `https://iproject-hacktiv8.herokuapp.com/games/GamesCollection/${id}`,
           headers: { access_token: token },
         })
         // console.log(data)
