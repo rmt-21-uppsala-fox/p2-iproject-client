@@ -6,7 +6,6 @@
                 <div class="content"></div> 
              
             </div>
-
             <div class="body">
                 <div class="authors">
                      <h1>RANK {{rank}}</h1>

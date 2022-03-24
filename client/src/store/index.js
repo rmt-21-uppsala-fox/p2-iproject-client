@@ -45,7 +45,7 @@ export default new Vuex.Store({
     },
     async fetchPlayerRank(context){
       try {
-        const {data} = await axios.get(' /playerRank', {
+        const {data} = await axios.get('https://cs-forum-kevin.herokuapp.com/playerRank', {
           headers:{
           access_token: localStorage.getItem('access_token')
           }
