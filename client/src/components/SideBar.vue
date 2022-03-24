@@ -25,13 +25,13 @@
           class="flex space-x-2 mt-10 cursor-pointer text-gray-400 hover:text-[#EC5252] duration-150"
         >
           
-          <span class="font-semibold" @click="GoToCollection" v-if="isLogin">Wishlist</span>
+          <span class="font-semibold" @click="GoToWishlist"  v-if="isLogin">Wishlist</span>
         </li>
         <li
           class="flex space-x-2 mt-10 cursor-pointer text-gray-400 hover:text-[#EC5252] duration-150"
         >
           
-          <span class="font-semibold" v-if="isLogin">Collection</span>
+          <span class="font-semibold" @click="GoToCollection"  v-if="isLogin">Collection</span>
         </li>
         
         
@@ -60,6 +60,13 @@ export default {
     async GoToCollection() {
       try {
         this.$router.push(`/collection`);
+      } catch (err) {
+        console.log(err);
+      }
+    },
+    async GoToWishlist() {
+      try {
+        this.$router.push(`/wishlist`);
       } catch (err) {
         console.log(err);
       }

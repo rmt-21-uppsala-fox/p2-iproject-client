@@ -10,7 +10,8 @@ export default new Vuex.Store({
     detailGame: [],
     isLogin: false,
     purchasedGames: [],
-    gamesCollection: []
+    gamesCollection: [],
+    gamesWishList: []
   },
   getters: {},
   mutations: {
@@ -35,6 +36,10 @@ export default new Vuex.Store({
     GAME_COLLECTION(state, payload) {
       // console.log(payload)
       state.gamesCollection = payload.data;
+    },
+    GAME_WISHLIST(state, payload) {
+      // console.log(payload)
+      state.gamesWishList = payload.data;      
     }
   },
   actions: {
@@ -167,6 +172,42 @@ export default new Vuex.Store({
         })
         // console.log(data)
         context.commit("GAME_COLLECTION", data);
+      } catch (err) {
+        console.log(err)
+      }
+    },
+    async addToWishlist(context, payload) {
+      try {
+        console.log(payload)
+        const token = localStorage.getItem(`access_token`);
+        const UserId = localStorage.getItem(`id`)
+        const data = await axios({
+          method: "POST",
+          url: `http://localhost:3000/games/Wishlist/${payload}`,
+          headers: {
+            access_token: token,
+          }, data: {
+            UserId: UserId,
+            GameId: payload
+          }
+        })
+        // console.log(data)
+        context.commit("GAME_WISHLIST", data);
+      } catch (err) {
+        console.log(err)
+      }
+    },
+    async showWishlist(context) {
+      try {
+        const token = localStorage.getItem(`access_token`);
+        const id = localStorage.getItem(`id`)
+        const data = await axios({
+          method: "GET",
+          url: `http://localhost:3000/games/Wishlist/${id}`,
+          headers: { access_token: token },
+        })
+        // console.log(data)
+        context.commit("GAME_WISHLIST", data);
       } catch (err) {
         console.log(err)
       }

@@ -15,7 +15,7 @@
       <filter-component></filter-component>
       <!-- End Filter -->
       <!-- Content -->
-      <content-card v-bind:games="getAllGames"></content-card>
+      <card-wishlist v-bind:getShowList="getShowList"></card-wishlist>
       <!-- End Content -->
     </main>
     <!-- End Body -->
@@ -27,14 +27,22 @@ import SideBar from "../components/SideBar.vue";
 import Navbar from "../components/NavBar.vue";
 import HeaderComponent from "../components/HeaderComponent.vue";
 import FilterComponent from "../components/FilterComponent.vue";
-import ContentCard from "../components/ContentCard.vue";
+import CardWishlist from "../components/CardWishlist.vue";
 export default {
   components: {
     SideBar,
     Navbar,
     HeaderComponent,
     FilterComponent,
-    ContentCard,
+    CardWishlist,
+  },
+  computed: {
+    getShowList() {
+      return this.$store.state.gamesWishList;
+    },
+  },
+  created: function () {
+    this.$store.dispatch(`showWishlist`);
   },
 };
 </script>

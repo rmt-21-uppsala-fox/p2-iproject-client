@@ -6,6 +6,7 @@ import GameDetail from "../views/GameDetail.vue";
 import LoginPage from "../views/LoginPage.vue";
 import RegisterPage from "../views/RegisterPage.vue";
 import GameCollection from "../views/GameCollection.vue";
+import WishlistPage from "../views/WishlistPage.vue";
 
 Vue.use(VueRouter);
 
@@ -39,6 +40,11 @@ const routes = [
     path: "/collection",
     name: "GameCollection",
     component: GameCollection,
+  },
+  {
+    path: "/wishlist",
+    name: "WishlistPage",
+    component: WishlistPage,
   },
 ];
 
