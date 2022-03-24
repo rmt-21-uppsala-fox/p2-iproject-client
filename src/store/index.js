@@ -43,6 +43,7 @@ export default new Vuex.Store({
     chats: [],
     header: "",
     currentuser: "",
+    photos: [],
     vids: [],
     favLeague: "",
     isLogin: false,
@@ -80,6 +81,9 @@ export default new Vuex.Store({
     SET_VID(state, payload) {
       state.vids = payload;
     },
+    SET_PHOTOS(state, payload) {
+      state.photos = payload;
+    },
     SET_FAV(state, payload) {
       state.favLeague = payload;
     },
@@ -112,7 +116,7 @@ export default new Vuex.Store({
         const access_token = localStorage.getItem("access_token");
         const response = await axios({
           method: "POST",
-          url: "https://soccer-supreme-app.herokuapp.com/myfav",
+          url: "http://localhost:3000/myfav",
           headers: { access_token },
           data: payload,
         });
@@ -127,7 +131,7 @@ export default new Vuex.Store({
         const access_token = localStorage.getItem("access_token");
         const response = await axios({
           method: "GET",
-          url: "https://soccer-supreme-app.herokuapp.com/myfav",
+          url: "http://localhost:3000/myfav",
           headers: { access_token },
         });
         console.log(response.data);
@@ -145,7 +149,7 @@ export default new Vuex.Store({
         const access_token = localStorage.getItem("access_token");
         const response = await axios({
           method: "GET",
-          url: "https://soccer-supreme-app.herokuapp.com/epl",
+          url: "http://localhost:3000/epl",
           headers: { access_token },
         });
         console.log(response.data);
@@ -160,7 +164,7 @@ export default new Vuex.Store({
         const access_token = localStorage.getItem("access_token");
         const response = await axios({
           method: "GET",
-          url: "https://soccer-supreme-app.herokuapp.com/laliga",
+          url: "http://localhost:3000/laliga",
           headers: { access_token },
         });
         console.log(response.data);
@@ -175,7 +179,7 @@ export default new Vuex.Store({
         const access_token = localStorage.getItem("access_token");
         const response = await axios({
           method: "GET",
-          url: "https://soccer-supreme-app.herokuapp.com/seriea",
+          url: "http://localhost:3000/seriea",
           headers: { access_token },
         });
         console.log(response.data);
@@ -190,7 +194,7 @@ export default new Vuex.Store({
         const access_token = localStorage.getItem("access_token");
         const response = await axios({
           method: "GET",
-          url: "https://soccer-supreme-app.herokuapp.com/epltop",
+          url: "http://localhost:3000/epltop",
           headers: { access_token },
         });
         console.log(response.data);
@@ -204,7 +208,7 @@ export default new Vuex.Store({
         const access_token = localStorage.getItem("access_token");
         const response = await axios({
           method: "GET",
-          url: "https://soccer-supreme-app.herokuapp.com/laligatop",
+          url: "http://localhost:3000/laligatop",
           headers: { access_token },
         });
         console.log(response.data);
@@ -218,7 +222,7 @@ export default new Vuex.Store({
         const access_token = localStorage.getItem("access_token");
         const response = await axios({
           method: "GET",
-          url: "https://soccer-supreme-app.herokuapp.com/serieatop",
+          url: "http://localhost:3000/serieatop",
           headers: { access_token },
         });
         console.log(response.data);
@@ -231,7 +235,7 @@ export default new Vuex.Store({
       try {
         const response = await axios({
           method: "POST",
-          url: "https://soccer-supreme-app.herokuapp.com/register",
+          url: "http://localhost:3000/register",
           data: {
             email: payload.email,
             name: payload.name,
@@ -250,7 +254,7 @@ export default new Vuex.Store({
       try {
         const response = await axios({
           method: "POST",
-          url: "https://soccer-supreme-app.herokuapp.com/login",
+          url: "http://localhost:3000/login",
           data: {
             email: payload.email,
             password: payload.password,
@@ -261,6 +265,7 @@ export default new Vuex.Store({
         localStorage.setItem("name", response.data.name);
         localStorage.setItem("id", response.data.id);
         let name = localStorage.getItem("name");
+        this.dispatch("findFav");
         context.commit("SET_CURRENTUSER", name);
         context.commit("SET_ISLOGIN", true);
         swal("Welcome", "Success login", "success");
@@ -276,10 +281,9 @@ export default new Vuex.Store({
       try {
         let googleUser = payload;
         const id_token = googleUser.getAuthResponse().id_token;
-        const response = await axios.post(
-          "https://soccer-supreme-app.herokuapp.com/authGoogle",
-          { id_token }
-        );
+        const response = await axios.post("http://localhost:3000/authGoogle", {
+          id_token,
+        });
         localStorage.setItem("access_token", response.data.access_token);
         localStorage.setItem("name", response.data.name);
         localStorage.setItem("id", response.data.id);
@@ -289,6 +293,55 @@ export default new Vuex.Store({
       } catch (err) {
         console.log(err);
         swal("Error", err.message, "error");
+      }
+    },
+    async sendEmail(context, payload) {
+      try {
+        const response = await axios({
+          method: "POST",
+          url: "http://localhost:3000/sendReset",
+          data: {
+            email: payload.email,
+          },
+        });
+        localStorage.setItem("id", response.data.id);
+        swal("Email sent", `email sent to ${payload.email}`, "success");
+        router.push("/respass");
+      } catch (err) {
+        console.log(err);
+        swal("Error", err.message, "error");
+      }
+    },
+    async changePassword(context, payload) {
+      try {
+        let id = localStorage.getItem("id");
+        await axios({
+          method: "POST",
+          url: "http://localhost:3000/changePassword",
+          data: {
+            password: payload.password,
+            id,
+          },
+        });
+        swal("OK", "Password changed", "success");
+        router.push("/login");
+      } catch (err) {
+        console.log(err);
+        swal("Error", err.message, "error");
+      }
+    },
+    async getCarousel(context) {
+      try {
+        const access_token = localStorage.getItem("access_token");
+        const response = await axios({
+          method: "GET",
+          url: "http://localhost:3000/carousel",
+          headers: { access_token },
+        });
+        console.log(response.data);
+        context.commit("SET_PHOTOS", response.data.image);
+      } catch (err) {
+        console.log(err);
       }
     },
   },

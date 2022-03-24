@@ -4,6 +4,8 @@ import HomeView from "../views/HomeView.vue";
 import LoginPage from "../views/LoginPage.vue";
 import LandingPage from "../views/LandingPage.vue";
 import RegisterPage from "../views/RegisterPage.vue";
+import ResetEnquiry from "../views/ResetEnquiry.vue";
+import ResetPage from "../views/ResetPage.vue";
 
 Vue.use(VueRouter);
 
@@ -27,6 +29,16 @@ const routes = [
     path: "/landing",
     name: "landing",
     component: LandingPage,
+  },
+  {
+    path: "/formemail",
+    name: "ResetEnquiry",
+    component: ResetEnquiry,
+  },
+  {
+    path: "/respass",
+    name: "ResetPage",
+    component: ResetPage,
   },
   {
     path: "/about",

@@ -117,7 +117,6 @@ export default {
     },
   },
   created() {
-    this.$store.dispatch("findFav");
     switch (this.favLeague) {
       case "Premier League":
         this.$store.dispatch("getEplTop");

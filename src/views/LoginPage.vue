@@ -36,6 +36,10 @@
               Don't have an account?
               <router-link to="/register">Sign up here</router-link>
             </div>
+            <div class="mt-4 inline">
+              Forget Password?
+              <router-link to="/formemail">Click Here</router-link>
+            </div>
             <!-- google sign-in -->
             <div class="mt-3">
               <button>

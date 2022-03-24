@@ -1,5 +1,12 @@
 <template>
   <div class="home">
+    <div class="mt-5">
+      <carousel :perPage="3">
+        <slide v-for="item in photos" :key="item.id">
+          <img class="" :src="item.src.medium" />
+        </slide>
+      </carousel>
+    </div>
     <div class="container col-9 mt-5">
       <div class="row gx-4 gx-lg-5">
         <!-- each-card -->
@@ -26,6 +33,14 @@
             <div class="card-footer">
               <div>
                 <button
+                  v-if="favLeague == item.name"
+                  @click.prevent="seeTable"
+                  class="btn btn-secondary btn-sm text-light"
+                >
+                  Go to Tables
+                </button>
+                <button
+                  v-else-if="favLeague == ''"
                   @click.prevent="claimFav(item.name)"
                   class="btn btn-warning btn-sm text-dark"
                 >
@@ -43,14 +58,22 @@
 
 <script>
 // @ is an alias to /src
+import { Carousel, Slide } from "vue-carousel";
 export default {
   name: "HomeView",
+  components: {
+    Carousel,
+    Slide,
+  },
   methods: {
     claimFav(value) {
       let payload = {
         leagueName: value,
       };
       this.$store.dispatch("claimFav", payload);
+    },
+    seeTable() {
+      this.$router.push("/landing");
     },
   },
   computed: {
@@ -60,6 +83,15 @@ export default {
     leagues() {
       return this.$store.state.leagues;
     },
+    photos() {
+      return this.$store.state.photos;
+    },
+    favLeague() {
+      return this.$store.state.favLeague;
+    },
+  },
+  created() {
+    this.$store.dispatch("getCarousel");
   },
 };
 </script>

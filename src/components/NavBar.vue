@@ -64,6 +64,8 @@ export default {
     logout() {
       localStorage.clear();
       this.$store.commit("SET_ISLOGIN", false);
+      this.$store.commit("SET_FAV", "");
+      this.$store.commit("SET_CURRENTUSER", "");
       swal("Why are you leaving?", "Come back again, okay..", "success");
       this.$router.push("/login");
     },
