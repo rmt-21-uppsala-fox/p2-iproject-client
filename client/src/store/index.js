@@ -34,7 +34,7 @@ export default new Vuex.Store({
     },
     GAME_COLLECTION(state, payload) {
       // console.log(payload)
-      state.gamesCollection = payload.data.Game;
+      state.gamesCollection = payload.data;
     }
   },
   actions: {
@@ -57,7 +57,7 @@ export default new Vuex.Store({
         const token = localStorage.getItem(`access_token`);
         const data = await axios({
           method: `get`,
-          url: `http://localhost:3000/games/next-week`,
+          url: `http://localhost:3000/games/next-month`,
           headers: { access_token: token },
         });
         // console.log(data);
@@ -126,7 +126,7 @@ export default new Vuex.Store({
           url: `http://localhost:3000/order/transaction/${payload}`,
           headers: { access_token: token },
         });
-        console.log(data)
+        // console.log(data)
         context.commit("GAME_PURCHASED", data);
       } catch (err) {
         console.log(err);
@@ -134,9 +134,9 @@ export default new Vuex.Store({
     },
     async addToCollection(context, payload) {
       try {
-        console.log(payload)
+        // console.log(payload)
         const token = localStorage.getItem(`access_token`);
-        const id = localStorage.getItem(`id`)
+        const id = payload.gameId
         const data = await axios({
           method: "POST",
           url: `http://localhost:3000/games/GamesCollection/${id}`,
@@ -150,7 +150,7 @@ export default new Vuex.Store({
           },
           headers : { access_token: token },
         })
-        console.log(data)
+        // console.log(data)
         context.commit("GAME_COLLECTION", data);
       } catch (err) {
         console.log(err)
@@ -165,6 +165,7 @@ export default new Vuex.Store({
           url: `http://localhost:3000/games/GamesCollection/${id}`,
           headers: { access_token: token },
         })
+        // console.log(data)
         context.commit("GAME_COLLECTION", data);
       } catch (err) {
         console.log(err)

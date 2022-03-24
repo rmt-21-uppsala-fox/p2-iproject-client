@@ -1,7 +1,7 @@
 <template>
   <div class="mx-6 grid grid-cols-2 gap-6 md:grid-cols-3 lg:grid-cols-4 mt-10">
     <div
-      v-for="game in gameCollection"
+      v-for="game in gamesCollection"
       :key="game.id"
       class="max-w-md w-full rounded-t-md overflow-hidden bg-[#004445] shadow-lg rounded-xl p-6"
     >
@@ -10,7 +10,7 @@
           <div class="relative h-62 w-full mb-3">
             
             <img
-              :src="game.background_image"
+              :src="game.Game.background_image"
               class="object-cover h-48 w-96 rounded-2xl"
             />
           </div>
@@ -30,27 +30,26 @@
                   />
                 </svg>
                 <span class="text-gray-400 whitespace-nowrap mr-3">{{
-                  game.rating
+                  game.Game.rating
                 }}</span>
               </div>
               <div class="flex items-center w-full justify-between min-w-0">
                 <h2
                   class="text-lg mr-auto cursor-pointer text-gray-200 hover:text-purple-500 truncate"
                 >
-                  {{ game.name }}
+                  {{ game.Game.name }}
                 </h2>
               </div>
             </div>
 
             <div
               class="flex pt-4 space-x-2 text-sm font-medium justify-start"
-              @click="gameDetail(game.id)"
             >
-              <button
-                class="transition ease-in duration-300 inline-flex items-center text-sm font-medium mb-2 md:mb-0 bg-purple-500 px-5 py-2 hover:shadow-lg tracking-wider text-white rounded-full hover:bg-purple-600"
-              >
-                <span>See Details</span>
-              </button>
+              <p
+                  class="text-xs mr-auto text-gray-200 truncate"
+                >
+                  {{ game.Game.description }}
+                </p>
             </div>
           </div>
         </div>
@@ -62,7 +61,7 @@
 
 <script>
 export default {
-  props: [`gameCollection`],
+  props: [`gamesCollection`],
   
 };
 </script>

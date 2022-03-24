@@ -9,10 +9,10 @@
       <navbar></navbar>
       <!-- End Navbar -->
       <!-- Header -->
-      <header-component></header-component>
+      <filter-component></filter-component>
       <!-- End Header -->
       <!-- Filter -->
-      <filter-component></filter-component>
+      <header-component></header-component>
       <!-- End Filter -->
       <!-- Content -->
       <content-card v-bind:games="getAllGames"></content-card>

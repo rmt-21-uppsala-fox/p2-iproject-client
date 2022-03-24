@@ -42,10 +42,22 @@ const routes = [
   },
 ];
 
+
 const router = new VueRouter({
   mode: "history",
   base: process.env.BASE_URL,
   routes,
+});
+
+router.beforeEach((to, from, next) => {
+  if (
+    (to.name == "LoginPage" || to.name == "register") &&
+    localStorage.getItem(`access_token`)
+  )
+    next({ name: "home" });
+  else if ((to.name == "UpcomingGames" || to.name == "GameDetail" || to.name == "GameCollection") && !localStorage.getItem(`access_token`))
+    next({ name: "LoginPage" });
+  else next();
 });
 
 export default router;
