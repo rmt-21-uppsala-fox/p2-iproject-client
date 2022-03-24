@@ -47,10 +47,11 @@ export default {
       uploadReady:true
     };
   },
-  created() {
-    this.$store.dispatch("getAllRelations");
-    this.$store.dispatch("getAllPosts");
-    this.$store.dispatch("fetchNameAndId");
+  async created() {
+    await this.$store.dispatch("getAllRelations");
+    await this.$store.dispatch("getAllPosts");
+    await this.$store.dispatch("fetchNameAndId");
+    await this.$store.dispatch("joinMyOwnRoom");
   },
   computed: {
     posts() {
@@ -76,7 +77,6 @@ export default {
     post() {
       // this.$refs.fileupload=null
       this.$store.dispatch("uploadPost", this.desc);
-      this.$store.dispatch("getAllPosts");
       this.clearInputFile()
       this.desc = ''
     },

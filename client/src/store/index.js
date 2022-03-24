@@ -95,26 +95,31 @@ export default new Vuex.Store({
       const formData = new FormData()
       formData.append('imgPost', context.state.postImg)
       formData.append('description', desc)
-      await axios.post('http://localhost:3000/posts',formData,{
+      const {data} = await axios.post('http://localhost:3000/posts',formData,{
         headers: { token: localStorage.getItem('token') } 
       })
+      context.dispatch('broadcastPost',data.post)
     },
     socket_updatePosts(context,post){
       const posts = context.state.posts
       posts.unshift(post)
       context.commit('FETCH_POSTS',posts)
     },
-    broadcastPost(context,post){
-      await this._vm.$socket.client.emit('broadcastPost',post)
+    async broadcastPost(context,post){
+      await this._vm.$socket.client.emit('broadcastPost',post,context.state.UserId)
     },
     socket_updateChat(context,chat){
       const chats = context.state.chats
       chats.unshift(chat)
       context.commit('FETCH_CHATS',chats)
+    },
+    async joinMyOwnRoom(context){
+      await this._vm.$socket.client.emit('joinMyOwnRoom',context.state.UserId)
+    },
+    async joinMyFriendsRoom(context){
+      const friendsIds = context.state.friends.map(e=>e.withId)
+      await this._vm.$socket.client.emit('joinMyFriendsRoom',friendsIds)
     }
-
-
-
   },
   modules: {
   }
