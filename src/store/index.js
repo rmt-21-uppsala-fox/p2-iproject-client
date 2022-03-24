@@ -26,13 +26,9 @@ export default new Vuex.Store({
         novelToRead: [],
         bookmarked: [],
         apiNovels: [],
-        isLogin: false,
     },
     getters: {},
     mutations: {
-        isLogin(state, payload) {
-            state.isLogin = payload;
-        },
         setAllNovels(state, novels) {
             state.allNovel = novels;
         },
@@ -66,7 +62,8 @@ export default new Vuex.Store({
                 context.commit('isLogin', true);
                 swal('Success', 'Register Success', 'success');
             } catch (error) {
-                swal('Error', error.response.data.msg, 'error');
+                console.log(error);
+                swal('Error', error, 'error');
             }
         },
 
@@ -84,9 +81,9 @@ export default new Vuex.Store({
                 localStorage.setItem('uid', res.user.uid);
                 context.commit('isLogin', true);
                 swal('Success', 'Register Success', 'success');
-                console.log(res.user.email, res.user.accessToken);
             } catch (error) {
-                swal('Error', error.response.data.msg, 'error');
+                console.log(error);
+                swal('Error', error, 'error');
             }
         },
 
@@ -105,13 +102,13 @@ export default new Vuex.Store({
                 });
                 commit('setAllNovels', data);
             } catch (error) {
-                swal('Error!', error.response.data.msg, 'error');
+                console.log(error);
+                swal('Error!', error, 'error');
             }
         },
 
         readNovel: async ({ commit }, { link, chapter }) => {
             try {
-                console.log(`masukasdasdasd`, link, chapter);
                 let url = `/novel/title/${link.split('/')[4]}`;
                 if (!chapter) {
                     url = `/novel/title/${link.split('/')[4]}/chapter-1`;
@@ -120,7 +117,6 @@ export default new Vuex.Store({
                         link.split('/')[3]
                     }/chapter-${chapter}`;
                 }
-                console.log(url);
                 const { data } = await local.get(url);
                 commit('setNovelToRead', { data, url });
             } catch (error) {
@@ -149,7 +145,8 @@ export default new Vuex.Store({
                 });
                 swal('Success', 'Bookmark Success', 'success');
             } catch (error) {
-                swal('Error!', error.response, 'error');
+                console.log(error);
+                swal('Error!', 'you need to relogin', 'error');
             }
         },
 
@@ -193,7 +190,7 @@ export default new Vuex.Store({
                 commit('setApiNovel', res.data.data);
             } catch (error) {
                 console.log(error);
-                swal('Error!', error.response.data.msg, 'error');
+                swal('Error!', error, 'error');
             }
         },
     },

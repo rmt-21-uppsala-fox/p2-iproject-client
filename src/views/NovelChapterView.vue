@@ -1,18 +1,23 @@
 <template>
     <div>
-        <article class="post">
+        <article id="top" class="post">
             <div class="post__container mx-auto bg-gray-700 mt-20">
                 <span id="top" class="post__category text-orange-500"
                     >Happy Reading</span
                 >
                 <div class="post__content">
                     <header>
-                        <time class="post__time">{{ new date() }}</time>
+                        <time class="post__time"> 24-03-22 </time>
                         <h1 class="post__header">
                             <span></span>
                         </h1>
                     </header>
-                    <p class="post__text" v-for="(p, i) in novel.data" :key="i">
+                    <p
+                        class="post__text"
+                        style="color: white"
+                        v-for="(p, i) in novel.data"
+                        :key="i"
+                    >
                         {{ i !== 0 ? novel.data[i] : '' }}
                     </p>
                 </div>
@@ -39,9 +44,12 @@ export default {
     computed: {
         novel() {
             // tombol kasih id pake scroll to
-            document.documentElement.scrollIntoView({ behavior: 'smooth' });
+            // document.documentElement.scrollIntoView({ behavior: 'smooth' });
             // scroll to top
-            window.scrollTo(0, 0);
+            // window.scrollTo(0, 0);
+            document.getElementById('top').scrollIntoView({
+                behavior: 'smooth',
+            });
             return this.$store.state.novelToRead;
         },
     },

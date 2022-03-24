@@ -1,5 +1,5 @@
 <template>
-    <div class="bookmark pt-20 h-screen">
+    <div class="bookmark pt-20">
         <div class="mx-auto w-4/6">
             <all-novel
                 class="pt-20 pb-20 gap-5"

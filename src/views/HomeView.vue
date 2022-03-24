@@ -7,7 +7,7 @@
                 class="flex flex-col gap-4 mt-20 w-4/6 h-96 mx-auto bg-white rounded-lg border shadow-md md:flex-row hover:bg-gray-100"
             >
                 <img
-                    class="h-96"
+                    class="h-96 mx-auto bg-cover object-cover"
                     src="https://cdn.novelupdates.com/images/2018/11/Lord-of-the-Mysteries.jpeg"
                     alt=""
                 />
@@ -149,13 +149,13 @@
             </div>
 
             <!-- product card -->
-            <div class="flex w-4/6 mx-auto justify-between mb-20">
+            <div class="flex w-4/6 mx-auto justify-end mb-20">
                 <all-novel :novels="novels"></all-novel>
                 <div class="flex flex-col ml-10 w-1/3 gap-2">
                     <div
                         v-for="(apiNovel, i) in apiNovels"
                         :key="i"
-                        class="grid gap-2 mb-2"
+                        class="grid gap-2 mb-2 ml-10"
                     >
                         <div
                             class="w-2/4 mx-auto rounded-lg border border-gray-200 shadow-md dark:bg-white-400"
