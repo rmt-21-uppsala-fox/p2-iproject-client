@@ -43,10 +43,6 @@ export default {
     },
     computed: {
         novel() {
-            // tombol kasih id pake scroll to
-            // document.documentElement.scrollIntoView({ behavior: 'smooth' });
-            // scroll to top
-            // window.scrollTo(0, 0);
             document.getElementById('top').scrollIntoView({
                 behavior: 'smooth',
             });
