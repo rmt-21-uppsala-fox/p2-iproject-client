@@ -1,7 +1,7 @@
 import Vue from "vue";
 import Vuex from "vuex";
 import axios from "axios";
-const address = "http://localhost:3000";
+const address = "https://fast-order-server.herokuapp.com";
 
 Vue.use(Vuex);
 
