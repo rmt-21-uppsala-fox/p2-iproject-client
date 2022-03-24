@@ -61,7 +61,7 @@
           email: this.email,
           password: this.password,
         });
-        if (this.$store.state.isSignedin) {
+        if (this.$store.state.isSignedIn) {
           this.$router.push("/");
         }
       },
