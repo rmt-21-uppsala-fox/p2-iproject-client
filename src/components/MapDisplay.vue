@@ -40,7 +40,11 @@ export default {
           enableHighAccuracy: true,
         });
       } else {
-        throw { message: "Navigator not found" };
+        Swal.fire({
+          title: "Something's Wrong",
+          text: "Unable to pinpoint user location",
+          icon: "error",
+        });
       }
     },
     success(position) {
@@ -69,10 +73,11 @@ export default {
         this.$store.commit("SET_DISTANCE", response.data.distance);
         this.drawRoute(routeCoords);
       } catch (error) {
+        console.log(error.response);
         if (error.response) {
           Swal.fire({
             title: "Something's Wrong",
-            text: error.response.message,
+            text: error.response.data.message,
             icon: "error",
             confirmButtonText: "Cool",
           });
@@ -209,9 +214,10 @@ export default {
         }
       } catch (error) {
         if (error.response) {
+          console.log(error.response);
           Swal.fire({
             title: "Something's Wrong",
-            text: error.response.message,
+            text: error.response.data.message,
             icon: "error",
             confirmButtonText: "Cool",
           });

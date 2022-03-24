@@ -121,9 +121,10 @@ export default {
         });
       } catch (error) {
         if (error.response) {
+          console.log(error.response);
           Swal.fire({
             title: "Something's Wrong",
-            text: error.response.message,
+            text: error.response.data.message,
             icon: "error",
             confirmButtonText: "Cool",
           });
@@ -138,9 +139,10 @@ export default {
         this.cars = response.data;
       } catch (error) {
         if (error.response) {
+          console.log(error.response);
           Swal.fire({
             title: "Something's Wrong",
-            text: error.response.message,
+            text: error.response.data.message,
             icon: "error",
             confirmButtonText: "Cool",
           });
@@ -163,9 +165,10 @@ export default {
         });
       } catch (error) {
         if (error.response) {
+          console.log(error.response);
           Swal.fire({
             title: "Something's Wrong",
-            text: error.response.message,
+            text: error.response.data.message,
             icon: "error",
             confirmButtonText: "Cool",
           });
