@@ -15,7 +15,7 @@
     >
       <div style="display: flex; justify-content: center; align-items: center">
         <a style="color:black" class="btn btn-success"
-          href="https://accounts.spotify.com/authorize?client_id=19049e5d8ae6427c901e89b1599da589&response_type=code&redirect_uri=http://localhost:8081&scope=streaming%20user-read-email%20user-read-private%20user-library-read%20user-library-modify%20user-read-playback-state%20user-modify-playback-state"
+          href="https://accounts.spotify.com/authorize?client_id=19049e5d8ae6427c901e89b1599da589&response_type=code&redirect_uri=https://hacktivmusic.web.app&scope=streaming%20user-read-email%20user-read-private%20user-library-read%20user-library-modify%20user-read-playback-state%20user-modify-playback-state"
           >Login Spotify</a
         >
       </div>

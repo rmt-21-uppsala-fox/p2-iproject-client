@@ -5,7 +5,8 @@ import SpotifyWebApi from 'spotify-web-api-node'
 import Swal from 'sweetalert2'
 
 Vue.use(Vuex)
-const url = `http://localhost:3000`
+// const url = `http://localhost:3000`
+const url = `https://hacktivmusicapp.herokuapp.com`
 export default new Vuex.Store({
   state: {
     isLogin: false,
