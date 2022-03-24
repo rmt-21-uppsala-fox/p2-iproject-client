@@ -8,10 +8,12 @@
     </div>
 
     <a
-      class="btn rounded-l-none btn-success h-full text-xs"
-      @click.prevent="addToCart(card.id)"
+      :class="`btn rounded-l-none btn-${
+        pendingInvoice ? 'disabled' : 'error'
+      } h-full text-xs`"
+      @click.prevent="cancelCartItem(cart.id)"
     >
-      BUY
+      DELETE
     </a>
   </div>
 </template>
@@ -20,11 +22,11 @@
   import { auth } from "../../firebase/firebase";
   export default {
     name: "SteamWalletCard",
-    props: ["card"],
+    props: ["card", "cart"],
     methods: {
-      addToCart(walletId) {
+      cancelCartItem(walletId) {
         if (auth.currentUser) {
-          this.$store.dispatch("addToCart", walletId);
+          this.$store.dispatch("cancelCartItem", walletId);
         } else {
           this.$router.push("/login");
         }
@@ -36,6 +38,9 @@
           style: "currency",
           currency: "IDR",
         }).format(this.card.price);
+      },
+      pendingInvoice() {
+        return this.$store.state.pendingInvoice;
       },
     },
   };
