@@ -36,6 +36,9 @@ export default new Vuex.Store({
     eplClubs: [],
     spaClubs: [],
     itaClubs: [],
+    eplTop: [],
+    spaTop: [],
+    itaTop: [],
     chats: [],
     header: "",
     currentuser: "",
@@ -55,6 +58,15 @@ export default new Vuex.Store({
     },
     SET_ITA(state, payload) {
       state.itaClubs = payload;
+    },
+    SET_EPLTOP(state, payload) {
+      state.eplTop = payload;
+    },
+    SET_SPATOP(state, payload) {
+      state.spaTop = payload;
+    },
+    SET_ITATOP(state, payload) {
+      state.itaTop = payload;
     },
     SET_CURRENTUSER(state, payload) {
       console.log(payload, "<<< ini di set");
@@ -168,6 +180,48 @@ export default new Vuex.Store({
         console.log(err);
       }
     },
+    async getEplTop(context) {
+      try {
+        const access_token = localStorage.getItem("access_token");
+        const response = await axios({
+          method: "GET",
+          url: "http://localhost:3000/epltop",
+          headers: { access_token },
+        });
+        console.log(response.data);
+        context.commit("SET_EPLTOP", response.data);
+      } catch (err) {
+        console.log(err);
+      }
+    },
+    async getSPATop(context) {
+      try {
+        const access_token = localStorage.getItem("access_token");
+        const response = await axios({
+          method: "GET",
+          url: "http://localhost:3000/laligatop",
+          headers: { access_token },
+        });
+        console.log(response.data);
+        context.commit("SET_SPATOP", response.data);
+      } catch (err) {
+        console.log(err);
+      }
+    },
+    async getITATop(context) {
+      try {
+        const access_token = localStorage.getItem("access_token");
+        const response = await axios({
+          method: "GET",
+          url: "http://localhost:3000/serieatop",
+          headers: { access_token },
+        });
+        console.log(response.data);
+        context.commit("SET_ITATOP", response.data);
+      } catch (err) {
+        console.log(err);
+      }
+    },
     async register(context, payload) {
       try {
         const response = await axios({
@@ -201,9 +255,29 @@ export default new Vuex.Store({
         localStorage.setItem("id", response.data.id);
         let name = localStorage.getItem("name");
         context.commit("SET_CURRENTUSER", name);
+        if (this.state.favLeague != "") {
+          router.push("/landing");
+        } else router.push("/");
+      } catch (err) {
+        console.log(err);
+      }
+    },
+    async googleSignIn(context, payload) {
+      try {
+        let googleUser = payload;
+        const id_token = googleUser.getAuthResponse().id_token;
+        const response = await axios.post(
+          "https://restaurant-app-c1-ph2.herokuapp.com/pub/authGoogle",
+          { id_token }
+        );
+        localStorage.setItem("access_token", response.data.access_token);
+        localStorage.setItem("name", response.data.name);
+        localStorage.setItem("id", response.data.id);
+        // swal("Welcome", "Success login", "success");
         router.push("/landing");
       } catch (err) {
         console.log(err);
+        // swal("Error", err.message, "error");
       }
     },
   },

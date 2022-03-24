@@ -51,8 +51,12 @@
 </template>
 
 <script>
+import GoogleSignIn from "../components/GoogleSignIn.vue";
 export default {
   name: "LoginPage",
+  components: {
+    GoogleSignIn,
+  },
   data() {
     return {
       email: "",

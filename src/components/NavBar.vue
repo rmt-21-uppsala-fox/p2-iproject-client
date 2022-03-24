@@ -26,23 +26,23 @@
                 ><strong>Supreme Soccer</strong></router-link
               >
             </li>
-            <li class="nav-item">
+            <li v-if="isLogin == false" class="nav-item">
               <router-link class="nav-link active" to="/register"
                 >Register</router-link
               >
             </li>
-            <li class="nav-item">
+            <li v-if="isLogin == false" class="nav-item">
               <router-link class="nav-link active" to="/login"
                 >Login</router-link
               >
             </li>
-            <li class="nav-item">
+            <li v-if="isLogin == true" class="nav-item">
               <router-link class="nav-link active" to="/landing"
                 >My Favorite</router-link
               >
             </li>
-            <li class="nav-item">
-              <a class="nav-link active btn">Log Out</a>
+            <li v-if="isLogin == true" class="nav-item">
+              <a @click.prevent="logout" class="nav-link active btn">Log Out</a>
             </li>
           </ul>
         </div>
@@ -54,6 +54,11 @@
 <script>
 export default {
   name: "NavBar",
+  data() {
+    return {
+      isLogin: localStorage.getItem("access_token") ? true : false,
+    };
+  },
   methods: {
     logout() {
       localStorage.clear();

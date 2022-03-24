@@ -28,6 +28,7 @@
     <div class="container">
       <div class="row">
         <div class="col">
+          <h5>Chat Room:</h5>
           <div
             class="container my-auto mt-3 py-3 px-5 overflow-auto text-dark"
             style="background-color: white; height: 40vh"
@@ -57,6 +58,18 @@
         <div class="col-1"></div>
         <div class="col">
           <h5>Top Goalscorer</h5>
+          <table class="table table-hover table-bordered table-sm table-dark">
+            <tr>
+              <td>Pos.</td>
+              <td>Player</td>
+              <td>Goal Scored</td>
+            </tr>
+            <tr v-for="(top, index) in top_scorers" :key="top.id">
+              <td>{{ index + 1 }}</td>
+              <td>{{ top["first-name"] + " " + top["last-name"] }}</td>
+              <td>{{ top.goals.length }}</td>
+            </tr>
+          </table>
         </div>
       </div>
     </div>
@@ -93,18 +106,30 @@ export default {
         return this.$store.state.spaClubs;
       } else return null;
     },
+    top_scorers() {
+      if (this.favLeague == "Premier League") {
+        return this.$store.state.eplTop;
+      } else if (this.favLeague == "Serie A") {
+        return this.$store.state.itaTop;
+      } else if (this.favLeague == "La Liga") {
+        return this.$store.state.spaTop;
+      } else return null;
+    },
   },
   created() {
     this.$store.dispatch("findFav");
     switch (this.favLeague) {
       case "Premier League":
+        this.$store.dispatch("getEplTop");
         this.$store.dispatch("getEplTable");
         break;
       case "Serie A":
         this.$store.dispatch("getITATable");
+        this.$store.dispatch("getITATop");
         break;
       case "La Liga":
         this.$store.dispatch("getSPATable");
+        this.$store.dispatch("getSPATop");
         break;
     }
   },
