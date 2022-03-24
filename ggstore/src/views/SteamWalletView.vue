@@ -16,7 +16,7 @@
     </div>
   </div>
 </template>
-import SteamWalletCard from "../components/SteamWalletCard.vue";
+
 <script>
   import SteamWalletCard from "../components/SteamWalletCard.vue";
   export default {
@@ -29,6 +29,7 @@ import SteamWalletCard from "../components/SteamWalletCard.vue";
     },
     beforeCreate() {
       this.$store.dispatch("getSteamWallet");
+      this.$store.dispatch("getMyCart");
     },
   };
 </script>

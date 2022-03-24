@@ -15,6 +15,10 @@ export default new Vuex.Store({
     deals: null,
     steamWallet: null,
     isSignedIn: false,
+    myCart: null,
+    myCartTotalPrice: 0,
+    pendingInvoice: null,
+    myCartTotalItems: 0,
   },
   getters: {},
   mutations: {
@@ -26,6 +30,18 @@ export default new Vuex.Store({
     },
     MUTATE_IS_SIGNED_IN(state, isSignedIn) {
       state.isSignedIn = isSignedIn;
+    },
+    MUTATE_MY_CART(state, myCart) {
+      state.myCart = myCart;
+    },
+    MUTATE_MY_CART_TOTAL_PRICE(state, myCartTotalPrice) {
+      state.myCartTotalPrice = myCartTotalPrice;
+    },
+    MUTATE_PENDING_INVOICE(state, pendingInvoice) {
+      state.pendingInvoice = pendingInvoice;
+    },
+    MUTATE_MY_CART_TOTAL_ITEMS(state, myCartTotalItems) {
+      state.myCartTotalItems = myCartTotalItems;
     },
   },
   actions: {
@@ -82,6 +98,79 @@ export default new Vuex.Store({
         ctx.commit("MUTATE_STEAM_WALLET", res.data);
       } catch (err) {
         console.log(err);
+      }
+    },
+    async getMyCart(ctx) {
+      try {
+        const idToken = await auth.currentUser.getIdToken();
+        const { data } = await REST.get("/mycarts", {
+          headers: {
+            Authorization: `Bearer ${idToken}`,
+          },
+        });
+
+        ctx.commit("MUTATE_PENDING_INVOICE", data.invoice);
+        ctx.commit("MUTATE_MY_CART", data.myCart);
+        ctx.commit("MUTATE_MY_CART_TOTAL_PRICE", data.totalPrice);
+        ctx.commit("MUTATE_MY_CART_TOTAL_ITEMS", data.count);
+      } catch (err) {
+        console.log(err);
+      }
+    },
+    async addToCart(ctx, payload) {
+      const idToken = await auth.currentUser.getIdToken();
+      await REST.post(
+        "/mycarts/" + payload,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${idToken}`,
+          },
+        }
+      );
+      ctx.dispatch("getMyCart");
+    },
+    async cancelCartItem(ctx, payload) {
+      const idToken = await auth.currentUser.getIdToken();
+      await REST.patch(
+        "/mycarts/" + payload,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${idToken}`,
+          },
+        }
+      );
+      ctx.dispatch("getMyCart");
+    },
+    async checkoutCart(ctx) {
+      const idToken = await auth.currentUser.getIdToken();
+      try {
+        await REST.get("/mycarts/checkout", {
+          headers: {
+            Authorization: `Bearer ${idToken}`,
+          },
+        });
+        ctx.dispatch("getMyCart");
+      } catch (err) {
+        console.log(err.message);
+      }
+    },
+    async cancelInvoice(ctx, payload) {
+      const idToken = await auth.currentUser.getIdToken();
+      try {
+        await REST.patch(
+          "/mycarts/invoice/" + payload,
+          {},
+          {
+            headers: {
+              Authorization: `Bearer ${idToken}`,
+            },
+          }
+        );
+        ctx.dispatch("getMyCart");
+      } catch (err) {
+        console.log(err.message);
       }
     },
   },
