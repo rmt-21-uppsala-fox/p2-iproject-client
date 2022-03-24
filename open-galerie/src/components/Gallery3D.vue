@@ -1,16 +1,23 @@
 <template>
   <div>
-    <div ref="Gallery3d"></div>
+    <div class="window3D" ref="Gallery3d"></div>
   </div>
 </template>
 
 <script>
 import * as THREE from "three";
-const width = 600; // window.innerWidth
-const height = 400; // window.innerHeight
+const width = 900; // window.innerWidth
+const height = 500; // window.innerHeight
+import Vue from "vue";
+import VueSocketIOExt from "vue-socket.io-extended";
+import { io } from "socket.io-client";
+
+const socket = io("https://opengalerie.herokuapp.com");
+Vue.use(VueSocketIOExt, socket);
 
 export default {
-  name: "GalleryPage",
+  name: "Gallery3D",
+  props: ["idGallery"],
   data() {
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(75, width / height, 0.1, 1000);
@@ -54,7 +61,9 @@ export default {
       id: null,
     };
   },
-  created() {
+  async created() {
+    await this.$store.dispatch("getGalleryByPK", this.idGallery);
+    this.addNFT();
     let hemiLight = new THREE.HemisphereLight(0xffffff, 0xffffff, 0.61);
     hemiLight.position.set(0, 50, 0);
     this.scene.add(hemiLight);
@@ -90,7 +99,7 @@ export default {
     this.scene.add(floor);
     this.scene.add(this.player);
 
-    const geometry = new THREE.BoxGeometry(100, 100, 100);
+    const geometry = new THREE.BoxGeometry(50, 50, 30);
     const loader = new THREE.TextureLoader();
     const cubeMaterials = [
       new THREE.MeshBasicMaterial({
@@ -121,7 +130,7 @@ export default {
           function (texture) {
             texture.wrapS = THREE.RepeatWrapping;
             texture.wrapT = THREE.RepeatWrapping;
-            texture.repeat.set(20, 20);
+            texture.repeat.set(10, 10);
           }
         ),
         side: THREE.BackSide,
@@ -161,7 +170,7 @@ export default {
       }), //back side
     ];
     const wall = new THREE.Mesh(geometry, cubeMaterials);
-    wall.position.z = 10;
+    wall.position.z = -2.5;
     this.scene.add(wall);
 
     this.player.position.x = 0;
@@ -173,6 +182,15 @@ export default {
     this.player.add(this.camera);
   },
   mounted() {
+    if (localStorage.getItem("reloaded")) {
+      // The page was just reloaded. Clear the value from local storage
+      // so that it will reload the next time this page is visited.
+      localStorage.removeItem("reloaded");
+    } else {
+      // Set a flag so that we know not to reload the page twice.
+      localStorage.setItem("reloaded", "1");
+      location.reload();
+    }
     this.renderer.setSize(width, height);
     this.$refs.Gallery3d.appendChild(this.renderer.domElement);
     this.animate();
@@ -206,6 +224,82 @@ export default {
         ],
         rot: [0, this.player.rotation.y, 0],
       });
+    },
+    addNFT() {
+      const pos = [
+        {
+          x: 0,
+          y: 1.5,
+          z: -10,
+        },
+        {
+          x: 10,
+          y: 1.5,
+          z: -10,
+        },
+        {
+          x: -10,
+          y: 1.5,
+          z: -10,
+        },
+        {
+          x: 20,
+          y: 1.5,
+          z: -10,
+        },
+        {
+          x: -20,
+          y: 1.5,
+          z: -10,
+        },
+        {
+          x: 0,
+          y: 1.5,
+          z: 5,
+        },
+        {
+          x: 10,
+          y: 1.5,
+          z: 5,
+        },
+        {
+          x: -10,
+          y: 1.5,
+          z: 5,
+        },
+
+        {
+          x: -20,
+          y: 1.5,
+          z: 5,
+        },
+        {
+          x: 20,
+          y: 1.5,
+          z: 5,
+        },
+      ];
+      let boxColl = [];
+      this.images.forEach(async (tex, i) => {
+        if (i < 10) {
+          const texture = await new THREE.TextureLoader().load(tex);
+          const geometry = new THREE.BoxGeometry(5, 5, 5);
+          const material = new THREE.MeshBasicMaterial({
+            map: texture,
+          });
+          const cube = new THREE.Mesh(geometry, material);
+          this.scene.add(cube);
+          boxColl.push(cube);
+          cube.position.x = pos[i].x;
+          cube.position.y = pos[i].y;
+          cube.position.z = pos[i].z;
+        }
+      });
+    },
+  },
+  computed: {
+    images() {
+      return this.$store.state.images;
     },
   },
   sockets: {

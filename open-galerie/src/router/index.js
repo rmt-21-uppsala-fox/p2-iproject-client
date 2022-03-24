@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import GalleryPage from '../views/GalleryPage.vue'
+import GalleryView from '../views/GalleryView.vue'
 import HomeView from '../views/HomeView.vue'
 
 
@@ -12,9 +12,9 @@ const routes = [{
     component: HomeView
   },
   {
-    path: '/gallery',
+    path: '/gallery/:id',
     name: 'gallery',
-    component: GalleryPage
+    component: GalleryView
   }
 ]
 
