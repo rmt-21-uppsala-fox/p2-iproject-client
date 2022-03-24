@@ -1,29 +1,66 @@
-import Vue from 'vue'
-import VueRouter from 'vue-router'
-import HomeView from '../views/HomeView.vue'
-
-Vue.use(VueRouter)
+import Vue from "vue";
+import VueRouter from "vue-router";
+import HomePage from "../views/HomePage.vue";
+import LoginPage from "../views/LoginPage.vue";
+import RegisterPage from "../views/RegisterPage.vue";
+import DetailPage from "../views/DetailPage.vue";
+import FormPage from "../views/FormPage.vue";
+import ProfileUser from "../views/ProfileUser.vue";
+import MyDonationPage from "../views/MyDonationPage.vue";
+Vue.use(VueRouter);
 
 const routes = [
   {
-    path: '/',
-    name: 'home',
-    component: HomeView
+    path: "/",
+    name: "HomePage",
+    component: HomePage,
   },
   {
-    path: '/about',
-    name: 'about',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/AboutView.vue')
-  }
-]
+    path: "/loginuser",
+    name: "LoginPage",
+    component: LoginPage,
+  },
+  {
+    path: "/registeruser",
+    name: "RegisterPage",
+    component: RegisterPage,
+  },
+  {
+    path: "/detailpage",
+    name: "DetailPage",
+    component: DetailPage,
+  },
+  {
+    path: "/formpage",
+    name: "FormPage",
+    component: FormPage,
+  },
+  {
+    path: "/profileuser",
+    name: "ProfileUser",
+    component: ProfileUser,
+  },
+  {
+    path: "/mydonationpage",
+    name: "MyDonationPage",
+    component: MyDonationPage,
+  },
+];
 
 const router = new VueRouter({
-  mode: 'history',
+  mode: "history",
   base: process.env.BASE_URL,
-  routes
-})
-
-export default router
+  routes,
+});
+router.beforeEach((to, from, next) => {
+  if (
+    to.name !== "LoginPage" &&
+    to.name !== "RegisterPage" &&
+    !localStorage.access_token
+  )
+    next({ name: "LoginPage" });
+  else if (to.name === "LoginPage" && localStorage.access_token)
+    next({ name: "HomePage" });
+  else next();
+});
+export default router;
