@@ -89,6 +89,7 @@ export default {
       try {
         const { data } = await this.$store.dispatch('loginHandler', this.user)
         localStorage.setItem('access_token', data.access_token)
+        this.$store.commit('SET_ISLOGIN', true)
         this.$router.push('/')
       } catch (error) {
         console.log(error.response.data)

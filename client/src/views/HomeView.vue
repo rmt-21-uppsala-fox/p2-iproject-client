@@ -1,275 +1,20 @@
 <template>
   <div>
-    <body>
-      <!-- Navbar -->
-      <header>
-        <nav class="py-3 bg-gray-900 navbar-color">
-          <div class="flex-1 flex items-center justify-center">
-            <div class="flex-shrink-0 flex items-center">
-              <span class="text-white opacity-80 text-2xl uppercase"
-                >My Forum</span
-              >
-            </div>
-            <div class="hidden sm:block sm:ml-6">
-              <div class="flex space-x-4 align-middle">
-                <router-link
-                  to="/"
-                  class="text-white opacity-80 text-md uppercase hover:opacity-100 px-3 py-2"
-                  >Home</router-link
-                >
-                <router-link
-                  to=""
-                  class="text-white opacity-80 text-md uppercase hover:opacity-100 px-3 py-2"
-                  >Matches</router-link
-                >
-                <router-link
-                  to=""
-                  class="text-white opacity-80 text-md uppercase hover:opacity-100 px-3 py-2"
-                  >Player Ranking</router-link
-                >
-                <a
-                  to=""
-                  class="text-white opacity-80 text-md uppercase hover:opacity-100 px-3 py-2"
-                  @click.prevent="logoutHandler"
-                  >Logout</a
-                >
-              </div>
-            </div>
-          </div>
-        </nav>
-        <!--SearchBox Section-->
-
-        <div class="search-box">
-          <div>
-            <select name="" id="">
-              <option value="Everything">Everything</option>
-              <option value="Titles">Titles</option>
-              <option value="Descriptions">Descriptions</option>
-            </select>
-            <input type="text" name="q" placeholder="search ..." />
-            <button><i class="fa fa-search"></i></button>
-          </div>
-        </div>
-      </header>
-    </body>
-
+    <navbar></navbar>
     <div class="home">
       <div class="container">
         <div class="subforum">
           <div class="subforum-title">
             <h1>General Information</h1>
           </div>
-          <div class="subforum-row">
-            <div class="subforum-icon subforum-column center">
-              <i class="fa fa-car center"></i>
-            </div>
-            <div class="subforum-description subforum-column">
-              <h4><a class="search-box-a" href="#">Description Title</a></h4>
-              <p>
-                Description Content: let's try to be cool, otherwise,w at 'sthe
-                point in libing together with people youdont' live.
-              </p>
-            </div>
-            <div class="subforum-stats subforum-column center">
-              <span>24 Posts | 12 Topics</span>
-            </div>
-            <div class="subforum-info subforum-column">
-              <b><a href="">Last post</a></b> by <a href="">JustAUser</a>
-              <br />on <small>12 Dec 2020</small>
-            </div>
-          </div>
+          <news-page
+            v-for="news in news"
+            :key="news.title"
+            :news="news"
+          ></news-page>
         </div>
         <!--More-->
 
-        <div class="subforum">
-          <div class="subforum-title">
-            <h1>General Information</h1>
-          </div>
-          <div class="subforum-row">
-            <div class="subforum-icon subforum-column center">
-              <i class="fa fa-car center"></i>
-            </div>
-            <div class="subforum-description subforum-column">
-              <h4><a href="#">Description Title</a></h4>
-              <p>
-                Description Content: let's try to be cool, otherwise,w at 'sthe
-                point in libing together with people youdont' live.
-              </p>
-            </div>
-            <div class="subforum-stats subforum-column center">
-              <span>24 Posts | 12 Topics</span>
-            </div>
-            <div class="subforum-info subforum-column">
-              <b><a href="">Last post</a></b> by <a href="">JustAUser</a>
-              <br />on <small>12 Dec 2020</small>
-            </div>
-          </div>
-          <hr class="subforum-devider" />
-          <div class="subforum-row">
-            <div class="subforum-icon subforum-column center">
-              <i class="fa fa-car center"></i>
-            </div>
-            <div class="subforum-description subforum-column">
-              <h4><a href="#">Description Title</a></h4>
-              <p>
-                Description Content: let's try to be cool, otherwise,w at 'sthe
-                point in libing together with people youdont' live.
-              </p>
-            </div>
-            <div class="subforum-stats subforum-column center">
-              <span>24 Posts | 12 Topics</span>
-            </div>
-            <div class="subforum-info subforum-column">
-              <b><a href="">Last post</a></b> by <a href="">JustAUser</a>
-              <br />on <small>12 Dec 2020</small>
-            </div>
-          </div>
-          <hr class="subforum-devider" />
-          <div class="subforum-row">
-            <div class="subforum-icon subforum-column center">
-              <i class="fa fa-car center"></i>
-            </div>
-            <div class="subforum-description subforum-column">
-              <h4><a href="#">Description Title</a></h4>
-              <p>
-                Description Content: let's try to be cool, otherwise,w at 'sthe
-                point in libing together with people youdont' live.
-              </p>
-            </div>
-            <div class="subforum-stats subforum-column center">
-              <span>24 Posts | 12 Topics</span>
-            </div>
-            <div class="subforum-info subforum-column">
-              <b><a href="">Last post</a></b> by <a href="">JustAUser</a>
-              <br />on <small>12 Dec 2020</small>
-            </div>
-          </div>
-          <hr class="subforum-devider" />
-          <div class="subforum-row">
-            <div class="subforum-icon subforum-column center">
-              <i class="fa fa-car center"></i>
-            </div>
-            <div class="subforum-description subforum-column">
-              <h4><a href="#">Description Title</a></h4>
-              <p>
-                Description Content: let's try to be cool, otherwise,w at 'sthe
-                point in libing together with people youdont' live.
-              </p>
-            </div>
-            <div class="subforum-stats subforum-column center">
-              <span>24 Posts | 12 Topics</span>
-            </div>
-            <div class="subforum-info subforum-column">
-              <b><a href="">Last post</a></b> by <a href="">JustAUser</a>
-              <br />on <small>12 Dec 2020</small>
-            </div>
-          </div>
-          <hr class="subforum-devider" />
-          <div class="subforum-row">
-            <div class="subforum-icon subforum-column center">
-              <i class="fa fa-car center"></i>
-            </div>
-            <div class="subforum-description subforum-column">
-              <h4><a href="#">Description Title</a></h4>
-              <p>
-                Description Content: let's try to be cool, otherwise,w at 'sthe
-                point in libing together with people youdont' live.
-              </p>
-            </div>
-            <div class="subforum-stats subforum-column center">
-              <span>24 Posts | 12 Topics</span>
-            </div>
-            <div class="subforum-info subforum-column">
-              <b><a href="">Last post</a></b> by <a href="">JustAUser</a>
-              <br />on <small>12 Dec 2020</small>
-            </div>
-          </div>
-        </div>
-
-        <div class="subforum">
-          <div class="subforum-title">
-            <h1>General Information</h1>
-          </div>
-          <div class="subforum-row">
-            <div class="subforum-icon subforum-column center">
-              <i class="fa fa-car center"></i>
-            </div>
-            <div class="subforum-description subforum-column">
-              <h4><a href="#">Description Title</a></h4>
-              <p>
-                Description Content: let's try to be cool, otherwise,w at 'sthe
-                point in libing together with people youdont' live.
-              </p>
-            </div>
-            <div class="subforum-stats subforum-column center">
-              <span>24 Posts | 12 Topics</span>
-            </div>
-            <div class="subforum-info subforum-column">
-              <b><a href="">Last post</a></b> by <a href="">JustAUser</a>
-              <br />on <small>12 Dec 2020</small>
-            </div>
-          </div>
-          <hr class="subforum-devider" />
-          <div class="subforum-row">
-            <div class="subforum-icon subforum-column center">
-              <i class="fa fa-car center"></i>
-            </div>
-            <div class="subforum-description subforum-column">
-              <h4><a href="#">Description Title</a></h4>
-              <p>
-                Description Content: let's try to be cool, otherwise,w at 'sthe
-                point in libing together with people youdont' live.
-              </p>
-            </div>
-            <div class="subforum-stats subforum-column center">
-              <span>24 Posts | 12 Topics</span>
-            </div>
-            <div class="subforum-info subforum-column">
-              <b><a href="">Last post</a></b> by <a href="">JustAUser</a>
-              <br />on <small>12 Dec 2020</small>
-            </div>
-          </div>
-          <hr class="subforum-devider" />
-          <div class="subforum-row">
-            <div class="subforum-icon subforum-column center">
-              <i class="fa fa-car center"></i>
-            </div>
-            <div class="subforum-description subforum-column">
-              <h4><a href="#">Description Title</a></h4>
-              <p>
-                Description Content: let's try to be cool, otherwise,w at 'sthe
-                point in libing together with people youdont' live.
-              </p>
-            </div>
-            <div class="subforum-stats subforum-column center">
-              <span>24 Posts | 12 Topics</span>
-            </div>
-            <div class="subforum-info subforum-column">
-              <b><a href="">Last post</a></b> by <a href="">JustAUser</a>
-              <br />on <small>12 Dec 2020</small>
-            </div>
-          </div>
-          <hr class="subforum-devider" />
-          <div class="subforum-row">
-            <div class="subforum-icon subforum-column center">
-              <i class="fa fa-car center"></i>
-            </div>
-            <div class="subforum-description subforum-column">
-              <h4><a href="#">Description Title</a></h4>
-              <p>
-                Description Content: let's try to be cool, otherwise,w at 'sthe
-                point in libing together with people youdont' live.
-              </p>
-            </div>
-            <div class="subforum-stats subforum-column center">
-              <span>24 Posts | 12 Topics</span>
-            </div>
-            <div class="subforum-info subforum-column">
-              <b><a href="">Last post</a></b> by <a href="">JustAUser</a>
-              <br />on <small>12 Dec 2020</small>
-            </div>
-          </div>
-        </div>
         <!--Pagination starts-->
         <div class="pagination">
           pages: <a href="">1</a><a href="">2</a><a href="">3</a>
@@ -297,15 +42,31 @@
 
 <script>
 // @ is an alias to /src
-
+import NewsPage from "@/components/NewsPage.vue";
+import Navbar from '../components/navbar.vue';
 export default {
   name: "HomeView",
+  components: {
+    NewsPage,
+    Navbar
+  },
   methods: {
-     logoutHandler(){
-      localStorage.clear()
-      this.$store.commit('SET_ISLOGIN', false)
-      this.$router.push('/login')
-    }
+    logoutHandler() {
+      localStorage.clear();
+      this.$store.commit("SET_ISLOGIN", false);
+      this.$router.push("/login");
+    },
+    fetchNews() {
+      this.$store.dispatch("fetchNews");
+    },
+  },
+  created() {
+    this.fetchNews();
+  },
+  computed: {
+    news() {
+      return this.$store.state.news;
+    },
   },
 };
 </script>
