@@ -63,10 +63,14 @@ export default new Vuex.Store({
       })
     },
     sendResult: async function (context, payload) {
+      const { email, carbon } = payload;
       return await axios({
         method: 'POST',
         url: context.state.baseUrl + "/carbon/screenshot",
-        data: payload
+        data: {
+          email,
+          carbon
+        }
       })
     }
 
