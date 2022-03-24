@@ -112,7 +112,7 @@ export default new Vuex.Store({
         const access_token = localStorage.getItem("access_token");
         const response = await axios({
           method: "POST",
-          url: "http://localhost:3000/myfav",
+          url: "https://soccer-supreme-app.herokuapp.com/myfav",
           headers: { access_token },
           data: payload,
         });
@@ -127,7 +127,7 @@ export default new Vuex.Store({
         const access_token = localStorage.getItem("access_token");
         const response = await axios({
           method: "GET",
-          url: "http://localhost:3000/myfav",
+          url: "https://soccer-supreme-app.herokuapp.com/myfav",
           headers: { access_token },
         });
         console.log(response.data);
@@ -145,7 +145,7 @@ export default new Vuex.Store({
         const access_token = localStorage.getItem("access_token");
         const response = await axios({
           method: "GET",
-          url: "http://localhost:3000/epl",
+          url: "https://soccer-supreme-app.herokuapp.com/epl",
           headers: { access_token },
         });
         console.log(response.data);
@@ -160,7 +160,7 @@ export default new Vuex.Store({
         const access_token = localStorage.getItem("access_token");
         const response = await axios({
           method: "GET",
-          url: "http://localhost:3000/laliga",
+          url: "https://soccer-supreme-app.herokuapp.com/laliga",
           headers: { access_token },
         });
         console.log(response.data);
@@ -175,7 +175,7 @@ export default new Vuex.Store({
         const access_token = localStorage.getItem("access_token");
         const response = await axios({
           method: "GET",
-          url: "http://localhost:3000/seriea",
+          url: "https://soccer-supreme-app.herokuapp.com/seriea",
           headers: { access_token },
         });
         console.log(response.data);
@@ -190,7 +190,7 @@ export default new Vuex.Store({
         const access_token = localStorage.getItem("access_token");
         const response = await axios({
           method: "GET",
-          url: "http://localhost:3000/epltop",
+          url: "https://soccer-supreme-app.herokuapp.com/epltop",
           headers: { access_token },
         });
         console.log(response.data);
@@ -204,7 +204,7 @@ export default new Vuex.Store({
         const access_token = localStorage.getItem("access_token");
         const response = await axios({
           method: "GET",
-          url: "http://localhost:3000/laligatop",
+          url: "https://soccer-supreme-app.herokuapp.com/laligatop",
           headers: { access_token },
         });
         console.log(response.data);
@@ -218,7 +218,7 @@ export default new Vuex.Store({
         const access_token = localStorage.getItem("access_token");
         const response = await axios({
           method: "GET",
-          url: "http://localhost:3000/serieatop",
+          url: "https://soccer-supreme-app.herokuapp.com/serieatop",
           headers: { access_token },
         });
         console.log(response.data);
@@ -231,7 +231,7 @@ export default new Vuex.Store({
       try {
         const response = await axios({
           method: "POST",
-          url: "http://localhost:3000/register",
+          url: "https://soccer-supreme-app.herokuapp.com/register",
           data: {
             email: payload.email,
             name: payload.name,
@@ -250,7 +250,7 @@ export default new Vuex.Store({
       try {
         const response = await axios({
           method: "POST",
-          url: "http://localhost:3000/login",
+          url: "https://soccer-supreme-app.herokuapp.com/login",
           data: {
             email: payload.email,
             password: payload.password,
@@ -276,7 +276,7 @@ export default new Vuex.Store({
       try {
         let googleUser = payload;
         const id_token = googleUser.getAuthResponse().id_token;
-        const response = await axios.post("https://localhost:3000/authGoogle", {
+        const response = await axios.post("https://soccer-supreme-app.herokuapp.com/authGoogle", {
           id_token,
         });
         localStorage.setItem("access_token", response.data.access_token);
