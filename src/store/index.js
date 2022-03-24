@@ -11,6 +11,8 @@ export default new Vuex.Store({
     flagLogin: false,
     flagRegister: false,
     cart: [],
+    cities: [],
+    costs: [],
   },
 
   mutations: {
@@ -31,6 +33,14 @@ export default new Vuex.Store({
     },
     SET_REGISTER(state, payload) {
       state.flagRegister = payload;
+    },
+
+    SET_CITIES(state, payload) {
+      state.cities = payload;
+    },
+
+    SET_COSTS(state, payload) {
+      state.costs = payload;
     },
 
     ADD_QUANTITY(state, payload) {
@@ -58,7 +68,7 @@ export default new Vuex.Store({
       context.commit("SET_CART", cart);
     },
 
-    async checkLogin(context) {
+   checkLogin(context) {
       try {
         if (localStorage.getItem("access_token")) {
           context.commit("SET_FLAGLOGIN", true);
@@ -102,6 +112,38 @@ export default new Vuex.Store({
       } catch (error) {
         console.log(error.response);
         swal("ERROR", "Please Fill Form", "error");
+      }
+    },
+
+    async getCities(context) {
+      try {
+        const response = await customerAPI.get("/raja-ongkirs/cities", {
+          headers: {
+            access_token: localStorage.getItem("access_token"),
+          },
+        });
+
+        context.commit("SET_CITIES", response.data.rajaongkir.results);
+      } catch (error) {
+        console.log(error);
+      }
+    },
+
+    async postCosts(context, payload) {
+      try {
+        const response = await customerAPI.post(
+          "/raja-ongkirs/costs",
+          payload,
+          {
+            headers: {
+              access_token: localStorage.getItem("access_token"),
+            },
+          }
+        );
+
+        context.commit("SET_COSTS", response.data.rajaongkir.results);
+      } catch (error) {
+        console.log(error);
       }
     },
 

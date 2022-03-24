@@ -3,20 +3,16 @@
     <div class="flex w-2/5">
       <!-- product -->
       <div class="w-20">
-        <img
-          class="h-24"
-          src="https://drive.google.com/uc?id=18KkAVkGFvaGNqPy2DIvTqmUH_nk39o3z"
-          alt=""
-        />
+        <img class="h-24" :src="cartProduct.imgUrl" alt="" />
       </div>
       <div class="flex flex-col justify-between ml-4 flex-grow">
         <span class="font-bold text-sm">{{ cartProduct.name }}</span>
         <span class="text-red-500 text-xs">{{ cartProduct.category }}</span>
-        <a
+        <!-- <a
           href="#"
           class="font-semibold hover:text-red-500 text-gray-500 text-xs"
           >Remove</a
-        >
+        > -->
       </div>
     </div>
     <div class="flex justify-center w-1/5">

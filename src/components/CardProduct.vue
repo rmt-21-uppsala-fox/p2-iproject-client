@@ -42,6 +42,7 @@ export default {
   methods: {
     addCart() {
       if (this.flagLogin === true) {
+        swal("ADDED", "Success add to cart", "success");
         this.$store.dispatch("addCart", this.product);
       } else {
         swal("FAIL", "You need login first", "error");

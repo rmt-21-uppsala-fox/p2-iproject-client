@@ -4,7 +4,7 @@
       <Navbar></Navbar>
       <router-view />
     </div>
-    <div>
+    <div class="footer">
       <HFooter class="container"></HFooter>
     </div>
   </div>
@@ -46,5 +46,16 @@ export default {
   background-color: #42b983;
   padding: 10px;
   border-radius: 5px;
+}
+
+.social-links {
+  display: flex !important;
+  flex-direction: row !important;
+}
+
+.footer {
+  bottom: 0;
+  width: 100%;
+  height: 60px;
 }
 </style>

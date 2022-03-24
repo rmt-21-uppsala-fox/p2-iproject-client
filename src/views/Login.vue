@@ -117,9 +117,7 @@ export default {
 
       if (this.flagLogin) {
         this.$router.push({ name: "Home" });
-      } else {
-        console.log("tidak jalan");
-      }
+      } 
     },
 
     registerPage() {

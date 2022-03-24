@@ -6,7 +6,11 @@
           <div>
             <!-- Website Logo -->
             <button type="button" class="flex items-center py-4 px-2">
-              <img src="logo.png" alt="Logo" class="h-8 w-8 mr-2" />
+              <img
+                src="../assets/hacktiv-logo.png"
+                alt="Logo"
+                class="h-8 w-8 mr-2"
+              />
               <span class="font-semibold text-gray-500 text-lg">KlikShop</span>
             </button>
           </div>
@@ -42,15 +46,16 @@
             Logout
           </button>
           <button
-            @click="goToCartPage"
             v-if="$store.state.flagLogin === true"
             type="button"
             class="py-2 px-2 transition duration-300"
           >
-            <i
-              class="hover:text-green-600 font-bold text-xl fa fa-shopping-cart"
-              aria-hidden="true"
-            ></i>
+            <router-link to="/cart">
+              <i
+                class="hover:text-green-600 font-bold text-xl fa fa-shopping-cart"
+                aria-hidden="true"
+              ></i>
+            </router-link>
           </button>
         </div>
       </div>
@@ -62,12 +67,9 @@
 export default {
   name: "Navbar",
   methods: {
-    async logout() {
-      await this.$store.dispatch("logout");
+     logout() {
+       this.$store.dispatch("logout");
       this.$router.push({ name: "Login" });
-    },
-    goToCartPage() {
-      this.$router.push({ name: "Cart" });
     },
   },
 };
