@@ -52,6 +52,7 @@ export default {
     await this.$store.dispatch("getAllPosts");
     await this.$store.dispatch("fetchNameAndId");
     await this.$store.dispatch("joinMyOwnRoom");
+    await this.$store.dispatch("joinMyFriendsRoom");
   },
   computed: {
     posts() {
