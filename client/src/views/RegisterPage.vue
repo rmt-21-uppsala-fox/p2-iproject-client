@@ -68,22 +68,22 @@
                 type="submit"
                 class="w-full flex justify-center bg-sky-600 hover:bg-sky-700 text-gray-100 p-3 rounded-full tracking-wide font-semibold shadow-lg cursor-pointer transition ease-in duration-500"
               >
-                Sign in
+                Register
               </button>
             </div>
           </form>
           <div class="pt-5 text-center text-gray-400 text-xs">
-            <span>
-              Copyright © 2021-2022
-              <a
-                href="https://codepen.io/uidesignhub"
+            <a
+                href="#"
+                @click="toSignIn"
                 rel=""
                 target="_blank"
-                title="Ajimon"
                 class="text-green hover:text-green-500"
-                >AJI</a
-              ></span
-            >
+                >
+                <span>
+              Sign In Here</span
+            ></a
+              >
           </div>
         </div>
       </div>
@@ -114,6 +114,13 @@ export default {
         } else {
           this.$router.push({ name: "login" });
         }
+      } catch (err) {
+        console.log(err);
+      }
+    },
+    async toSignIn() {
+      try {
+        this.$router.push(`/login`);
       } catch (err) {
         console.log(err);
       }

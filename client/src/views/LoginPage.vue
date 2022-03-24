@@ -62,17 +62,18 @@
             </div>
           </form>
           <div class="pt-5 text-center text-gray-400 text-xs">
-            <span>
-              Copyright © 2021-2022
+            
               <a
-                href="https://codepen.io/uidesignhub"
+                href="#"
+                @click="toRegister"
                 rel=""
                 target="_blank"
-                title="Ajimon"
                 class="text-green hover:text-green-500"
-                >AJI</a
-              ></span
-            >
+                >
+                <span>
+              Register Here</span
+            ></a
+              >
           </div>
         </div>
       </div>
@@ -104,6 +105,13 @@ export default {
         console.log(err);
       }
     },
+    async toRegister(){
+      try {
+        this.$router.push(`register`)
+      } catch (err) {
+        console.log(err);
+      }
+    }
   },
 };
 </script>

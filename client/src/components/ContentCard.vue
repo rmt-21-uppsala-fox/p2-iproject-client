@@ -106,7 +106,17 @@ export default {
         // console.log(data);
         this.$store.dispatch(`buyTheGame`, data);
         this.$store.dispatch("getDataGame", data);
-        this.$router.push(`game-detail`);
+        this.$router.push(`/game-detail`);
+      } catch (err) {
+        console.log(err);
+      }
+    },
+    async addToWishlist(data) {
+      try {
+        // console.log(data);
+        this.$store.dispatch(`addToWishlist`, data);
+        this.$store.dispatch("showWishlist", data);
+        this.$router.push(`/wishlist`);
       } catch (err) {
         console.log(err);
       }
@@ -114,7 +124,11 @@ export default {
   },
   computed: {
     isLogin() {
-      return this.$store.state.isLogin;
+      if(localStorage.getItem(`access_token`)){
+        return true
+      } else {
+        return false
+      }
     },
   },
 };
