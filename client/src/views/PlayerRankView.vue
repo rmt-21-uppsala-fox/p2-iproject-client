@@ -5,7 +5,7 @@
     <!--Topic Section-->
     <div class="topic-container">
       <!--Topic Section-->
-      <player-rank v-for="playerRank in playerRanks" :key="playerRank.player.name" :playerRank="playerRank"></player-rank>
+      <player-rank v-for="(playerRank, i) in playerRanks" :key="playerRank.player.name" :playerRank="playerRank" :rank="i+1"></player-rank>
     </div>
   </body>
 </template>
