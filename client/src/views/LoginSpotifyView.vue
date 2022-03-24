@@ -32,7 +32,9 @@ export default {
   components:{HFooter},
     async created() {
       const code = new URLSearchParams(window.location.search).get("code");
-      await this.$store.dispatch("login", code);
+      if(code){
+        await this.$store.dispatch("login", code);
+      }
       if (this.isLogin) {
         this.$router.push("/dashboard");
       }
