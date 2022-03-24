@@ -42,4 +42,15 @@ const router = new VueRouter({
 	routes,
 });
 
+router.beforeEach((to, from, next) => {
+	if (
+		(to.name == "LoginPage" || to.name == "RegisterPage") &&
+		localStorage.getItem("token")
+	)
+		next({ name: "HomePage" });
+	else if (to.name == "FavoritePage" && !localStorage.getItem("token"))
+		next({ name: "LoginPage" });
+	else next();
+});
+
 export default router;

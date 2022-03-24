@@ -98,6 +98,7 @@
 						email: this.email,
 						password: this.password,
 					});
+					this.$store.commit("IS_LOGIN", true);
 					this.$router.push("/");
 				} catch (err) {
 					this.$router.push("/login");

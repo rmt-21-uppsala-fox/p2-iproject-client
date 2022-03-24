@@ -15,7 +15,11 @@
 		<div class="flex container my-12 mx-auto px-4 md:px-12">
 			<div class="flex flex-wrap -mx-1 lg:-mx-4">
 				<!-- Column -->
-				<!-- card here -->
+				<MangaCard
+					v-for="favorite in favorites"
+					:key="favorite.id"
+					:manga="favorite"
+				></MangaCard>
 				<!-- END Column -->
 			</div>
 		</div>
@@ -24,8 +28,25 @@
 </template>
 
 <script>
+	import MangaCard from "../components/MangaCard.vue";
 	export default {
 		name: "FavoritePage",
+		components: {
+			MangaCard,
+		},
+		methods: {
+			getFavorite() {
+				this.$store.dispatch("getFavorite");
+			},
+		},
+		computed: {
+			favorites() {
+				return this.$store.state.favorites;
+			},
+		},
+		created() {
+			this.getFavorite();
+		},
 	};
 </script>
 

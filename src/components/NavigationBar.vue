@@ -49,7 +49,6 @@
 				>
 					<li>
 						<router-link
-							href="#"
 							class="italic block py-2 pr-4 pl-3 font-serif text-yellow-500 border-b border-gray-100 hover:bg-gray-50 md:hover:bg-transparent md:border-0 md:hover:text-red-500 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
 							to="/favorites"
 							>Favorites</router-link
@@ -65,6 +64,7 @@
 					<li>
 						<a
 							href="#"
+							@click="logoutHandler"
 							class="italic block py-2 pr-4 pl-3 font-serif text-red-500 border-b border-gray-100 hover:bg-gray-50 md:hover:bg-transparent md:border-0 md:hover:text-white md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
 							@click.prevent=""
 							>Logout</a
@@ -87,6 +87,18 @@
 <script>
 	export default {
 		name: "NavigationBar",
+		computed: {
+			isLogin() {
+				return this.$store.state.isLogin;
+			},
+		},
+		methods: {
+			logoutHandler() {
+				localStorage.clear();
+				this.$store.commit("IS_LOGIN", false);
+				this.$router.push("/login");
+			},
+		},
 	};
 </script>
 
