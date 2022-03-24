@@ -18,15 +18,23 @@
         <div>
           <div class="cardCustom">
             <h1>Create your own gallery</h1>
-            <form style="display: flex; flex-direction: column">
+            <form
+              style="display: flex; flex-direction: column"
+              @submit.prevent="addGallery"
+            >
               <label for="wallet">Wallet Address</label>
               <input
+                v-model="owner"
                 style="width: 300px"
                 type="text"
                 name="owner"
                 id="wallet"
               />
-              <button style="width: 200px; align-self: center" class="button">
+              <button
+                type="submit"
+                style="width: 200px; align-self: center"
+                class="button"
+              >
                 Wallet ID
               </button>
             </form>
@@ -74,12 +82,32 @@
 // @ is an alias to /src
 import NewsCard from "../components/NewsCard.vue";
 import GalleryCard from "../components/GalleryCard.vue";
+import swal from "sweetalert";
 
 export default {
   name: "HomeView",
+  data() {
+    return {
+      owner: null,
+    };
+  },
   components: {
     NewsCard,
     GalleryCard,
+  },
+  methods: {
+    async addGallery() {
+      let isSuccess = await this.$store.dispatch("getNFT", {
+        owner: this.owner,
+      });
+      console.log(isSuccess);
+      if (isSuccess) {
+        swal("Success", "A New Gallery has been made", "success");
+        await this.$store.dispatch("getGallery");
+      } else {
+        swal("Error", "Address is invalid", "error");
+      }
+    },
   },
   created() {
     this.$store.dispatch("getNews");
@@ -216,6 +244,7 @@ input[type="text"] {
   box-sizing: border-box;
   border-radius: 15px;
   border-width: 0px;
+  color: black;
 }
 .cardNews {
   /* Add shadows to create the "card" effect */

@@ -1,5 +1,5 @@
 <template>
-  <div class="cardGallery">
+  <div class="cardGallery" @click="gotoGallery(cardData.id)">
     <p>WalletID:</p>
     <h4 style="word-break: break-all; white-space: normal; margin-top: -30px">
       {{ cardData.wallet }}
@@ -14,6 +14,12 @@
 export default {
   name: "GalleryCard",
   props: ["cardData"],
+  methods: {
+    gotoGallery(id) {
+      console.log(id);
+      this.$router.push({ name: "gallery", params: { id: id } });
+    },
+  },
   computed: {
     jumlah() {
       var count = 0;
