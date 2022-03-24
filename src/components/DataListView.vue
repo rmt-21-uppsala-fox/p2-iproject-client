@@ -28,7 +28,6 @@
                 <td>{{ kib.originOfFounds }}</td>
                 <td>{{ kib.price }}</td>
                 <td>
-                  <button class="btn mr-1">Edit</button>
                   <button @click.prevent="doDelete(kib.id)" class="btn">Delete</button>
                 </td>
               </tr>
