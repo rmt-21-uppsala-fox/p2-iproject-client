@@ -41,6 +41,9 @@ export default new Vuex.Store({
         setApiNovel(state, novels) {
             state.apiNovels = novels.slice(0, 6);
         },
+        getLogout() {
+            localStorage.clear();
+        },
     },
     actions: {
         postRegister: async (context, { email, password }) => {
