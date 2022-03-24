@@ -6,6 +6,7 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
+    //https://carbon-ip-uppsala-fox.herokuapp.com
     //http://localhost:3000
     mapbox_token: "pk.eyJ1IjoibXNncm91bSIsImEiOiJjbDBvejR3b3Qwb2dyM29vN3oxczlxZWtiIn0.iokUpDxaIVuFlBR_zrw5Dw",
     baseUrl: "https://carbon-ip-uppsala-fox.herokuapp.com",
@@ -62,10 +63,14 @@ export default new Vuex.Store({
       })
     },
     sendResult: async function (context, payload) {
+      const { email, carbon } = payload;
       return await axios({
         method: 'POST',
         url: context.state.baseUrl + "/carbon/screenshot",
-        data: payload
+        data: {
+          email,
+          carbon
+        }
       })
     }
 
