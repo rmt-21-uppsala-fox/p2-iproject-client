@@ -9,7 +9,7 @@ export default new Vuex.Store({
     //https://carbon-ip-uppsala-fox.herokuapp.com
     //http://localhost:3000
     mapbox_token: "pk.eyJ1IjoibXNncm91bSIsImEiOiJjbDBvejR3b3Qwb2dyM29vN3oxczlxZWtiIn0.iokUpDxaIVuFlBR_zrw5Dw",
-    baseUrl: "http://localhost:3000",
+    baseUrl: "https://carbon-ip-uppsala-fox.herokuapp.com",
     distance: 0,
     display: "estimatePage"
   },
