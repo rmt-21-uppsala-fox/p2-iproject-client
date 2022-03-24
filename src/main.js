@@ -6,7 +6,7 @@ import VueSocketIOExt from "vue-socket.io-extended";
 import { io } from "socket.io-client";
 import VueCarousel from "vue-carousel";
 
-const socket = io("http://localhost:3000");
+const socket = io("https://soccer-supreme-app.herokuapp.com/");
 
 Vue.config.productionTip = false;
 Vue.use(VueCarousel);
