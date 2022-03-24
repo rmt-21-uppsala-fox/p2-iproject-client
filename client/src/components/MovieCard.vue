@@ -9,7 +9,7 @@
           </div> -->
           <div class="my-2 grid grid-cols-1">
             <button
-             v-if="routeName == 'Home'"
+             v-if="routeName == 'Home' || routeName == 'Search' "
           @click.prevent="getMovie(compMovie.id)"
 
           type="button"

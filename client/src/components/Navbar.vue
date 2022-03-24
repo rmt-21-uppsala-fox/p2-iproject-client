@@ -117,11 +117,12 @@
               </li>
               
               <li class="flex flex-wrap items-center mx-3">
-                <form @submit.prevent="filterHandler()" class=" mx-3">
+                <form @submit.prevent="searchMovies()" class=" mx-3">
                   <div class="h-full content-center">
                     <div class="flex h-full float-left">
                       <div class="h-full ">
                         <select
+                        v-model="queries.genre"
                           class="
                             h-8
                             block
@@ -159,6 +160,7 @@
 
                     <div class=" h-full justify-center w-ful px-2 float-left">
                       <input
+                      v-model="queries.title"
                         class="w-full px-5 py-1 rounded text-black "
                         type="text"
                         placeholder="Search by Title"
@@ -349,7 +351,15 @@
 <script>
 export default {
   name: "Navbar",
-
+  data() {
+    return {
+      queries: {
+        page: 1,
+        title: '',
+        genre: ''
+      }
+    }
+  },
   created() {
     this.getGenres()
   },
@@ -366,7 +376,18 @@ export default {
       console.log("INI CHANGEPAGE HANDLER");
      
        await this.$router.push(path);
-     }
+     },
+    async searchMovies() {
+      await this.$router.push({
+        //kirim untuk merender komponen DetailPage
+        name: "Search",
+        query: {
+          page: this.queries.page,
+          title: this.queries.title,
+          genre: this.queries.genre
+        },
+      });
+    }
   },
   computed: {
     localStorage() {

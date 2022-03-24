@@ -21,7 +21,8 @@ export default new Vuex.Store({
     paymentToken: '',
     purchaseSuccess: false,
     errorMsg: '',
-    chatMessages: []
+    chatMessages: [],
+    searchResults: []
   },
   mutations: {
     SOCKET_MESSAGESFROMSERVER(state, messages) {
@@ -62,6 +63,9 @@ export default new Vuex.Store({
     },
     SET_PAYMENT_TOKEN(state, token) {
       state.paymentToken = token
+    },
+    SET_SEARCH_RESULTS(state, results) {
+      state.searchResults = results
     },
     SET_LOGOUT() {
       localStorage.clear()
@@ -179,6 +183,30 @@ export default new Vuex.Store({
         
       } catch (error) {
         Swal.fire(error.response.data.message)
+        
+        console.log(error.response.data.message)
+      }
+    },
+
+
+    async searchMovies(context, queries) {
+      try {
+         
+        const response = await axios.get(`${BASE_URL}/movies/search?page=${queries.page}&title=${queries.title}&genre=${queries.genre}`, {
+          headers: {
+            access_token: localStorage.access_token
+
+          }
+        })
+
+        
+        
+        
+        context.commit("SET_SEARCH_RESULTS", response.data)
+        
+        
+      } catch (error) {
+        // Swal.fire(error.response.data.message)
         
         console.log(error.response.data.message)
       }
