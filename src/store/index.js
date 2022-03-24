@@ -10,7 +10,7 @@ export default new Vuex.Store({
     recipes: [],
     filteredRecipe: [],
     detailPage: false,
-    bookmark: []
+    bookmarks: []
   },
   getters: {},
   mutations: {
@@ -27,8 +27,11 @@ export default new Vuex.Store({
     SET_DETAIL_PAGE(state, payload) {
       state.detailPage = payload
     },
+    FETCH_BOOKMARK(state, payload) {
+      state.bookmarks = payload
+    },
     ADD_BOOKMARK(state, payload) {
-      state.bookmark.push(payload)
+      state.bookmarks.push(payload)
     }
   },
   actions: {
@@ -70,23 +73,15 @@ export default new Vuex.Store({
         console.log(error);
       }
     },
-    //mendengar event connect dari server
-    socket_connect() {
-      console.log("connected", this._vm.$socket);
-    },
-    //mendengarkan event disconnect dari server
-    socket_disconnect() {
-      console.log("disconnect", this._vm.$socket);
-    },
-    //mendengar custom event "customEventFromServer"
-    socket_customEventFromServer(_, payload) {
-      console.log("customEventFromServer", payload);
-    },
-    //karna disini mau mengirimkan(emit) ke server
-    //dan tidak mendengarkan event dari server
-    //maka tidak perlu menggunakan awalan/prefix socket_
-    sendCustomEventToServer(_, payload) {
-      this._vm.$socket.client.emit("customEventFromClient", payload)
+    async fetchBookmark(context) {
+      const access_token = localStorage.getItem("access_token")
+      const response = await axios.get(`${baseUrl}/recipes/bookmark`, {
+        headers: {
+          access_token
+        }
+      })
+      console.log(response);
+      context.commit("FETCH_BOOKMARK", response.data)
     }
   },
   modules: {}

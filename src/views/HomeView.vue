@@ -5,7 +5,7 @@
     <!--====== Recommended Recipes PART START ======-->
     <section
       id="recommended-recipes"
-      class="services-area pt-120"
+      class="services-area pt-120 mb-10"
     >
       <div class="container">
         <div class="justify-center row">
@@ -95,7 +95,6 @@ export default {
   },
   created: function () {
     if (localStorage.getItem("access_token")) {
-      console.log(this.currentUser, "ini ya");
       this.$store.commit("SET_STATUS_LOGIN", {
         isLogin: true,
         currentUser: this.$store.state.currentUser,
