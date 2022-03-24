@@ -9,20 +9,20 @@ export default new Vuex.Store({
     image_0: "",
     image_1: "",
     image_2: "",
-    image_3: "",
-    image_4: "",
-    image_5: "",
-    wikipediaData: "",
+    wikipediaData0: "",
+    wikipediaData1: "",
+    wikipediaData2: "",
+    userFile: "",
   },
   getters: {
     imageTitle_0(state) {
-      return state.image_0.artObjects[0].title;
+      return state.image_0.artObjects[0].longTitle;
     },
     imageTitle_1(state) {
-      return state.image_1.artObjects[0].title;
+      return state.image_1.artObjects[0].longTitle;
     },
     imageTitle_2(state) {
-      return state.image_2.artObjects[0].title;
+      return state.image_2.artObjects[0].longTitle;
     },
     file(state) {
       return state.file;
@@ -33,15 +33,21 @@ export default new Vuex.Store({
       state.image_0 = payload.imageData_0;
       state.image_1 = payload.imageData_1;
       state.image_2 = payload.imageData_2;
-      state.image_3 = payload.imageData_3;
-      state.image_4 = payload.imageData_4;
-      state.image_5 = payload.imageData_5;
     },
-    SET_WIKIPEDIA(state, payload) {
-      state.wikipediaData = payload;
+    SET_WIKIPEDIA0(state, payload) {
+      state.wikipediaData0 = payload;
+    },
+    SET_WIKIPEDIA1(state, payload) {
+      state.wikipediaData1 = payload;
+    },
+    SET_WIKIPEDIA2(state, payload) {
+      state.wikipediaData2 = payload;
     },
     SET_FILE_(state, payload) {
       state.file = payload.value;
+    },
+    SET_USER_FILE(state, payload) {
+      state.userFile = payload;
     },
   },
   actions: {
@@ -57,33 +63,29 @@ export default new Vuex.Store({
         console.log(error.response);
       }
     },
-    async callWikipedia(context, payload) {
+    async callWikipedia(context) {
       try {
-        let title;
-        switch (payload) {
-          case 0:
-            title = context.getters.imageTitle_0;
-            break;
-          case 1:
-            title = context.getters.imageTitle_1;
-            break;
-          case 2:
-            title = context.getters.imageTitle_2;
-            break;
-          default:
-            break;
-        }
-        return await axios({
+        const response = await axios({
           method: "post",
           url: "http://localhost:3000/wikis",
-          data: { title },
         });
+        context.commit("SET_WIKIPEDIA0", response.data.data0)
+        context.commit("SET_WIKIPEDIA1", response.data.data1)
+        context.commit("SET_WIKIPEDIA2", response.data.data2)
+        console.log(response);
+        console.log(context);
       } catch (error) {
         console.log(error);
       }
     },
     async upload(context, payload) {
-      return axios.post("http://localhost:3000/upload", payload);
+      const response = await axios.post(
+        "http://localhost:3000/upload",
+        payload
+      );
+      console.log(response);
+      context.commit("SET_USER_FILE", response.data);
+      return response.data;
     },
   },
   modules: {},

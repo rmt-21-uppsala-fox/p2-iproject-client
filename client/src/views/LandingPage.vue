@@ -1,23 +1,23 @@
 <template>
   <div>
+    <!-- STARTING PAGE -->
     <div
       @scroll="handleScroll"
-      class="flex flex-col justify-center items-center"
-    >
-      <div class="imageInjected text-6xl font-serif">
-        {{ "RIJKSMUSEUM" }}
-      </div>
-      <div class="z-10 justify-center items-center"></div>
-    </div>
-
-    <div
-      :class="isBlur ? 'blur-none' : 'blur-sm'"
+      class="flex h-screen justify-center text-red-900 bg-center"
       style="
         width: 100%;
-        height: 100vh;
         background-image: url('Rijksmuseum.png');
+        background-repeat: none;
+        background-size: cover;
       "
-    ></div>
+    >
+      <!-- :class="isBlur ? 'blur-sm' : 'blur-none'" -->
+      <div
+        class="opacity-75 bg-white w-screen py-12 top-0 font-serif my-auto text-6xl hover:blur-none"
+      >
+        {{ "RIJKSMUSEUM" }}
+      </div>
+    </div>
     <div
       id="content3"
       style="
@@ -39,10 +39,10 @@
         data-aos-offset="200"
         data-aos-easing="ease-in-sine"
         data-aos-duration="600"
-        class="hero rounded-xl bg-red-200"
+        class="w-screen py-10 bg-red-200"
       >
-        <div class="hero-content w-96 text-center">
-          <div class="max-w-md">
+        <div class="text-center">
+          <div class="">
             <h1 class="font-serif text-3xl font-bold">
               Hello and welcome to Rijksmuseum's virtual gallery
             </h1>
@@ -58,7 +58,12 @@
     <div id="content5" class="carousel h-screen w-full">
       <div id="slide1" class="carousel-item relative w-full">
         <img :src="museumImage0" class="w-full object-contain" />
-        /
+        <img
+          class="mr-5 absolute w-70 h-70 right-0 bottom-0"
+          src="icons8-museum-64.png"
+          alt=""
+          srcset=""
+        />
         <div
           class="absolute flex justify-between transform -translate-y-1/2 left-5 right-5 top-1/2"
         >
@@ -89,35 +94,53 @@
     </div>
     <div
       id="content6"
-      class="grid place-content-center relative z-0 bg-red-100"
+      class="justify-between flex relative z-0 bg-red-100"
       style="width: 100%; height: 100vh"
     >
-      <div class="hero rounded-xl bg-red-200">
-        <div class="hero-content text-center">
-          <aside class="max-w-md">
-            <h1 class="font-serif text-3xl font-bold">Come in!</h1>
-            <p class="font-serif py-6">
-              Besides are all the features that you can use related to
-              Rijksmuseum's artworks
-            </p>
-          </aside>
-        </div>
-      </div>
-
-      <!-- Icons -->
-      <router-link to="/museum">
-        <img src="icons8-museum-64.png" alt="" srcset="" />
-      </router-link>
-      <form
-        class="flex gap-2"
-        @submit.prevent="submit"
-        enctype="multipart/form-data"
+      <aside
+        class="h-full w-1/2 text-center bg-red-200 flex flex-col justify-center items-center"
       >
-        <label class="btn" for="file-upload"> Send </label>
-        <input @change="upload" id="file-upload" type="file" />
-        <button class="btn">Feed</button>
-      </form>
+        <h1 class="font-serif text-5xl font-bold">Come in!</h1>
+        <p class="font-serif py-6 text-xl">
+          Besides are all the features that you can use related to Rijksmuseum's
+          artworks
+        </p>
+      </aside>
+
+      <div class="flex flex-col gap-20 items-center justify-center">
+        <router-link to="/museum">
+          <img src="icons8-museum-64.png" alt="" srcset="" />
+        </router-link>
+        <form
+          class="flex gap-2"
+          @submit.prevent="submit"
+          enctype="multipart/form-data"
+        >
+          <label for="file-upload">
+            <img src="icons8-museum-64.png" alt="" srcset="" />
+          </label>
+          <!-- @change="upload"  -->
+          <input
+            class="hidden"
+            @input="handleChangeImg"
+            id="file-upload"
+            type="file"
+          />
+          <button>
+            <img src="icons8-museum-64.png" alt="" srcset="" />
+          </button>
+        </form>
+
+        <router-link to="/museum">
+          <img src="icons8-museum-64.png" alt="" srcset="" />
+        </router-link>
+        <router-link to="/museum">
+          <img src="icons8-museum-64.png" alt="" srcset="" />
+        </router-link>
+      </div>
+      <!-- Icons -->
     </div>
+    <img :src="userImage" />
     <HFooter></HFooter>
   </div>
 </template>
@@ -130,6 +153,7 @@ export default {
     return {
       image: "",
       isBlur: false,
+      userImage: "",
     };
   },
   components: {
@@ -144,19 +168,34 @@ export default {
         const formData = new FormData();
         formData.append("file", this.image);
         const labelsData = await this.$store.dispatch("upload", formData);
-        console.log(labelsData);
+        // console.log(labelsData);
 
-        console.log(`success`);
+        const blob = new Blob([labelsData], {
+          type: "application/octet-binary",
+        });
+
+        console.log(blob);
+        const imageURL = URL.createObjectURL(blob);
+        console.log(imageURL);
+        this.userImage = labelsData;
       } catch (error) {
-        console.log(error.response);
+        console.log(error);
+        // console.log(error.response.data.message);
       }
     },
     handleScroll() {
-      console.log(window.scrollY);
-      if (window.scrollY < 200) {
+      if (window.scrollY < 50) {
         this.isBlur = true;
       } else {
         this.isBlur = false;
+      }
+    },
+    handleChangeImg(e) {
+      console.log(e.target.files);
+      if (e.target.files.length) {
+        const file = e.target.files[0];
+        this.userImage = URL.createObjectURL(file);
+        this.$store.commit("SET_USER_FILE", this.userImage);
       }
     },
   },
@@ -185,7 +224,7 @@ export default {
   },
   async created() {
     await this.$store.dispatch("callRijksmuseum", {
-      URL_0: "&imgonly=True&q=corpses+of",
+      URL_0: "&imgonly=True&q=gogh",
       URL_1: "&imgonly=True&q=night+watch",
       URL_2: "&imgonly=True&q=fishing",
     });

@@ -12,23 +12,23 @@
     <!-- x y z -->
     <!-- x = plane -->
     <!-- y = heigth -->
-    <a-light
+    <!-- <a-light
       color="white"
       angle="300"
       intensity="10"
       position="-0.6 8 2"
-    ></a-light>
+    ></a-light> -->
     <a-box
-      @click="callWikipedia(0)"
+      @click="openWiki(0)"
       :src="museumImage0"
-      position="-18.5 2 -8.3"
+      position="-18.5 3 -8.3"
       rotation="0 70 0"
-      width="6.205"
-      height="5"
+      width="5.4"
+      height="6.5"
       depth="0.1"
     ></a-box>
     <a-box
-      @click="callWikipedia(1)"
+      @click="openWiki(1)"
       :src="museumImage1"
       position="-8.3 3 -19.8"
       rotation="0 21 0"
@@ -37,12 +37,20 @@
       depth="0.1"
     ></a-box>
     <a-box
-      @click="callWikipedia(2)"
+      @click="openWiki(2)"
       :src="museumImage2"
       position="6.5 3 -19.5"
       rotation="0 -22 0"
       width="12.5"
       height="6.53"
+      depth="0.1"
+    ></a-box>
+    <a-box
+      :src="userFile"
+      position="5.821 3 14.010"
+      rotation="0 25 0"
+      width="6.205"
+      height="8"
       depth="0.1"
     ></a-box>
     <a-assets>
@@ -88,11 +96,21 @@
 export default {
   name: "VirtualMuseumPage",
   methods: {
-    async callWikipedia(id) {
+    async openWiki(id) {
       try {
-        const response = await this.$store.dispatch(`callWikipedia`, id);
-        console.log(response);
-        window.open(response.data.data);
+        switch (id) {
+          case 0:
+            window.open(this.wiki0);
+            break;
+          case 1:
+            window.open(this.wiki1);
+            break;
+          case 2:
+            window.open(this.wiki2);
+            break;
+          default:
+            break;
+        }
       } catch (error) {
         console.log(error);
       }
@@ -126,13 +144,23 @@ export default {
         return console.log(``);
       }
     },
+    wiki0() {
+      return this.$store.state.wikipediaData0;
+    },
+    wiki1() {
+      return this.$store.state.wikipediaData1;
+    },
+    wiki2() {
+      return this.$store.state.wikipediaData2;
+    },
   },
   async created() {
     await this.$store.dispatch("callRijksmuseum", {
-      URL_0: "&imgonly=True&q=corpses+of",
+      URL_0: "&imgonly=True&q=gogh",
       URL_1: "&imgonly=True&q=night+watch",
       URL_2: "&imgonly=True&q=fishing",
     });
+    await this.$store.dispatch("callWikipedia");
   },
 };
 </script>

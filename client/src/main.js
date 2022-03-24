@@ -9,6 +9,7 @@ import "./assets/tailwind.css";
 import AOS from "aos";
 import "aos/dist/aos.css";
 
+
 AOS.init();
 
 Vue.use(vuescroll);
@@ -29,6 +30,7 @@ Vue.config.ignoredElements = [
   "a-assets",
   "a-link",
 ];
+
 
 new Vue({
   router,
