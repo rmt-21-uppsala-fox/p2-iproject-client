@@ -4,8 +4,8 @@ import axios from 'axios'
 
 Vue.use(Vuex)
 
-// const baseUrl = "http://localhost:5000"
-const baseUrl = "https://data-kib.web.app"
+const baseUrl = "http://localhost:5000"
+// const baseUrl = "https://data-kib.web.app"
 
 export default new Vuex.Store({
   state: {
