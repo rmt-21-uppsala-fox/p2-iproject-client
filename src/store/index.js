@@ -7,8 +7,10 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
+    isLogin: false,
     pages: 1,
     chatHistories: [],
+    favoriteAnimes: [],
     animes: [],
     animeDetail: {}
   },
@@ -21,11 +23,17 @@ export default new Vuex.Store({
     SET_ANIMES(state, payload) {
       state.animes = payload
     },
+    SET_FAVORITEANIMES(state, payload) {
+      state.animes = payload
+    },
     SET_ANIMEDETAIL(state, payload) {
       state.animeDetail = payload
     },
     SET_PAGES(state, payload) {
       state.pages = payload
+    },
+    SET_ISLOGIN(state, payload) {
+      state.isLogin = payload
     },
   },
   actions: {
@@ -50,6 +58,38 @@ export default new Vuex.Store({
           text: error.response.data.Error,
         });
       }
+    },
+
+    async login(context, payload) {
+      try {
+        const { data } = await axios.post(
+          "https://desolate-basin-45168.herokuapp.com/users/login",
+          {
+            email: payload.email,
+            password: payload.password,
+          }
+        );
+        localStorage.access_token = data.access_token;
+        context.commit("SET_ISLOGIN", true);
+
+        swal.fire({
+          icon: "success",
+          title: `Login Succesful`,
+          text: `Welcome Back!`,
+        });
+
+      } catch (error) {
+        swal.fire({
+          icon: "error",
+          title: error.response.status,
+          text: error.response.data.Error,
+        });
+      }
+    },
+
+    logout(context) {
+      localStorage.clear();
+      context.commit("SET_ISLOGIN", false);
     },
 
     async getAnimes(context, payload) {
