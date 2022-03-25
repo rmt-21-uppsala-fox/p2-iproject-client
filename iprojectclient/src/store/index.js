@@ -9,7 +9,8 @@ const baseUrl = `https://iproject21.herokuapp.com`
 export default new Vuex.Store({
   state: {
     edamanList: [],
-    nutritionixList: []
+    nutritionixList: [],
+    bmiList: []
   },
   getters: {
   },
@@ -19,6 +20,9 @@ export default new Vuex.Store({
     },
     NUTRITIONIX_LIST(state, payload){
       state.nutritionixList = payload
+    },
+    BMI_LIST(state, payload){
+      state.bmiList = payload
     }
   },
   actions: {
@@ -61,6 +65,34 @@ export default new Vuex.Store({
         })
       } catch(err){
         swal("Error", err.response.data.msg, "error");
+      }
+    },
+    async postBMI(context, payload){
+      try{
+        await axios({
+          method: 'post',
+          url: `${baseUrl}`,
+          data: payload,
+          headers: { access_token: localStorage.getItem("access_token") }
+        })
+      } catch(err){
+        swal("Error", err.response.data.msg, "error");
+      }
+    },
+    async getBMI(context){
+      try{
+        const allData = await axios({
+          method: 'get',
+          url: `${baseUrl}/bmi`,
+          headers: { access_token: localStorage.getItem("access_token") }
+        })
+        const clearData = allData.data[0]
+        const mappedData = clearData.map(function(el){
+          return el.BMI
+        });
+        context.commit("BMI_LIST", mappedData)
+      } catch(err){
+        swal("Error", err.response.data, "error");
       }
     }
   },
