@@ -3,6 +3,8 @@ import VueRouter from 'vue-router'
 import AnimesPage from '../views/AnimesPage.vue'
 import AnimeDetailPage from '../views/AnimeDetailPage.vue'
 import RegisterPage from '../views/RegisterPage.vue'
+import LoginPage from '../views/LoginPage.vue'
+import FavoritesPage from '../views/FavoritesPage.vue'
 
 Vue.use(VueRouter)
 
@@ -11,6 +13,16 @@ const routes = [
     path: '/',
     name: 'AnimesPage',
     component: AnimesPage
+  },
+  {
+    path: '/favorites',
+    name: 'FavoritesPage',
+    component: FavoritesPage
+  },
+  {
+    path: '/login',
+    name: 'LoginPage',
+    component: LoginPage
   },
   {
     path: '/register',
@@ -37,5 +49,24 @@ const router = new VueRouter({
   base: process.env.BASE_URL,
   routes
 })
+
+router.beforeEach((to, from, next) => {
+  if (localStorage.access_token && to.name === "LoginPage") {
+    next({
+      name: "AnimesPage",
+    });
+  } else if (localStorage.access_token && to.name === "RegisterPage") {
+    next({
+      name: "AnimesPage",
+    });
+  } else if (!localStorage.access_token && to.name === "FavoritesPage") {
+    // console.log(`MASUK`);
+    next({
+      name: "LoginPage",
+    });
+  } else {
+    next();
+  }
+});
 
 export default router

@@ -1,22 +1,33 @@
 <template>
-  <div id="app">
+  <div id="app" class="vh-100">
+    <NavigationBar></NavigationBar>
     <nav>
       <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
+      <router-link to="/favorites">FavoritesPage</router-link>
+      <router-link to="/register">RegisterPage</router-link>
+      <router-link to="/login">LoginPage</router-link>
     </nav>
     <router-view />
+    <HFooter class=""></HFooter>
   </div>
 </template>
 
-<style>
-/* #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
+<script>
+import NavigationBar from './components/NavigationBar.vue'
+import HFooter from 'vue-hacktiv8-footer'
+export default {
+  components: {
+    HFooter,
+    NavigationBar
+  }
 }
+</script>
 
+<style>
+#app {
+  background-color: #bdc3c7;
+}
+/* 
 nav {
   padding: 30px;
 }
