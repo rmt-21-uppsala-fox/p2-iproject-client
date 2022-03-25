@@ -15,9 +15,11 @@
 </template>
 
 <script>
+// import axios from 'axios'
 export default {
   name: 'cardEdamam',
-  props: ["singleMenu"]
+  props: ["singleMenu"],
+  methods: {}
 }
 </script>
 

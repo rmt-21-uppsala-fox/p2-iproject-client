@@ -6,13 +6,26 @@
       <router-link to="/">Home</router-link> |
       <router-link to="/about">About</router-link> |
       <router-link to="/login">Login</router-link> |
-      <router-link to="/menu">Food Recipe</router-link>
+      <router-link to="/menu">Food Recipe</router-link> |
+      <button @click="logout" class="text-red-700">log out</button>
         </div>
       </div>
     </nav>
     <router-view/>
   </div>
 </template>
+
+<script>
+export default {
+  methods: {
+    logout(){
+      localStorage.clear()
+      this.$router.push({name: 'loginPage'})
+    }
+  }
+}
+</script>
+
 
 <style>
 #app {
