@@ -1,11 +1,11 @@
 import axios from "axios";
 
-const customerAPI = axios.create({
-  baseURL: "http://localhost:3000/",
-});
-
-// const production = axios.create({
-//   baseURL: "https://iproject-klikshop.herokuapp.com",
+// const customerAPI = axios.create({
+//   baseURL: "http://localhost:3000/",
 // });
 
-export default customerAPI;
+const production = axios.create({
+  baseURL: "https://iproject-klikshop.herokuapp.com",
+});
+
+export default production;
