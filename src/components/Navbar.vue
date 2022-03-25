@@ -7,13 +7,21 @@
     </div>
     <div class="flex-none">
       <ul class="menu menu-horizontal p-0">
-        <li v-if="!isLogin"><a @click="changePage('/')">Home</a></li>
-        <li v-if="!isLogin"><a @click="changePage('/register')">Sign Up</a></li>
-        <li v-if="!isLogin"><a @click="changePage('/login')">Sign In</a></li>
-        <li v-if="isLogin">
-          <a @click="changePage('/MyFavorite')">Favorite News</a>
+        <li v-if="restaurantIsLogin || customerIsLogin">
+          <a @click="toHome()">Home</a>
         </li>
-        <li v-if="isLogin"><a @click="doLogout">Sign Out</a></li>
+        <li v-if="!restaurantIsLogin && !customerIsLogin">
+          <a @click="changePage('/register')">Sign Up</a>
+        </li>
+        <li v-if="!restaurantIsLogin && !customerIsLogin">
+          <a @click="changePage('/login')">Sign In</a>
+        </li>
+        <li v-if="customerIsLogin">
+          <a @click="changePage('/orderlist')">Order List</a>
+        </li>
+        <li v-if="restaurantIsLogin || customerIsLogin">
+          <a @click="doLogout">Sign Out</a>
+        </li>
       </ul>
     </div>
   </div>
@@ -27,14 +35,14 @@ export default {
   },
   methods: {
     toHome() {
-      if (!this.inHome) {
-        this.$router.push("/");
-        this.$store.commit("CHANGE_INMYFAVORITE", false);
+      if (this.restaurantIsLogin) {
+        this.$router.push("/restaurant");
+      } else if (this.customerIsLogin) {
+        this.$router.push(`${this.$route.params.RestaurantId}/customer`);
       }
     },
     changePage(page) {
       this.$router.push(page);
-      this.$store.commit("CHANGE_INHOME", false);
     },
     doLogout() {
       this.$store.dispatch("doLogout");
@@ -42,11 +50,11 @@ export default {
     },
   },
   computed: {
-    isLogin() {
-      return this.$store.state.isLogin;
+    restaurantIsLogin() {
+      return this.$store.state.restaurantIsLogin;
     },
-    inHome() {
-      return this.$store.state.inHome;
+    customerIsLogin() {
+      return this.$store.state.customerIsLogin;
     },
   },
   created() {},

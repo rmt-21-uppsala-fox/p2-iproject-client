@@ -1,16 +1,12 @@
 <template>
   <div id="app">
-    <navbar-comp v-if="!inLoginPageOrRegister"></navbar-comp>
+    <!-- <navbar-comp v-if="!inLoginPageOrRegister"></navbar-comp> -->
     <router-view />
   </div>
 </template>
 
 <script>
-import navbarComp from "./components/Navbar.vue";
 export default {
-  components: {
-    navbarComp,
-  },
   data() {
     return {};
   },
@@ -19,6 +15,13 @@ export default {
       return this.$store.state.inLoginPageOrRegister;
     },
   },
-  created() {},
+  created() {
+    if (localStorage.access_token_Resto) {
+      this.$store.commit("CHANGE_RESTAURANT_IS_LOGIN", true);
+    }
+    if (localStorage.access_token_Cust) {
+      this.$store.commit("CHANGE_customerIsLogin", true);
+    }
+  },
 };
 </script>

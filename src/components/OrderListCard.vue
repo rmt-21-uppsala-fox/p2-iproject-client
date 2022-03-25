@@ -1,30 +1,16 @@
 <template>
   <div class="card w-50 bg-base-100 shadow-xl">
     <figure>
-      <img
-        :src="`https://fast-order-server.herokuapp.com/${data.image}`"
-        alt="Food"
-      />
+      <img :src="`http://localhost:3000/${data.Menu.image}`" alt="Food" />
     </figure>
     <div class="card-body">
-      <h2 class="card-title">{{ data.name }}</h2>
-      <p>{{ data.description }}...</p>
+      <h2 class="card-title">{{ data.Menu.name }}</h2>
+      <p>{{ data.Menu.description }}...</p>
       <h2 class="card-title">Price</h2>
-      <p>{{ data.price }}</p>
+      <p>{{ data.Menu.price }}</p>
       <div class="card-actions justify-end">
         <div>
-          <button v-if="restaurantIsLogin" class="btn btn-primary">
-            Delete Food
-          </button>
-        </div>
-        <div>
-          <button
-            v-if="customerIsLogin"
-            @click="addOrder(data.id)"
-            class="btn btn-accent"
-          >
-            Order
-          </button>
+          <button class="btn btn-primary">Delete Order</button>
         </div>
       </div>
     </div>
@@ -33,7 +19,7 @@
 
 <script>
 export default {
-  name: "cardComp",
+  name: "orderListCardComp",
   props: ["data"],
   data() {
     return {};

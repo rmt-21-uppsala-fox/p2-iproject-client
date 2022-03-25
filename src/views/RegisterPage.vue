@@ -6,7 +6,10 @@
     <div class="hero-content flex-col lg:flex-row-reverse">
       <div class="card flex-shrink-0 w-full max-w-sm shadow-2xl bg-base-100">
         <div class="card-body">
-          <form @submit.prevent="register">
+          <form
+            @submit.prevent="registerRestaurant"
+            enctype="multipart/form-data"
+          >
             <div class="form-control">
               <label class="label">
                 <span class="label-text">name</span>
@@ -45,6 +48,7 @@
                 <span class="label-text">Logo</span>
               </label>
               <input
+                @change="getImage($event)"
                 name="logo"
                 type="file"
                 placeholder="Logo"
@@ -52,7 +56,7 @@
               />
             </div>
             <div class="form-control mt-6">
-              <button class="btn btn-primary">Register</button>
+              <button type="submit" class="btn btn-primary">Register</button>
             </div>
           </form>
         </div>
@@ -84,6 +88,31 @@
 <script>
 export default {
   name: "registerComp",
+  data() {
+    return {
+      name: "",
+      email: "",
+      password: "",
+      logo: "",
+    };
+  },
+  methods: {
+    changePage(page) {
+      this.$router.push(page);
+    },
+    getImage(event) {
+      this.logo = event.target.files[0];
+    },
+    async registerRestaurant() {
+      const formData = new FormData();
+      formData.append("name", this.name);
+      formData.append("email", this.email);
+      formData.append("password", this.password);
+      formData.append("logo", this.logo);
+      await this.$store.dispatch("registerRestaurant", formData);
+      this.changePage("/login");
+    },
+  },
   // data() {
   //   return {
   //     name: "",
