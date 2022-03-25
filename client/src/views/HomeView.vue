@@ -62,11 +62,7 @@ export default {
     Navbar
   },
   methods: {
-    logoutHandler() {
-      localStorage.clear();
-      this.$store.commit("SET_ISLOGIN", false);
-      this.$router.push("/login");
-    },
+
     fetchNews() {
       this.$store.dispatch("fetchNews");
     },

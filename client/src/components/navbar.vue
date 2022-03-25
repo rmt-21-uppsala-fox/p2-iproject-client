@@ -43,7 +43,14 @@
 
 <script>
 export default {
-name:'Nav-bar'
+name:'Nav-bar',
+methods:{
+      logoutHandler() {
+      localStorage.clear();
+      this.$store.commit("SET_ISLOGIN", false);
+      this.$router.push("/login");
+    },
+}
 }
 </script>
 

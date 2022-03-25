@@ -13,6 +13,14 @@
   font-style: normal;
 }
 
+::selection {
+  background: #dd342f !important;
+  color: #fff !important;
+}
+::-moz-selection {
+  background: #dd342f !important;
+  color: #fff !important;
+}
 
 body {
   font-family: 'Reaver', sans-serif;
@@ -26,6 +34,10 @@ body {
   background-image: url('https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/backgrounds/bg_granite_texture_teams.jpg');
 }
 
+.navbar-color {
+  background: -webkit-linear-gradient(left, #131315, #131315, #131315, #131315);
+  filter: drop-shadow(0px 16px 10px #00000099);
+}
 
 .card {
   background-color: #36363ebf;
@@ -33,4 +45,6 @@ body {
   box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.5);
 }
 
-
+input {
+  font-family: 'Radiance-SemiBold', sans-serif;
+}
