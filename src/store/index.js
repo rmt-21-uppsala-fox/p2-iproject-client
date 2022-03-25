@@ -13,7 +13,7 @@ export default new Vuex.Store({
     cart: [],
     cities: [],
     costs: [],
-    // transactions: []
+    transactions: [],
   },
 
   mutations: {
@@ -32,6 +32,7 @@ export default new Vuex.Store({
     SET_FLAGLOGIN(state, paylod) {
       state.flagLogin = paylod;
     },
+
     SET_REGISTER(state, payload) {
       state.flagRegister = payload;
     },
@@ -44,14 +45,18 @@ export default new Vuex.Store({
       state.costs = payload;
     },
 
-    // SET_TRANSACTIONS(state, payload) {
-    //   state.transactions = payload;
-    // },
+    SET_TRANSACTIONS(state, payload) {
+      state.transactions = payload;
+    },
 
     ADD_QUANTITY(state, payload) {
-      const itemFound = state.cart.find((el) => el.id === payload.id);
+      const itemFoundIndex = state.cart.findIndex((el) => el.id === payload.id);
+      const itemFound = state.cart[itemFoundIndex]
       if (itemFound) {
         itemFound.quantity += payload.add_value;
+        if (itemFound.quantity === 0) {
+          state.cart.splice(itemFoundIndex, 1);
+        }
       }
       itemFound.totalPrice = itemFound.quantity * itemFound.price;
     },
@@ -73,7 +78,14 @@ export default new Vuex.Store({
       context.commit("SET_CART", cart);
     },
 
-   checkLogin(context) {
+    removeProductCart(context, productId) {
+      const itemFoundIndex = context.state.cart.findIndex(
+        (el) => el.id === productId
+      );
+      context.state.cart.splice(itemFoundIndex, 1);
+    },
+
+    checkLogin(context) {
       try {
         if (localStorage.getItem("access_token")) {
           context.commit("SET_FLAGLOGIN", true);
@@ -152,23 +164,19 @@ export default new Vuex.Store({
       }
     },
 
-    // async postTransaction(context, payload) {
-    //   try {
-    //     const response = await customerAPI.post(
-    //       "/customers/orders",
-    //       payload,
-    //       {
-    //         headers: {
-    //           access_token: localStorage.getItem("access_token"),
-    //         },
-    //       }
-    //     );
+    async postTransaction(context, payload) {
+      try {
+        const response = await customerAPI.post("/customers/orders", payload, {
+          headers: {
+            access_token: localStorage.getItem("access_token"),
+          },
+        });
 
-    //     context.commit("SET_TRANSACTIONS", response.data);
-    //   } catch (error) {
-    //     console.log(error);
-    //   }
-    // },
+        context.commit("SET_TRANSACTIONS", response.data);
+      } catch (error) {
+        console.log(error);
+      }
+    },
 
     logout(context) {
       localStorage.clear();

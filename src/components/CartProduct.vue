@@ -8,11 +8,12 @@
       <div class="flex flex-col justify-between ml-4 flex-grow">
         <span class="font-bold text-sm">{{ cartProduct.name }}</span>
         <span class="text-red-500 text-xs">{{ cartProduct.category }}</span>
-        <!-- <a
+        <a
+        @click.prevent="removeItemCart"
           href="#"
           class="font-semibold hover:text-red-500 text-gray-500 text-xs"
           >Remove</a
-        > -->
+        >
       </div>
     </div>
     <div class="flex justify-center w-1/5">
@@ -60,7 +61,12 @@ export default {
     addQuantity(id, add_value) {
       this.$store.commit("ADD_QUANTITY", { id, add_value });
     },
+
+     removeItemCart(){
+      this.$store.dispatch("removeProductCart")
+     }
   },
+
 };
 </script>
 

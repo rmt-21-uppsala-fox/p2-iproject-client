@@ -1,7 +1,7 @@
 <template>
   <div>
     <h1 class="font-semibold text-2xl border-b pb-8">Order Summary</h1>
-    <form @submit.prevent="formOngkir">
+    <form @submit.prevent="formOngkir" v-if="$store.state.cart.length > 0">
       <div class="space-y-4">
         <h1 class="text-center text-2xl font-semibold text-gray-600">Ongkir</h1>
         <div>
@@ -73,23 +73,26 @@
         </div>
       </div>
       <button
-      type="submit"
+        type="submit"
         class="mt-4 w-full bg-gradient-to-tr bg-indigo-500 font-semibold hover:bg-indigo-600 text-white py-2 rounded-md text-lg tracking-wide"
       >
         Check Ongkir
       </button>
     </form>
-    <div v-if="costs.length > 0" class="flex font-semibold justify-between py-6 text-sm uppercase">
+    <div
+      v-if="costs.length > 0"
+      class="flex font-semibold justify-between py-6 text-sm uppercase"
+    >
       <span>Biaya Ongkir</span>
       <span>Rp {{ costs[0].costs[0].cost[0].value }} </span>
     </div>
     <div class="border-t mt-8">
       <div class="flex font-semibold justify-between py-6 text-sm uppercase">
         <span>Total cost</span>
-        <span>Rp {{ totalCost }}</span>
+        <span>Rp {{ totalCost + totalOngkir }}</span>
       </div>
       <button
-      @click="postTransaction"
+        @click="postTransaction"
         class="bg-indigo-500 font-semibold hover:bg-indigo-600 py-3 text-sm rounded-md text-white uppercase w-full"
       >
         Checkout
@@ -99,7 +102,6 @@
 </template>
 
 <script>
-
 export default {
   name: "OrderSumary",
   data() {
@@ -119,6 +121,10 @@ export default {
       return total;
     },
 
+    totalOngkir() {
+      return this.costs.length > 0 ? this.costs[0].costs[0].cost[0].value : 0;
+    },
+
     cities() {
       return this.$store.state.cities;
     },
@@ -129,8 +135,8 @@ export default {
   },
 
   methods: {
-     formOngkir() {
-       this.$store.dispatch("postCosts", {
+    formOngkir() {
+      this.$store.dispatch("postCosts", {
         origin: this.origin,
         destination: this.destination,
         weight: this.weight,
@@ -138,10 +144,23 @@ export default {
       });
     },
 
-    // postTransaction(payload) {
-    //   this.$store.dispatch("postTransaction", {payload})
-    // }
-
+    async postTransaction() {
+      let payload = {
+        totalCost: this.totalCost,
+        totalOngkir: this.totalOngkir,
+        transactionItems: this.$store.state.cart.map((item) => {
+          return {
+            quantity: item.quantity,
+            ProductId: item.id,
+          };
+        }),
+      };
+      await this.$store.dispatch("postTransaction", payload);
+      window.open(
+        this.$store.state.transactions.transaction.redirect_url,
+        "_blank"
+      );
+    },
   },
 
   created() {
