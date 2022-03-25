@@ -7,8 +7,10 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
+    isLogin: false,
     pages: 1,
     chatHistories: [],
+    favoriteAnimes: [],
     animes: [],
     animeDetail: {}
   },
@@ -21,11 +23,17 @@ export default new Vuex.Store({
     SET_ANIMES(state, payload) {
       state.animes = payload
     },
+    SET_FAVORITEANIMES(state, payload) {
+      state.favoriteAnimes = payload
+    },
     SET_ANIMEDETAIL(state, payload) {
       state.animeDetail = payload
     },
     SET_PAGES(state, payload) {
       state.pages = payload
+    },
+    SET_ISLOGIN(state, payload) {
+      state.isLogin = payload
     },
   },
   actions: {
@@ -50,6 +58,38 @@ export default new Vuex.Store({
           text: error.response.data.Error,
         });
       }
+    },
+
+    async login(context, payload) {
+      try {
+        const { data } = await axios.post(
+          "https://desolate-basin-45168.herokuapp.com/users/login",
+          {
+            email: payload.email,
+            password: payload.password,
+          }
+        );
+        localStorage.access_token = data.access_token;
+        context.commit("SET_ISLOGIN", true);
+
+        swal.fire({
+          icon: "success",
+          title: `Login Succesful`,
+          text: `Welcome Back!`,
+        });
+
+      } catch (error) {
+        swal.fire({
+          icon: "error",
+          title: error.response.status,
+          text: error.response.data.Error,
+        });
+      }
+    },
+
+    logout(context) {
+      localStorage.clear();
+      context.commit("SET_ISLOGIN", false);
     },
 
     async getAnimes(context, payload) {
@@ -91,7 +131,7 @@ export default new Vuex.Store({
         // console.log(payload);
         let url = `https://desolate-basin-45168.herokuapp.com/animes/season`;
         
-        console.log(url, `URL`);
+        // console.log(url, `URL`);
 
         // console.log(payload, `req query getAnimes`);
         const {data} = await axios.get(`${url}`, {
@@ -103,19 +143,78 @@ export default new Vuex.Store({
       }
     },
 
+    async getFavoriteAnimes(context) {
+      try {
+        // console.log(payload);
+        let url = `https://desolate-basin-45168.herokuapp.com/animes/favorites`;
+        
+        // console.log(url, `URL`);
+
+        const {data} = await axios.get(`${url}`, {
+          headers: {
+            access_token: localStorage.access_token
+          }
+        });
+        context.commit("SET_FAVORITEANIMES", data);
+      } catch (error) {
+        console.log(error.response.data);
+      }
+    },
+
+    async addFavoriteAnimes(context, payload) {
+      try {
+        // console.log(payload);
+        let url = `https://desolate-basin-45168.herokuapp.com/animes/favorites`;
+        
+        await axios.post(`${url}`, {
+          AnimeId: payload.AnimeId
+        }, {
+          headers: {
+            access_token: localStorage.access_token
+          }
+        });
+        swal.fire({
+          icon: "success",
+          title: `Add Succesful`,
+        });
+        await context.dispatch("getFavoriteAnimes");
+      } catch (error) {
+        console.log(error);
+      }
+    },
+
+    async deleteFavoriteAnimes(context, payload) {
+      try {
+        // console.log(payload);
+        let url = `https://desolate-basin-45168.herokuapp.com/animes/favorites/${payload.favoriteId}`;
+        
+        await axios.delete(`${url}`, {
+          headers: {
+            access_token: localStorage.access_token
+          }
+        });
+        swal.fire({
+          icon: "success",
+          title: `Delete Succesful`,
+        });
+        await context.dispatch("getFavoriteAnimes");
+      } catch (error) {
+        console.log(error);
+      }
+    },
+
     async getAnimeDetail(context, payload) {
       try {
-        console.log(`masuk detail`);
         const { data } = await axios.get(
           `https://desolate-basin-45168.herokuapp.com/animes/${payload.animeId}`,
           {}
         );
-        console.log(data, `SETANIMEDETAIL`);
         context.commit("SET_ANIMEDETAIL", data);
       } catch (error) {
         console.log(error);
       }
     },
+    
 
     async sendMessage(_, payload) {
       await this._vm.$socket.client.emit("clientMessage", {

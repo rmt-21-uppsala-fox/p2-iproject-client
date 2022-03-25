@@ -2,22 +2,22 @@
   <div class="col-xl-3 col-lg-4 col-md-6 mb-4">
     <div class="bg-white rounded shadow-sm">
       <img
-        :src="anime.images.jpg.image_url"
+        :src="favorite.anime.data.images.jpg.image_url"
         style="max-height: 500px"
         class="img-fluid card-img-top"
       />
       <div class="p-4">
         <h5>
-          <a href="#" class="text-dark">{{ anime.title }}</a>
+          <a href="#" class="text-dark">{{ favorite.anime.data.title }}</a>
         </h5>
         <p class="small text-muted mb-0 overflow-auto" style="height: 110px">
-          {{ anime.synopsis }}
+          {{ favorite.anime.data.synopsis }}
         </p>
         <div
           class="
             d-flex
             align-items-center
-            justify-content-between
+            justify-content-center
             rounded-pill
             bg-light
             px-3
@@ -25,12 +25,10 @@
             mt-4
           "
         >
-          <a class="btn btn-primary" @click.prevent="animeDetail(anime.mal_id)"
+          <a class="btn btn-primary" @click.prevent="animeDetail(favorite.AnimeId)"
             >See Detail</a
           >
-          <a class="btn btn-primary" @click.prevent="addFavorite(anime.mal_id)"
-            >Add Favorite</a
-          >
+          <a class="btn btn-primary ml-2" @click.prevent="deleteFavorite(favorite.id)">Delete Favorite</a>
         </div>
       </div>
     </div>
@@ -39,8 +37,8 @@
 
 <script>
 export default {
-  name: "animeCard",
-  props: ["anime"],
+  name: "favoriteCardPage",
+  props: ["favorite"],
   methods: {
     async animeDetail(animeId) {
       try {
@@ -51,13 +49,11 @@ export default {
         console.log(error.response.data);
       }
     },
-    async addFavorite(AnimeId) {
+    async deleteFavorite(favoriteId) {
       try {
-        // console.log(`masuk`);
-        await this.$store.dispatch("addFavoriteAnimes", { AnimeId });
-        this.$router.push({ name: "FavoritesPage" });
+        await this.$store.dispatch("deleteFavoriteAnimes", { favoriteId });
       } catch (error) {
-        console.log(error);
+        console.log(error.response.data);
       }
     },
   },
