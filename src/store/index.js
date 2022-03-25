@@ -13,7 +13,7 @@ export default new Vuex.Store({
     cart: [],
     cities: [],
     costs: [],
-    transactions: []
+    // transactions: []
   },
 
   mutations: {
@@ -44,9 +44,9 @@ export default new Vuex.Store({
       state.costs = payload;
     },
 
-    SET_TRANSACTIONS(state, payload) {
-      state.transactions = payload;
-    },
+    // SET_TRANSACTIONS(state, payload) {
+    //   state.transactions = payload;
+    // },
 
     ADD_QUANTITY(state, payload) {
       const itemFound = state.cart.find((el) => el.id === payload.id);
@@ -152,23 +152,23 @@ export default new Vuex.Store({
       }
     },
 
-    async postTransaction(context, payload) {
-      try {
-        const response = await customerAPI.post(
-          "/customers/orders",
-          payload,
-          {
-            headers: {
-              access_token: localStorage.getItem("access_token"),
-            },
-          }
-        );
+    // async postTransaction(context, payload) {
+    //   try {
+    //     const response = await customerAPI.post(
+    //       "/customers/orders",
+    //       payload,
+    //       {
+    //         headers: {
+    //           access_token: localStorage.getItem("access_token"),
+    //         },
+    //       }
+    //     );
 
-        context.commit("SET_TRANSACTIONS", response.data);
-      } catch (error) {
-        console.log(error);
-      }
-    },
+    //     context.commit("SET_TRANSACTIONS", response.data);
+    //   } catch (error) {
+    //     console.log(error);
+    //   }
+    // },
 
     logout(context) {
       localStorage.clear();

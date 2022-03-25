@@ -138,9 +138,9 @@ export default {
       });
     },
 
-    postTransaction(payload) {
-      this.$store.dispatch("postTransaction", {payload})
-    }
+    // postTransaction(payload) {
+    //   this.$store.dispatch("postTransaction", {payload})
+    // }
 
   },
 
