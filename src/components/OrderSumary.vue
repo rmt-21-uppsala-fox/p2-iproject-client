@@ -89,6 +89,7 @@
         <span>Rp {{ totalCost }}</span>
       </div>
       <button
+      @click="postTransaction"
         class="bg-indigo-500 font-semibold hover:bg-indigo-600 py-3 text-sm rounded-md text-white uppercase w-full"
       >
         Checkout
@@ -136,6 +137,10 @@ export default {
         courier: this.courier,
       });
     },
+
+    postTransaction(payload) {
+      this.$store.dispatch("postTransaction", {payload})
+    }
 
   },
 

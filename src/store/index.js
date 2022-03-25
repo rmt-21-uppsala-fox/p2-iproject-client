@@ -13,6 +13,7 @@ export default new Vuex.Store({
     cart: [],
     cities: [],
     costs: [],
+    transactions: []
   },
 
   mutations: {
@@ -41,6 +42,10 @@ export default new Vuex.Store({
 
     SET_COSTS(state, payload) {
       state.costs = payload;
+    },
+
+    SET_TRANSACTIONS(state, payload) {
+      state.transactions = payload;
     },
 
     ADD_QUANTITY(state, payload) {
@@ -142,6 +147,24 @@ export default new Vuex.Store({
         );
 
         context.commit("SET_COSTS", response.data.rajaongkir.results);
+      } catch (error) {
+        console.log(error);
+      }
+    },
+
+    async postTransaction(context, payload) {
+      try {
+        const response = await customerAPI.post(
+          "/customers/orders",
+          payload,
+          {
+            headers: {
+              access_token: localStorage.getItem("access_token"),
+            },
+          }
+        );
+
+        context.commit("SET_TRANSACTIONS", response.data);
       } catch (error) {
         console.log(error);
       }
