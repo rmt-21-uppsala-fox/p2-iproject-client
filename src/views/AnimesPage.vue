@@ -18,7 +18,10 @@ export default {
     animeCard,
   },
   async created() {
-    console.log(`MASUK`);
+    // console.log(`MASUK`);
+    if (localStorage.access_token) {
+      this.$store.commit("SET_ISLOGIN", true)
+    }
     await this.$store.dispatch("getTopAnimes");
   },
   computed: {
@@ -26,6 +29,9 @@ export default {
       return this.$store.state.animes;
     },
   },
+  methods: {
+
+  }
 };
 </script>
 

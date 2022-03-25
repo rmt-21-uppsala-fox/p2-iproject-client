@@ -1,12 +1,6 @@
 <template>
   <div id="app" class="vh-100">
     <NavigationBar></NavigationBar>
-    <nav>
-      <router-link to="/">Home</router-link> |
-      <router-link to="/favorites">FavoritesPage</router-link>
-      <router-link to="/register">RegisterPage</router-link>
-      <router-link to="/login">LoginPage</router-link>
-    </nav>
     <router-view />
     <HFooter class=""></HFooter>
   </div>
