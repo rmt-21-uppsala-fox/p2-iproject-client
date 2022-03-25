@@ -13,7 +13,8 @@ export default new Vuex.Store({
     UserId: false,
     NameOfUser: false,
     users: false,
-    postImg: false
+    postImg: false,
+    friendRequests:false
   },
   mutations: {
     FETCH_CHATS(state, chats) {
@@ -39,6 +40,9 @@ export default new Vuex.Store({
     },
     CHANGE_POSTIMG(state, postImg) {
       state.postImg = postImg
+    },
+    FETCH_FRIENDREQUESTS(state, friendRequests) {
+      state.friendRequests = friendRequests
     }
   },
   actions: {
@@ -119,7 +123,19 @@ export default new Vuex.Store({
     async joinMyFriendsRoom(context){
       const friendsIds = context.state.friends.map(e=>e.withId)
       await this._vm.$socket.client.emit('joinMyFriendsRoom',friendsIds)
+    },
+    socket_pendingRequest(context,pendingFriendRequest){
+      if(pendingFriendRequest.toId === context.state.UserId){
+        const friendRequests = context.state.friendRequests
+        friendRequests.push({pendingFriendRequest})
+        context.commit('FETCH_FRIENDREQUESTS',friendRequests)
+      }
+    },
+    async sendFriendRequest(context,toId){
+      await this._vm.$socket.client.emit('sendFriendRequest',context.state.NameOfUser,context.state.UserId,toId)
     }
+    //fetch friend request
+    //acc friend request
   },
   modules: {
   }
