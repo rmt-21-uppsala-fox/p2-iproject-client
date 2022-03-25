@@ -121,6 +121,7 @@ export default new Vuex.Store({
           data: payload,
         });
         console.log(response.data);
+        context.commit("SET_FAV", response.data.leagueName);
         router.push("/landing");
       } catch (err) {
         console.log(err);
@@ -139,6 +140,8 @@ export default new Vuex.Store({
           router.push("/");
         } else {
           context.commit("SET_FAV", response.data);
+
+          router.push("/landing");
         }
       } catch (err) {
         console.log(err);
@@ -265,9 +268,9 @@ export default new Vuex.Store({
         localStorage.setItem("name", response.data.name);
         localStorage.setItem("id", response.data.id);
         let name = localStorage.getItem("name");
-        this.dispatch("findFav");
         context.commit("SET_CURRENTUSER", name);
         context.commit("SET_ISLOGIN", true);
+        this.dispatch("findFav");
         swal("Welcome", "Success login", "success");
         if (this.state.favLeague != "") {
           router.push("/landing");
@@ -281,9 +284,10 @@ export default new Vuex.Store({
       try {
         let googleUser = payload;
         const id_token = googleUser.getAuthResponse().id_token;
-        const response = await axios.post("https://soccer-supreme-app.herokuapp.com/authGoogle", {
-          id_token,
-        });
+        const response = await axios.post(
+          "https://soccer-supreme-app.herokuapp.com/authGoogle",
+          { id_token }
+        );
         localStorage.setItem("access_token", response.data.access_token);
         localStorage.setItem("name", response.data.name);
         localStorage.setItem("id", response.data.id);
@@ -306,7 +310,7 @@ export default new Vuex.Store({
         });
         localStorage.setItem("id", response.data.id);
         swal("Email sent", `email sent to ${payload.email}`, "success");
-        router.push("/respass");
+        router.push("/login");
       } catch (err) {
         console.log(err);
         swal("Error", err.message, "error");
