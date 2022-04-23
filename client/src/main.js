@@ -5,6 +5,9 @@ import store from './store'
 import VueSocketIOExt from 'vue-socket.io-extended';
 import { io } from 'socket.io-client';
 import GoogleAuth from 'vue-google-auth'
+import vClickOutside from 'v-click-outside'
+ 
+
 // import facebookLogin from 'facebook-login-vuejs';
 
 Vue.use(GoogleAuth, { clientId: '814496312702-5v1fc6rgs3ntiuekh2bbrpkig3jmuvv5.apps.googleusercontent.com' })
@@ -15,7 +18,7 @@ Vue.config.productionTip = false
 const socket = io('http://localhost:3000');
 
 Vue.use(VueSocketIOExt, socket,{store});
-
+Vue.use(vClickOutside)
 new Vue({
   // facebookLogin,
   router,

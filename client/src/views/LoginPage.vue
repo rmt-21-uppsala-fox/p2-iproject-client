@@ -1,7 +1,7 @@
 <template>
   <div class="row">
     <div class="col-6">
-      <img src="https://educationinprogress.eu/images/social_media.png" alt="" srcset="" />
+      <img src="../assets/loginPageLogo.png" alt="" srcset="" />
     </div>
     <div class="col-6 bg-light text-center p-5 align-middle">
       <button @click.prevent="googleLogin" type="button" class="btn btn-success mt-5 mb-3 w-50">Login with Google</button>
@@ -47,6 +47,7 @@ export default {
     async getUserData(fbUser) {
       // console.log(fbUser.response.authResponse.accessToken);
       try {
+        console.log('>>>>',fbUser.response.authResponse.accessToken);
         const resp = await this.$store.dispatch("facebookLogin", { accessToken: fbUser.response.authResponse.accessToken });
         localStorage.setItem("token", resp.data.token);
         this.$store.dispatch("fetchNameAndId");

@@ -135,6 +135,7 @@ export default new Vuex.Store({
       await this._vm.$socket.client.emit('sendFriendRequest',context.state.NameOfUser,context.state.UserId,toId)
     }
     //fetch friend request
+    
     //acc friend request
   },
   modules: {
